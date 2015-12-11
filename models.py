@@ -56,7 +56,7 @@ class my_ObjectiveEvidence_types(models.Model):
 class my_work_functions(models.Model):
     _inherit = 'sred_system.base_sred_object'
     _name = 'sred_system.work_functions'
-    work_function_id = fields.Many2many('sred_system.work_roles', 'workfunctions', 'work_function_id', string='work_functions')
+    work_function_id = fields.Many2many('sred_system.work_roles', 'work_functions', 'work_function_id', string='work_functions')
     description = fields.Html()
 
 # A Picklist of roles working types from db
