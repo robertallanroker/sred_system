@@ -81,8 +81,6 @@ class my_work_resource_roles(models.Model):
  #   work_scope      = fields.Many2many('sred_system.scope', 'scope_id', 'work_scope')
     work_person     = fields.Many2one('res.partner', string="Individual", ondelete='set null')
     work_role_id    = fields.Many2one('sred_system.sred_project', string='people assigned', ondelete='cascade')
-
+ #   work_person_image = fields.binary()
     work_resource_scope      = fields.Many2one('sred_system.work_scope', string='scope_of_me', ondelete='cascade')
-
-
 
