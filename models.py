@@ -63,7 +63,7 @@ class my_work_functions(models.Model):
 class my_work_types(models.Model):
     _inherit = 'sred_system.base_sred_object'
     _name = 'sred_system.work_types'
-    work_type_id = fields.Many2many('sred_system.work_roles', 'work_types', 'work_type_id', string='work_types')
+    work_type_id = fields.Many2many('sred_system.work_roles', 'a_work_types', 'work_type_id', string='work_types')
     description = fields.Html()
 
 # A Picklist of role scopes from db
@@ -76,8 +76,8 @@ class my_scope(models.Model):
 class my_work_roles(models.Model):
     _name = 'sred_system.work_roles'
     name = fields.Char()  # not used
-    work_types      = fields.Many2many('sred_system.work_types', 'work_type_id', 'work_types', string='work assignments')
-    work_functions  = fields.Many2many('sred_system.work_functions', 'work_function_id', 'work_functions', string='work functions')
+    a_work_types      = fields.Many2many('sred_system.work_types', 'work_type_id', 'work_types', string='work assignments')
+    a_work_functions  = fields.Many2many('sred_system.work_functions', 'work_function_id', 'work_functions', string='work functions')
  #   work_scope      = fields.Many2many('sred_system.scope', 'scope_id', 'work_scope')
     work_person     = fields.Many2one('res.partner', string="Individual", ondelete='set null')
     work_role_id    = fields.Many2one('sred_system.sred_project', string='people assigned', ondelete='cascade')

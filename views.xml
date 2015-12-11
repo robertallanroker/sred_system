@@ -88,8 +88,8 @@
                                    <tree editable="true">
                                         <field name="work_resource_scope" string="Scope"/>
                                         <field name="work_person" string="Assigned"/>
-                                        <field name="work_types" placeholder="Roles" widget="many2many_tags" />
-                                        <field name="work_functions" placeholder="Functions" widget="many2many_tags"/>
+                                        <field name="a_work_types" placeholder="Roles" widget="many2many_tags" />
+                                        <field name="a_work_functions" placeholder="Functions" widget="many2many_tags"/>
                                    </tree>
                                 </field>
 
