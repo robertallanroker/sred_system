@@ -107,7 +107,7 @@ class my_sred_projects(models.Model):
     CRA_Deadline = fields.Date()
 
     Notes = fields.Html('Notes')
-    a_work_roles = fields.One2many('sred_system.work_roles', 'work_role_id', string='assignment of work roles')
+    a_work_roles = fields.One2many('sred_system.work_resource_roles', 'work_role_id', string='assignment of work roles')
 
     Estimated_Refund = fields.Float(digits=(10,2), help = "123")
     Estimated_Fee    = fields.Float(digits=(10,2), help = "123")

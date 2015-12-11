@@ -88,8 +88,8 @@
                                    <tree editable="true">
                                         <field name="work_resource_scope" string="Scope"/>
                                         <field name="work_person" string="Assigned"/>
-                                        <field name="a_work_types" placeholder="Roles" widget="many2many_tags" />
-                                        <field name="a_work_functions" placeholder="Functions" widget="many2many_tags"/>
+                                        <field name="work_types" placeholder="Roles" widget="many2many_tags" />
+                                        <field name="work_functions" placeholder="Functions" widget="many2many_tags"/>
                                    </tree>
                                 </field>
 
@@ -132,13 +132,13 @@
       <!-- WORK ROLES WITHIN A SRED CLAIM -->
       <record model="ir.ui.view" id="sred_system.tree_of_work_roles">
           <field name="name">Work Roles</field>
-          <field name="model">sred_system.work_roles</field>
+          <field name="model">sred_system.work_resource_roles</field>
           <field name="arch" type="xml">
               <tree>
                   <field name="work_resource_scope" string="Scope"/>
                   <field name="work_person" string="Person Assigned"/>
-                  <field name="a_work_types" string="Role Type"/>
-                  <field name="a_work_functions" string="Functions"/>
+                  <field name="work_types" string="Role Type"/>
+                  <field name="work_functions" string="Functions"/>
               </tree>
           </field>
       </record>
