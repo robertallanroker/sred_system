@@ -137,8 +137,8 @@
               <tree>
                   <field name="work_resource_scope" string="Scope"/>
                   <field name="work_person" string="Person Assigned"/>
-                  <field name="work_types" string="Role Type"/>
-                  <field name="work_functions" string="Functions"/>
+                  <field name="a_work_types" string="Role Type"/>
+                  <field name="a_work_functions" string="Functions"/>
               </tree>
           </field>
       </record>
