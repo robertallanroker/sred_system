@@ -1,0 +1,297 @@
+<openerp>
+
+    <data noupdate="1">
+
+        <!-- LOAD WORK STATES DEFAULT PICKS -->
+        <record id="ssws1" model="sred_system.sred_states">
+            <field name="name">New</field>
+            <field name="is_default">True</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="ssws2" model="sred_system.sred_states">
+            <field name="name">Open</field>
+            <field name="is_default">False</field>
+            <field name="sequence">20</field>
+          </record>
+
+        <record id="ssws3" model="sred_system.sred_states">
+            <field name="name">Closed</field>
+            <field name="is_default">False</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- LOAD WORK PROCESSING STATUS PICKS -->
+        <record id="ssws5" model="sred_system.sred_working_status">
+            <field name="name">None</field>
+            <field name="is_default">True</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="ssws6" model="sred_system.sred_working_status">
+            <field name="name">Scheduling</field>
+            <field name="is_default">False</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="ssws7" model="sred_system.sred_working_status">
+            <field name="name">Technical</field>
+            <field name="is_default">False</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="ssws8" model="sred_system.sred_working_status">
+            <field name="name">Customer Info</field>
+            <field name="is_default">False</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <!-- LOAD SRED PROCESSING PICKS -->
+        <record id="ssws8" model="sred_system.sred_processing_status">
+            <field name="name">None</field>
+            <field name="is_default">False</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="ssws9" model="sred_system.sred_processing_status">
+            <field name="name">Preparing</field>
+            <field name="is_default">False</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="ssws10" model="sred_system.sred_processing_status">
+            <field name="name">Abandoned</field>
+            <field name="is_default">False</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="ssws11" model="sred_system.sred_processing_status">
+            <field name="name">CRA Filed</field>
+            <field name="is_default">False</field>
+            <field name="sequence">40</field>
+        </record>
+
+          <!-- LOAD SRED PROCESSING PICKS -->
+        <record id="ssws8" model="sred_system.sred_processing_status">
+            <field name="name">None</field>
+            <field name="is_default">False</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="ssws9" model="sred_system.sred_processing_status">
+            <field name="name">Preparing</field>
+            <field name="sequence">20</field>
+            <field name="is_default">False</field>
+        </record>
+        <record id="ssws10" model="sred_system.sred_processing_status">
+            <field name="name">Abandoned</field>
+            <field name="is_default">False</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="ssws11" model="sred_system.sred_processing_status">
+            <field name="name">CRA Filed</field>
+            <field name="is_default">False</field>
+            <field name="sequence">40</field>
+        </record>
+
+
+          <!-- LOAD CRA PROCESSING STATUS -->
+        <record id="ssws12" model="sred_system.sred_cra_status">
+            <field name="name">None</field>
+            <field name="is_default">False</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="ssws13" model="sred_system.sred_cra_status">
+            <field name="name">Review</field>
+            <field name="is_default">False</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="ssws14" model="sred_system.sred_cra_status">
+            <field name="name">FTCAST</field>
+            <field name="is_default">False</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="ssws15" model="sred_system.sred_cra_status">
+            <field name="name">Audit</field>
+            <field name="is_default">False</field>
+            <field name="sequence">40</field>
+        </record>
+           <record id="ssws16" model="sred_system.sred_cra_status">
+            <field name="name">Accepted</field>
+            <field name="is_default">False</field>
+            <field name="sequence">50</field>
+        </record>
+       <record id="ssws17" model="sred_system.sred_cra_status">
+            <field name="name">Rejected</field>
+            <field name="is_default">False</field>
+            <field name="sequence">60</field>
+        </record>
+        <record id="ssws18" model="sred_system.sred_cra_status">
+            <field name="name">Approved</field>
+            <field name="is_default">False</field>
+            <field name="sequence">60</field>
+        </record>
+          <record id="ssws19" model="sred_system.sred_cra_status">
+            <field name="name">Disputing</field>
+            <field name="is_default">False</field>
+            <field name="sequence">70</field>
+        </record>
+
+
+
+    </data>
+
+
+    <data>
+        <!-- Load Tax Years -->
+
+        <record id="ssty1" model="sred_system.tax_years">
+            <field name="name">2013</field>
+            <field name="is_default">False</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="ssty2" model="sred_system.tax_years">
+            <field name="name">2014</field>
+            <field name="is_default">False</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="ssty3" model="sred_system.tax_years">
+            <field name="name">2015</field>
+            <field name="is_default">True</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="ssty4" model="sred_system.tax_years">
+            <field name="name">2016</field>
+            <field name="is_default">False</field>
+            <field name="sequence">40</field>
+        </record>
+
+    </data>
+
+
+    <!-- Load Work Scope -->
+
+    <data>
+         <record id="wss1" model="sred_system.work_scope">
+            <field name="name">GreenLight</field>
+            <field name="is_default">True</field>
+            <field name="is_internal">True</field>
+            <field name="sequence">10</field>
+         </record>
+         <record id="wss2" model="sred_system.work_scope">
+            <field name="name">Customer</field>
+            <field name="is_default">False</field>
+            <field name="is_internal">False</field>
+            <field name="sequence">20</field>
+         </record>
+         <record id="wss3" model="sred_system.work_scope">
+            <field name="name">CRA</field>
+            <field name="is_default">False</field>
+            <field name="is_internal">False</field>
+            <field name="sequence">30</field>
+         </record>
+         <record id="wss4" model="sred_system.work_scope">
+            <field name="name">Outside Firm</field>
+            <field name="is_default">False</field>
+            <field name="is_internal">False</field>
+            <field name="sequence">40</field>
+         </record>
+         <record id="wss5" model="sred_system.work_scope">
+            <field name="name">Outside Individual</field>
+            <field name="is_default">False</field>
+            <field name="is_internal">False</field>
+            <field name="sequence">50</field>
+         </record>
+    </data>
+
+    <data>
+         <record id="dll1" model="sred_system.documentation_labels">
+             <field name="name">Technical</field>
+             <field name="is_default">True</field>
+             <field name="sequence">10</field>
+         </record>
+         <record id="dll2" model="sred_system.documentation_labels">
+             <field name="name">Financial</field>
+             <field name="is_default">False</field>
+             <field name="sequence">20</field>
+         </record>
+         <record id="dll3" model="sred_system.documentation_labels">
+             <field name="name">Legal</field>
+             <field name="is_default">True</field>
+             <field name="sequence">30</field>
+         </record>
+         <record id="dll4" model="sred_system.documentation_labels">
+             <field name="name">Sales</field>
+             <field name="is_default">True</field>
+             <field name="sequence">40</field>
+         </record>
+         <record id="dll5" model="sred_system.documentation_labels">
+             <field name="name">CRA</field>
+             <field name="is_default">True</field>
+             <field name="sequence">50</field>
+         </record>
+         <record id="dll6" model="sred_system.documentation_labels">
+             <field name="name">Correspondence</field>
+             <field name="is_default">True</field>
+             <field name="sequence">60</field>
+         </record>
+         <record id="dll7" model="sred_system.documentation_labels">
+             <field name="name">Other</field>
+             <field name="is_default">True</field>
+             <field name="sequence">70</field>
+         </record>
+    </data>
+
+    <data noupdate="1">
+         <record id="dt1" model="sred_system.documentation_tags">
+             <field name="name">Spreadsheet</field>
+             <field name="is_default">False</field>
+             <field name="sequence">10</field>
+         </record>
+         <record id="dt2" model="sred_system.documentation_tags">
+             <field name="name">Tax</field>
+             <field name="is_default">False</field>
+             <field name="sequence">20</field>
+         </record>
+         <record id="dt3" model="sred_system.documentation_tags">
+             <field name="name">Time Recording</field>
+             <field name="is_default">False</field>
+             <field name="sequence">30</field>
+         </record>
+         <record id="dt4" model="sred_system.documentation_tags">
+             <field name="name">Project Recording</field>
+             <field name="is_default">False</field>
+             <field name="sequence">40</field>
+         </record>
+         <record id="dt5" model="sred_system.documentation_tags">
+             <field name="name">Pictures</field>
+             <field name="is_default">False</field>
+             <field name="sequence">50</field>
+         </record>
+         <record id="dt6" model="sred_system.documentation_tags">
+             <field name="name">Experimentation Data</field>
+             <field name="is_default">False</field>
+             <field name="sequence">60</field>
+         </record>
+         <record id="dt7" model="sred_system.documentation_tags">
+             <field name="name">Other Data</field>
+             <field name="is_default">False</field>
+             <field name="sequence">70</field>
+         </record>
+         <record id="dt8" model="sred_system.documentation_tags">
+             <field name="name">Testing Data</field>
+             <field name="is_default">False</field>
+             <field name="sequence">80</field>
+         </record>
+         <record id="dt9" model="sred_system.documentation_tags">
+             <field name="name">Progress</field>
+             <field name="is_default">False</field>
+             <field name="sequence">90</field>
+         </record>
+         <record id="dt10" model="sred_system.documentation_tags">
+             <field name="name">Contracts</field>
+             <field name="is_default">False</field>
+             <field name="sequence">100</field>
+         </record>
+
+    </data>
+
+
+
+</openerp>

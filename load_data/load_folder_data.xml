@@ -1,0 +1,65 @@
+  <openerp>
+    <data noupdate="1">
+
+        <record id="sswf1" model="sred_system.work_folders">
+            <field name="name">January</field>
+            <field name="squence">10</field>
+        </record>
+
+        <record id="sswf2" model="sred_system.work_folders">
+            <field name="name">February</field>
+            <field name="squence">20</field>
+        </record>
+
+        <record id="sswf3" model="sred_system.work_folders">
+            <field name="name">March</field>
+            <field name="squence">30</field>
+        </record>
+
+        <record id="sswf4" model="sred_system.work_folders">
+            <field name="name">April</field>
+            <field name="squence">40</field>
+        </record>
+
+        <record id="sswf12" model="sred_system.work_folders">
+            <field name="name">May</field>
+            <field name="squence">50</field>
+        </record>
+
+         <record id="sswf5" model="sred_system.work_folders">
+            <field name="name">June</field>
+            <field name="squence">60</field>
+        </record>
+
+        <record id="sswf6" model="sred_system.work_folders">
+            <field name="name">July</field>
+            <field name="squence">70</field>
+        </record>
+
+        <record id="sswf7" model="sred_system.work_folders">
+            <field name="name">August</field>
+            <field name="squence">80</field>
+        </record>
+
+        <record id="sswf8" model="sred_system.work_folders">
+            <field name="name">September</field>
+            <field name="squence">90</field>
+        </record>
+
+         <record id="sswf9" model="sred_system.work_folders">
+            <field name="name">October</field>
+            <field name="squence">100</field>
+        </record>
+
+        <record id="sswf10" model="sred_system.work_folders">
+            <field name="name">November</field>
+            <field name="squence">110</field>
+        </record>
+
+        <record id="sswf11" model="sred_system.work_folders">
+            <field name="name">December</field>
+            <field name="squence">120</field>
+        </record>
+
+    </data>
+  </openerp>
