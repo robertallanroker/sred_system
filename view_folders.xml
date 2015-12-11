@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+
+    <data>
+
+        <record model="ir.ui.view" id="sred_system.folders_form">
+            <field name="name">Claim Folder</field>
+            <field name="model">sred_system.work_folders</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+
+                     <sheet>
+                        <group>
+                            <h1><field name="name"/></h1>
+                        </group>
+                        <group>
+                            <field name="Value_in_fees" string="Value of Folder" readonly="1"/>
+                            <field name="is_active" string="Active" />
+                        </group>
+
+                            <field name="Folder_id">
+                                <tree>
+                                    <field name="name" string="Claim"/>
+                                    <field name="sred_state" string="Status"/>
+                                    <field name="sred_working_status" string="Work"/>
+                                    <field name="sred_processing_status" string="Processing"/>
+                                    <field name="sred_cra_status" string="CRA"/>
+                                </tree>
+                            </field>
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sred_system.folders_kanban">
+            <field name="name">Claims</field>
+            <field name="model">sred_system.work_folders</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban default_order="sequence" action="sred_system.folders_form">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_box oe_kanban_color_border">
+                                <field name="name" action="sred_system.folders_form"/>
+                                <div>
+                                <group>
+                                    <field name="num_sred_projects" string="# Claims"/>
+                                    <field name="Value_in_fees" string = "Fee Value"/>
+                                </group>
+                                </div>
+                                <div>
+                                <field name="Folder_id">
+                                    <tree>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sred_system.tree_of_sred_folders">
+            <field name="name">List Claim Folders</field>
+            <field name="model">sred_system.work_folders</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Folders" action="sred_system.form"/>
+                    <field name="num_sred_projects" string = "# Claims"/>
+                    <field name="Value_in_fees" string = "Fee Value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sred_system.sred_folder_action_window">
+          <field name="name">Claims Folders</field>
+          <field name="res_model">sred_system.work_folders</field>
+          <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sred_system.sred_work_load_window">
+          <field name="name">Claims Folders</field>
+          <field name="res_model">sred_system.sred_project</field>
+          <field name="view_mode">Calender</field>
+        </record>
+
+    </data>
+
+</openerp>
+

@@ -1,0 +1,162 @@
+<openerp>
+
+    <data>
+
+        <!-- TOP MENU -->
+        <menuitem name="SRED"
+               id="sred_system.main_menu_root"
+               icon="fa-calendar"
+               web_icon="project,static/description/icon.png"
+               sequence="51"/>
+
+        <!-- MENU GROUPS -->
+        <menuitem name="Claims"
+            id="sred_system.work_menu"
+            parent="sred_system.main_menu_root"
+            sequence="10" />
+
+        <menuitem name ="Reports"
+                id="sred_system.reports"
+                parent ="sred_system.main_menu_root"
+                sequence="20" />
+
+        <menuitem id="sred_system.activities"
+                name = "Activities"
+                parent = "sred_system.main_menu_root"
+                sequence = "25" />
+
+        <menuitem id="sred_system.config_menu"
+              name="Configuration"
+              parent="sred_system.main_menu_root"
+              sequence="30" />
+
+        <!-- Work GROUP -->
+        <menuitem id="sred_system.projects_by_folder"
+              name="Folders"
+              parent="sred_system.work_menu"
+              action="sred_system.sred_folder_action_window"
+              sequence="40"/>
+
+        <menuitem id="sred_system.projects_by_search"
+                name = "List"
+                parent = "sred_system.work_menu"
+                action = "sred_system.list_all_projects"
+                sequence="50"/>
+
+        <menuitem id="sred_system.my_tasks"
+                name = "My Tasks"
+                parent = "sred_system.work_menu"
+                sequence="60" />
+
+        <!-- Activities Group -->
+       <menuitem id="sred_system.activities_reminders_menu"
+                name = "Reminders"
+                parent = "sred_system.activities"
+                action = "sred_system.list_all_projects"
+                sequence = "70" />
+
+       <menuitem id="sred_system.activities_customer_responses_menu"
+                name = "Customer Responses"
+                parent = "sred_system.activities"
+                action = "sred_system.list_all_projects"
+                sequence = "80" />
+
+       <menuitem id="sred_system.activities_actions_menu"
+                name = "Actions"
+                parent = "sred_system.activities"
+                action = "sred_system.list_all_projects"
+                sequence = "90" />
+
+       <menuitem id="sred_system.activities_correspondences_menu"
+                name = "Correspondence"
+                parent = "sred_system.activities"
+                action = "sred_system.list_all_projects"
+                sequence = "100" />
+
+       <menuitem id="sred_system.activities_work_load_menu"
+                name = "My Work Load"
+                parent = "sred_system.activities"
+                sequence = "110" />
+
+        <!-- COnfiguration Group -->
+
+         <menuitem id="sred_system.config_claim_states"
+                name = "Set Claim States"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_claim_states_window"
+                sequence = "1010" />
+
+        <menuitem id="sred_system.config_processing_states"
+                name = "Set Processing States"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_processing_states_window"
+                sequence = "1020" />
+
+        <menuitem id="sred_system.config_cra_states"
+                name = "Set CRA States"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_cra_states_window"
+                sequence = "1030" />
+
+        <menuitem id="sred_system.config_work_scope_areas"
+                name = "Set work scope areas"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_work_scope_window"
+                sequence = "1040" />
+
+        <menuitem id="sred_system.config_work_functions"
+                name = "Set work roles"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_work_roles_window"
+                sequence = "1050" />
+
+        <menuitem id="sred_system.config_work_responsibilities"
+                name = "Set work responsibilities"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_work_functions_window"
+                sequence = "1060" />
+
+         <menuitem id="sred_system.config_jornal_menu"
+                name = "Set log journal types"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_journal_types_window"
+                sequence = "1070" />
+
+        <menuitem id="sred_system.config_tax_years"
+                name = "Set tax years"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_tax_years_window"
+                sequence = "1080" />
+
+        <menuitem id="sred_system.config_documentaton_labels"
+                name = "Set documentation directories"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_documentation_labels_window"
+                sequence = "1090" />
+
+        <menuitem id="sred_system.config_documentaton_tags"
+                name = "Set documentation tags"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_documentation_tags_window"
+                sequence = "1100" />
+
+
+        <!-- WORK LOAD CALENDARS -->
+        <menuitem id="sred_system.activities_work_load_menu_meetings"
+                  name = "Meetings"
+                  parent = "sred_system.activities_work_load_menu"
+                  action = "action_calendar_work_load_events"
+                  sequence = "1500"/>
+
+        <menuitem id="sred_system.activities_work_load_menu_reminders"
+                  name = "Reminders"
+                  parent = "sred_system.activities_work_load_menu"
+                  action = "sred_system.list_all_projects"
+                  sequence = "1510"/>
+
+
+
+
+    </data>
+
+</openerp>
