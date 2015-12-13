@@ -9,6 +9,7 @@ class my_base_sred_object(models.Model):
     is_default  = fields.Boolean()
     is_internal = fields.Boolean()
     sequence    = fields.Integer()
-    _defaults   = {'is_default':False,
-                   'is_internal':False,
-                   'sequence':  10}
+  #  _defaults   = {'is_default':False,
+  #                 'is_internal':False,
+  #                 'sequence':  10}
+

@@ -75,12 +75,10 @@ class my_scope(models.Model):
 # Journals all the roles assigned to a claim project
 class my_work_resource_roles(models.Model):
     _name = 'sred_system.work_resource_roles'
-    name = fields.Char()  # not used
+#    name = fields.Char()  # not used
     work_types      = fields.Many2many('sred_system.work_types', 'work_type_id', 'work_types', string='work assignments')
     work_functions  = fields.Many2many('sred_system.work_functions', 'work_function_id', 'work_functions', string='work functions')
- #   work_scope      = fields.Many2many('sred_system.scope', 'scope_id', 'work_scope')
     work_person     = fields.Many2one('res.partner', string="Individual", ondelete='set null')
     work_role_id    = fields.Many2one('sred_system.sred_project', string='people assigned', ondelete='cascade')
- #   work_person_image = fields.binary()
-    work_resource_scope      = fields.Many2one('sred_system.work_scope', string='scope_of_me', ondelete='cascade')
+    work_resource_scope = fields.Many2one('sred_system.work_scope', string='scope_of_me', ondelete='cascade')
 

@@ -68,6 +68,25 @@ class my_documentation_tags(models.Model):
     name = fields.Char()
     doc_tags_id = fields.Many2many('sred_system.documentation','document_tags', 'doc_tags_id')
 
+class my_work_progress(models.Model):
+    _name = 'sred_system.work_progress'
+
+    status_label = fields.Char()
+    started = fields.Datetime()
+    eta     = fields.Datetime()
+    stoped  = fields.Datetime()
+
+    @api.model
+    def _get_dt(self):
+        return time.strftime('%Y-%m-%d %H:%M:%S')
+
+    @api.model
+    def log_start(self, sred_project, status_label):
+        return
+
+    def log_stop(self, sred_project, status_label):
+        return
+
 
 class my_sred_projects(models.Model):
     _name        = 'sred_system.sred_project'
@@ -158,15 +177,36 @@ class my_sred_projects(models.Model):
         my_list = self.env['sred_system.tax_years'].search([('is_default','=',True)]).ids
         return my_list
 
-#          return self.env['my.tax.tax'].search([('type', 'in', ['income', 'value', 'excise'])]).ids
+    @api.model
+    def _get_sred_state_default(self):
+        return self.env['sred_system.sred_states'].search([('is_default','=',True)])[0]
 
     @api.model
-    def _get_default_project(self):
-        my_list = []
-        self.say('here i am')
-        dval = {'name': 'My New Project'}
- #       proj = self.env['sred_system.sred_project'].with_context(tz=None).create(dval)
-        return
+    def _get_working_status_default(self):
+        return self.env['sred_system.sred_working_status'].search([('is_default','=',True)])[0]
+
+    @api.model
+    def _get_processing_status_default(self):
+        return self.env['sred_system.sred_processing_status'].search([('is_default','=',True)])[0]
+
+    @api.model
+    def _get_cra_status_default(self):
+        return self.env['sred_system.sred_cra_status'].search([('is_default','=',True)])[0]
+
+    @api.model
+    def _get_project_default(self):
+        dval = {'name':"New Project"}
+        my_rec = self.env['project.project'].create(dval)
+        self.say("CREATING")
+        return my_rec
+
+    @api.onchange('name')
+    def _name_has_changed(self):
+       self.a_claim_project['name'] = "test"
 
     _defaults = {'tax_years': _get_tax_year_defaults,
-                 'a_claim_project': _get_default_project}
+                 'sred_state': _get_sred_state_default,
+                 'sred_working_status': _get_working_status_default,
+                 'sred_processing_status': _get_processing_status_default,
+                 'sred_cra_status': _get_cra_status_default,
+                 'a_claim_project': _get_project_default}
