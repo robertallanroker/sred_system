@@ -80,6 +80,12 @@
 
         <!-- COnfiguration Group -->
 
+        <menuitem id="sred_system.config_project_types"
+                name = "Set project types"
+                parent = "sred_system.config_menu"
+                action = "sred_system.action_set_project_types_window"
+                sequence = "1005" />
+
          <menuitem id="sred_system.config_claim_states"
                 name = "Set Claim States"
                 parent = "sred_system.config_menu"

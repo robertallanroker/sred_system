@@ -27,6 +27,7 @@
                     <div>
                         <group>
                              <group>
+                                   <field name="project_type" string="Project Work Type"/>
                                    <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
                                    <field name="tax_years" widget="many2many_tags"/>
                                    <field name="financial_year_end_mm" string="Year End Month MM "/>
@@ -148,10 +149,13 @@
         <field name="model">sred_system.sred_project</field>
         <field name="arch" type="xml">
           <tree>
+              <field name="project_type" string="Type"/>
               <field name="sred_state" string="Status"/>
               <field name="name" string = "Claim Project Name"/>
               <field name="a_claim_project" string ="Project File"/>
               <field name="an_assigned_folder" string="Folder"/>
+              <field name="Estimated_Refund" widget="monetary" string="Refund"/>
+              <field name="Estimated_Fee" widget="monetary" string"Fee"/>
               <field name="Work_Commenced" string="Started on"/>
               <field name="CRA_Deadline" string="Deadline"/>
               <field name="sred_working_status" string="Work"/>
@@ -397,6 +401,29 @@
           <field name="res_model">sred_system.work_types</field>
           <field name="view_mode">tree</field>
        </record>
+
+
+                <!--
+      #####################
+      # SET PROJECT TYPES
+      #####################
+      -->
+      <!--record model="ir.ui.view"  id="sred_system.my_documentation_work_roles_form">
+            <field name="name">Project Type</field>
+            <field name="model">sred_system.project_types</field>
+            <field name="arch" type="xml">
+                <tree editable="True">
+                  <field name="name" string="project type"/>
+                     <field name="is_default" string ="set as default checkbox"/>
+                 </tree>
+            </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="sred_system.action_set_project_types_window">
+          <field name="name">Set project work types</field>
+          <field name="res_model">sred_system.project_types</field>
+          <field name="view_mode">tree</field>
+      </record -->
 
 
 

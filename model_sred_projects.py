@@ -87,6 +87,11 @@ class my_work_progress(models.Model):
     def log_stop(self, sred_project, status_label):
         return
 
+#class my_sred_project_type(models.Model):
+#    _inherit = 'sred_system.base_sred_object'
+#    _name = 'sred_system.project_types'
+#    project_type_id = fields.One2many('sred_system.sred_project', 'project_type', string='project work types', ondelete = 'cascade')
+
 
 class my_sred_projects(models.Model):
     _name        = 'sred_system.sred_project'
@@ -104,6 +109,7 @@ class my_sred_projects(models.Model):
 
     # VARIOUS CLAIM STATUS
     #  New, Open, Closed, Etc...
+#    project_type            = fields.Many2one('sred_system.project_types', string='project types', ondelete='set null')
     sred_state              = fields.Many2one('sred_system.sred_states', string="assigned_states", ondelete='set null')
     sred_working_status     = fields.Many2one('sred_system.sred_working_status', string="work in progress", ondelete='set null')
     sred_processing_status  = fields.Many2one('sred_system.sred_processing_status', string="Processing Status", ondelete='set null')
@@ -194,6 +200,10 @@ class my_sred_projects(models.Model):
         return self.env['sred_system.sred_cra_status'].search([('is_default','=',True)])[0]
 
     @api.model
+    def _get_project_type_default(self):
+        return self.env['sred_system.project_types'].search([('is_default','=',True)])[0]
+
+    @api.model
     def _get_project_default(self):
         dval = {'name':"New Project"}
         my_rec = self.env['project.project'].create(dval)
@@ -209,4 +219,5 @@ class my_sred_projects(models.Model):
                  'sred_working_status': _get_working_status_default,
                  'sred_processing_status': _get_processing_status_default,
                  'sred_cra_status': _get_cra_status_default,
-                 'a_claim_project': _get_project_default}
+                 'a_claim_project': _get_project_default,
+                 'project_type': _get_project_type_default}

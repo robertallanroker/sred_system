@@ -91,7 +91,7 @@
         </record>
 
 
-          <!-- LOAD CRA PROCESSING STATUS -->
+        <!-- LOAD CRA PROCESSING STATUS -->
         <record id="ssws12" model="sred_system.sred_cra_status">
             <field name="name">None</field>
             <field name="is_default">False</field>
@@ -125,20 +125,15 @@
         <record id="ssws18" model="sred_system.sred_cra_status">
             <field name="name">Approved</field>
             <field name="is_default">False</field>
-            <field name="sequence">60</field>
+            <field name="sequence">70</field>
         </record>
           <record id="ssws19" model="sred_system.sred_cra_status">
             <field name="name">Disputing</field>
             <field name="is_default">False</field>
-            <field name="sequence">70</field>
+            <field name="sequence">80</field>
         </record>
 
 
-
-    </data>
-
-
-    <data>
         <!-- Load Tax Years -->
 
         <record id="ssty1" model="sred_system.tax_years">
@@ -158,12 +153,10 @@
             <field name="sequence">40</field>
         </record>
 
-    </data>
 
 
     <!-- Load Work Scope -->
 
-    <data noupdate="1">
          <record id="wsss1" model="sred_system.work_scope">
             <field name="name">GreenLight</field>
             <field name="is_default">True</field>
@@ -191,9 +184,9 @@
             <field name="is_internal">False</field>
             <field name="sequence">50</field>
          </record>
-    </data>
 
-    <data>
+
+
          <record id="dll1" model="sred_system.documentation_labels">
              <field name="name">Technical</field>
              <field name="is_default">True</field>
@@ -229,9 +222,8 @@
              <field name="is_default">True</field>
              <field name="sequence">70</field>
          </record>
-    </data>
 
-    <data noupdate="1">
+
          <record id="dt1" model="sred_system.documentation_tags">
              <field name="name">Spreadsheet</field>
              <field name="is_default">False</field>
@@ -283,8 +275,20 @@
              <field name="sequence">100</field>
          </record>
 
-    </data>
 
+
+        <record id="pttt10" model="sred_system.project_types">
+             <field name="name">New to SRED</field>
+             <field name="is_default">True</field>
+             <field name="sequence">10</field>
+        </record>
+        <record id="pttt20" model="sred_system.project_types">
+             <field name="name">Repeat</field>
+             <field name="is_default">False</field>
+             <field name="sequence">20</field>
+        </record>
+
+    </data>
 
 
 </openerp>
