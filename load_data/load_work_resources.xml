@@ -1,0 +1,32 @@
+<openerp>
+    <data>
+
+          <!-- Load Work Scope -->
+
+         <record id="wsss1" model="sred_system.work_resource_scope">
+            <field name="name">GreenLight</field>
+            <field name="is_default">True</field>
+            <field name="is_internal">True</field>
+            <field name="sequence">10</field>
+         </record>
+         <record id="wsss2" model="sred_system.work_resource_scope">
+            <field name="name">Customer</field>
+            <field name="sequence">20</field>
+         </record>
+         <record id="wsss3" model="sred_system.work_resource_scope">
+            <field name="name">CRA</field>
+            <field name="sequence">30</field>
+         </record>
+         <record id="wsss4" model="sred_system.work_resource_scope">
+            <field name="name">Outside Firm</field>
+            <field name="sequence">40</field>
+         </record>
+         <record id="wsss5" model="sred_system.work_resource_scope">
+            <field name="name">Outside Individual</field>
+            <field name="sequence">50</field>
+         </record>
+
+
+    </data>
+
+</openerp>

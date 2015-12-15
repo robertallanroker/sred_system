@@ -80,11 +80,11 @@
 
         <!-- COnfiguration Group -->
 
-        <menuitem id="sred_system.config_project_types"
+        <!--menuitem id="sred_system.config_project_types"
                 name = "Set project types"
                 parent = "sred_system.config_menu"
                 action = "sred_system.action_set_project_types_window"
-                sequence = "1005" />
+                sequence = "1005" /-->
 
          <menuitem id="sred_system.config_claim_states"
                 name = "Set Claim States"
@@ -104,17 +104,17 @@
                 action = "sred_system.action_set_cra_states_window"
                 sequence = "1030" />
 
-        <menuitem id="sred_system.config_work_scope_areas"
+        <!--menuitem id="sred_system.config_work_scope_areas"
                 name = "Set work scope areas"
                 parent = "sred_system.config_menu"
                 action = "sred_system.action_set_work_scope_window"
-                sequence = "1040" />
+                sequence = "1040" /-->
 
-        <menuitem id="sred_system.config_work_functions"
+        <!--menuitem id="sred_system.config_work_functions"
                 name = "Set work roles"
                 parent = "sred_system.config_menu"
-                action = "sred_system.action_set_work_roles_window"
-                sequence = "1050" />
+                action = "sred_system.action_set_work_resource_roles_window"
+                sequence = "1050" /-->
 
         <menuitem id="sred_system.config_work_responsibilities"
                 name = "Set work responsibilities"

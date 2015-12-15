@@ -2,26 +2,6 @@ from openerp import models, fields, api, osv
 from datetime import datetime, date
 import time
 
-class my_sred_states(models.Model):
-    _inherit   = 'sred_system.base_sred_object'
-    _name       = 'sred_system.sred_states'
-    state_id    = fields.One2many('sred_system.sred_project','sred_state', string ='SRED Work States')
-
-class my_sred_working_status(models.Model):
-    _inherit   = 'sred_system.base_sred_object'
-    _name       = 'sred_system.sred_working_status'
-    working_status_id = fields.One2many('sred_system.sred_project','sred_working_status', string ='SRED Working Status')
-
-class my_sred_processing_status(models.Model):
-    _inherit   = 'sred_system.base_sred_object'
-    _name      = 'sred_system.sred_processing_status'
-    processing_status_id = fields.One2many('sred_system.sred_project','sred_processing_status', string='SRED Processing Status')
-
-class my_sred_cra_status(models.Model):
-    _inherit   = 'sred_system.base_sred_object'
-    _name      = 'sred_system.sred_cra_status'
-    cra_status_id = fields.One2many('sred_system.sred_project', 'sred_cra_status', string='SRED CRA Status')
-
 class my_estimations(models.Model):
     _name = 'sred_system.work_estimations'
     estimate_id = fields.Many2one('sred_system.sred_project', string='Estimation', ondelete='cascade')
@@ -46,27 +26,6 @@ class status_dates(models.Model):
     _inherit   = 'sred_system.base_sred_object'
     _name = 'sred_system.sred_project'
 
-
-class my_documentation_labels(models.Model):
-    _inherit   = 'sred_system.base_sred_object'
-    _name = 'sred_system.documentation_labels'
-    name = fields.Char()
-    doc_label_id = fields.Many2many('sred_system.documentation', 'document_id', 'doc_label_id')
-
-
-class my_documentation(models.Model):
-    _inherit   = 'sred_system.base_sred_object'
-    _name = 'sred_system.documentation'
-    name = fields.Char()
-    document_id = fields.Many2many('sred_system.documentation_labels', 'doc_label_id', 'document_id')
-    document_tags = fields.Many2many('sred_system.documentation_tags', 'doctags_id', 'document_tags')
-    sred_project = fields.Many2many('sred_system.sred_project', 'documentation', 'sred_project')
-
-class my_documentation_tags(models.Model):
-    _inherit   = 'sred_system.base_sred_object'
-    _name = 'sred_system.documentation_tags'
-    name = fields.Char()
-    doc_tags_id = fields.Many2many('sred_system.documentation','document_tags', 'doc_tags_id')
 
 class my_work_progress(models.Model):
     _name = 'sred_system.work_progress'
@@ -137,10 +96,11 @@ class my_sred_projects(models.Model):
     Estimated_Refund = fields.Float(digits=(10,2), help = "123")
     Estimated_Fee    = fields.Float(digits=(10,2), help = "123")
 
+
     estimations = fields.One2many('sred_system.work_estimations', 'estimate_id', string='Estimates')
 
-    Estimated_Due = fields.Date()
-    Elapsed_Days  = fields.Char()
+ #   Estimated_Due = fields.Date()
+ #   Elapsed_Days  = fields.Char()
 
     tax_years = fields.Many2many('sred_system.tax_years','taxyear_id','tax_years')
 
@@ -162,7 +122,7 @@ class my_sred_projects(models.Model):
            'sequence': 100}
         return
 
-    @api.onchange('estimations')
+#    @api.onchange('estimations')
     def _update_fees(self):
         my_rec = []
         for my_rec in self.estimations:
@@ -213,6 +173,47 @@ class my_sred_projects(models.Model):
     @api.onchange('name')
     def _name_has_changed(self):
        self.a_claim_project['name'] = "test"
+
+
+    @api.one
+    def _get_current_fee_value(self):
+        fee_amount  = 0.00
+        if self.estimations:
+            for my_rec in self.estimations:
+                fee_amount = my_rec['fee']
+        return fee_amount
+
+    @api.one
+    def _get_current_refund_value(self):
+        refund_amount  = 0.00
+        if self.estimations:
+            for my_rec in self.estimations:
+                refund_amount = my_rec['refund']
+        return refund_amount
+
+    @api.one
+    @api.onchange('estimations')
+    def _calculate_claim(self):
+        fee_amount = 0.00
+        refund_amount = 0.00
+        found_one = False
+        if self.estimations:
+            for my_rec in self.estimations:
+                if (my_rec['fee'] + my_rec['refund']) > 0:
+                    if found_one == False:
+                        fee_amount = fee_amount + my_rec['fee']
+                        refund_amount = refund_amount + my_rec['refund']
+                        last_entry = my_rec['e_date']
+                        found_one = True
+                    if found_one == True:
+                        if last_entry < my_rec['e_date']:
+                            fee_amount = fee_amount + my_rec['fee']
+                            refund_amount = refund_amount + my_rec['refund']
+                            last_entry = my_rec['e_date']
+
+        self.Estimated_Fee = fee_amount
+        self.Estimated_Refund = refund_amount
+
 
     _defaults = {'tax_years': _get_tax_year_defaults,
                  'sred_state': _get_sred_state_default,

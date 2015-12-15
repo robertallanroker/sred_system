@@ -43,21 +43,23 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views.xml',
-        'view_folders.xml',
-        'view_work_load.xml',
-        'view_menus.xml',
-        'templates.xml',
+        'views/views.xml',
+        'views/view_work_folders.xml',
+        'views/view_work_load.xml',
+        'views/view_menus.xml',
+        'reports/templates.xml',
         'load_data/load_folder_data.xml',
         'load_data/load_work_types_data.xml',
         'load_data/load_sred_projects_data.xml',
         'load_data/load_journal_types_data.xml',
+        'load_data/load_work_resources.xml',
+        'load_data/load_sred_states.xml',
+        'load_data/load_documentation.xml',
         'security/ir.model.access.csv'
     ],
     # only loaded in demonstration mode
     'demo': [
-        'demo.xml',
-
+        'load_demo_data/demo.xml',
 
 
     ],

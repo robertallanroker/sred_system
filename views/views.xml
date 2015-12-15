@@ -27,7 +27,6 @@
                     <div>
                         <group>
                              <group>
-                                   <field name="project_type" string="Project Work Type"/>
                                    <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
                                    <field name="tax_years" widget="many2many_tags"/>
                                    <field name="financial_year_end_mm" string="Year End Month MM "/>
@@ -68,10 +67,10 @@
                         </page>
 
                         <page string="Estimations">
-                                  <field name="Estimated_Refund" string="Refund" widget="monetary" readonly="1"/>
-                                  <field name="Estimated_Fee" string="Our Fee" widget="monetary" readonly="1"/>
+                                  <field name="Estimated_Fee" string="Current Fee" widget="monetary"/>
+                                  <field name="Estimated_Refund" string="Current Refund" widget="monetary"/>
                                   <field name="estimations" string="Estimations">
-                                    <tree editable="True">
+                                    <tree editable="true">
                                         <field name="e_date" string="date"/>
                                         <field name="person" string="person"/>
                                         <field name="refund" widget="monetary"/>
@@ -87,7 +86,7 @@
 
                                 <field name="a_work_roles" string="Project Roles" widget="one2many" >
                                    <tree editable="true">
-                                        <field name="work_resource_scope" string="Scope"/>
+                                        <field name="work_resource_scope" string="Scope" widget="many2many_tags"/>
                                         <field name="work_person" string="Assigned"/>
                                         <field name="work_types" placeholder="Roles" widget="many2many_tags" />
                                         <field name="work_functions" placeholder="Functions" widget="many2many_tags"/>
@@ -131,7 +130,7 @@
       </record>
 
       <!-- WORK ROLES WITHIN A SRED CLAIM -->
-      <record model="ir.ui.view" id="sred_system.tree_of_work_roles">
+      <record model="ir.ui.view" id="sred_system.tree_of_work_resource_roles">
           <field name="name">Work Roles</field>
           <field name="model">sred_system.work_resource_roles</field>
           <field name="arch" type="xml">
@@ -149,13 +148,10 @@
         <field name="model">sred_system.sred_project</field>
         <field name="arch" type="xml">
           <tree>
-              <field name="project_type" string="Type"/>
               <field name="sred_state" string="Status"/>
               <field name="name" string = "Claim Project Name"/>
               <field name="a_claim_project" string ="Project File"/>
               <field name="an_assigned_folder" string="Folder"/>
-              <field name="Estimated_Refund" widget="monetary" string="Refund"/>
-              <field name="Estimated_Fee" widget="monetary" string"Fee"/>
               <field name="Work_Commenced" string="Started on"/>
               <field name="CRA_Deadline" string="Deadline"/>
               <field name="sred_working_status" string="Work"/>
@@ -361,9 +357,9 @@
       # SET WORK SCOPE AREAS
       #####################
       -->
-      <record model="ir.ui.view"  id="sred_system.my_documentation_work_scope_form">
+      <!--record model="ir.ui.view"  id="sred_system.my_documentation_work_scope_form">
             <field name="name">Work Scope Areas</field>
-            <field name="model">sred_system.work_scope</field>
+            <field name="model">sred_system.work_resource_scope</field>
             <field name="arch" type="xml">
                 <tree editable="True">
                   <field name="name" string="Claim States"/>
@@ -375,9 +371,9 @@
 
        <record model="ir.actions.act_window" id="sred_system.action_set_work_scope_window">
           <field name="name">Set work scope areas</field>
-          <field name="res_model">sred_system.work_scope</field>
+          <field name="res_model">sred_system.work_resource_scope</field>
           <field name="view_mode">tree</field>
-       </record>
+       </record-->
 
 
             <!--
@@ -401,29 +397,6 @@
           <field name="res_model">sred_system.work_types</field>
           <field name="view_mode">tree</field>
        </record>
-
-
-                <!--
-      #####################
-      # SET PROJECT TYPES
-      #####################
-      -->
-      <!--record model="ir.ui.view"  id="sred_system.my_documentation_work_roles_form">
-            <field name="name">Project Type</field>
-            <field name="model">sred_system.project_types</field>
-            <field name="arch" type="xml">
-                <tree editable="True">
-                  <field name="name" string="project type"/>
-                     <field name="is_default" string ="set as default checkbox"/>
-                 </tree>
-            </field>
-      </record>
-
-      <record model="ir.actions.act_window" id="sred_system.action_set_project_types_window">
-          <field name="name">Set project work types</field>
-          <field name="res_model">sred_system.project_types</field>
-          <field name="view_mode">tree</field>
-      </record -->
 
 
 

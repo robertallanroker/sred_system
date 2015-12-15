@@ -1,5 +1,5 @@
   <openerp>
-    <data noupdate="1">
+    <data>
 
         <record id="sswf1" model="sred_system.work_folders">
             <field name="name">January</field>
