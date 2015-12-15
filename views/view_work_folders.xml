@@ -16,13 +16,16 @@
                             <h1><field name="name"/></h1>
                         </group>
                         <group>
-                            <field name="Value_in_fees" string="Value of Folder" readonly="1"/>
+                            <field name="folder_value" string="Value of Folder" readonly="1"/>
                             <field name="is_active" string="Active" />
+                            <field name="folder_fee_booked" widget="monetary" string="Booked Fees" readonly="1"/>
+                            <field name="folder_fee_filed" widget="monetary" string="Filed Fees" readonly="1"/>
                         </group>
-
                             <field name="Folder_id">
                                 <tree>
                                     <field name="name" string="Claim"/>
+                                    <field name="Estimated_Fee" widget="monetary" string="Fee"/>
+                                    <field name="Estimated_Refund" widget="monetary" string="Refund"/>
                                     <field name="sred_state" string="Status"/>
                                     <field name="sred_working_status" string="Work"/>
                                     <field name="sred_processing_status" string="Processing"/>
@@ -36,35 +39,6 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="sred_system.folders_kanban">
-            <field name="name">Claims</field>
-            <field name="model">sred_system.work_folders</field>
-            <field name="type">kanban</field>
-            <field name="arch" type="xml">
-                <kanban default_order="sequence" action="sred_system.folders_form">
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_box oe_kanban_color_border">
-                                <field name="name" action="sred_system.folders_form"/>
-                                <div>
-                                <group>
-                                    <field name="num_sred_projects" string="# Claims"/>
-                                    <field name="Value_in_fees" widget="monetary" string = "Fee Value"/>
-                                </group>
-                                </div>
-                                <div>
-                                <field name="Folder_id">
-                                    <tree>
-                                        <field name="name"/>
-                                    </tree>
-                                </field>
-                                </div>
-                            </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
 
         <record model="ir.ui.view" id="sred_system.tree_of_sred_folders">
             <field name="name">List Claim Folders</field>
@@ -74,7 +48,7 @@
                 <tree>
                     <field name="name" string="Folders" action="sred_system.form"/>
                     <field name="num_sred_projects" string = "# Claims"/>
-                    <field name="Value_in_fees" widget="monetary" string = "Fee Value"/>
+                    <field name="folder_value" string = "Fee Value"/>
                 </tree>
             </field>
         </record>
@@ -82,7 +56,7 @@
         <record model="ir.actions.act_window" id="sred_system.sred_folder_action_window">
           <field name="name">Claims Folders</field>
           <field name="res_model">sred_system.work_folders</field>
-          <field name="view_mode">tree,form,kanban</field>
+          <field name="view_mode">tree,form</field>
         </record>
 
         <record model="ir.actions.act_window" id="sred_system.sred_work_load_window">
@@ -94,4 +68,3 @@
     </data>
 
 </openerp>
-
