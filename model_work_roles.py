@@ -35,7 +35,7 @@ class my_work_types(models.Model):
 class my_scope(models.Model):
     _inherit = 'sred_system.base_sred_object'
     _name = 'sred_system.work_resource_scope'
-    scope_id = fields.One2many('sred_system.work_resource_roles', 'work_resource_scope', string='scopeyscope')
+    scope_id = fields.One2many('sred_system.work_resource_roles', 'work_resource_scope', string='scope')
 
 
 
@@ -49,5 +49,5 @@ class my_work_resource_roles(models.Model):
     work_functions  = fields.Many2many('sred_system.work_functions', 'work_function_id', 'work_functions', string='work functions')
     work_person     = fields.Many2one('res.partner', string="Individual", ondelete='set null')
     work_role_id    = fields.Many2one('sred_system.sred_project', string='people assigned', ondelete='cascade')
-    work_resource_scope = fields.Many2one('sred_system.work_resource_scope', string='scope_of_me', ondelete='cascade')
+    work_resource_scope = fields.Many2one('sred_system.work_resource_scope', string='scope', ondelete='cascade')
 

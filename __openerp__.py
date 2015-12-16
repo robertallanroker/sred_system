@@ -46,6 +46,7 @@
         'views/views.xml',
         'views/view_work_folders.xml',
         'views/view_work_load.xml',
+        'views/view_sred_claim.xml',
         'views/view_menus.xml',
         'reports/templates.xml',
         'load_data/load_folder_data.xml',
@@ -55,6 +56,7 @@
         'load_data/load_work_resources.xml',
         'load_data/load_sred_states.xml',
         'load_data/load_documentation.xml',
+        'load_data/load_cra_processing_states.xml',
         'security/ir.model.access.csv'
     ],
     # only loaded in demonstration mode

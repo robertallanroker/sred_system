@@ -1,6 +1,6 @@
 <openerp>
 
-    <data noupdate="1">
+    <data>
 
 
 
@@ -9,22 +9,24 @@
 
         <record id="ssty1" model="sred_system.tax_years">
             <field name="name">2013</field>
+            <field name="is_default">False</field>
             <field name="sequence">10</field>
         </record>
         <record id="ssty2" model="sred_system.tax_years">
             <field name="name">2014</field>
+            <field name="is_default">False</field>
             <field name="sequence">20</field>
         </record>
-        <record id="ssty3" model="sred_system.tax_years">
+        <record id="ssty8" model="sred_system.tax_years">
             <field name="name">2015</field>
+            <field name="is_default">True</field>
             <field name="sequence">30</field>
         </record>
-        <record id="ssty4" model="sred_system.tax_years">
+        <record id="ssty5" model="sred_system.tax_years">
             <field name="name">2016</field>
+            <field name="is_default">True</field>
             <field name="sequence">40</field>
         </record>
-
-
 
 
 

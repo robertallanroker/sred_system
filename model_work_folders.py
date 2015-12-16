@@ -13,20 +13,26 @@ class my_work_folders(models.Model):
     folder_fee_refund   = fields.Float()
     is_active           = fields.Boolean(default=True)
 
+    @api.one
+    @api.model
+    def _calculate_fees(self):
+        fee_amount_booked = 0.00
+        fee_amount_filed  = 0.00
+        fee_amount_refund = 0.00
+        if self.Folder_id:
+            for my_rec in self.Folder_id:
+                fee_amount_booked = fee_amount_booked + my_rec.Estimated_Fee
+                fee_amount_filed  = fee_amount_filed  + my_rec.Estimated_Fee
+                fee_amount_refund = fee_amount_refund + my_rec.Estimated_Refund
+                self._say(my_rec.Estimated_Refund)
+                self._say(fee_amount_booked)
+                self._say(fee_amount_filed)
+        self.folder_fee_booked = fee_amount_booked
+        self.folder_fee_filed  = fee_amount_filed
+        self.folder_fee_refund = fee_amount_refund
+
 
     @api.one
     @api.onchange('Folder_id')
     def _calculate_folder_fees(self):
-        fee_amount_booked = 0.00
-        fee_amount_filed  = 0.00
-        fee_amount_refund = 0.00
-        num_claims        = 0
-        if self.Folder_id:
-            for my_rec in self.Folder_id:
-                fee_amount_booked += my_rec['Estimated_Fee']
-                fee_amount_filed  += my_rec['Estimated_Fee']
-                fee_amount_refund += my_rec['Estimated_Refund']
-                num_claims        += 1
-        self.folder_fee_booked = fee_amount_booked
-        self.folder_fee_filed  = fee_amount_filed
-        self.num_sred_projects = num_claims
+       self._calculate_fees()

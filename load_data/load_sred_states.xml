@@ -21,117 +21,49 @@
         </record>
 
         <!-- LOAD WORK PROCESSING STATUS PICKS -->
-        <record id="ssws5" model="sred_system.sred_working_status">
+        <record id="1sssws5" model="sred_system.sred_working_status">
             <field name="name">None</field>
             <field name="is_default">True</field>
             <field name="sequence">10</field>
         </record>
 
-        <record id="ssws6" model="sred_system.sred_working_status">
+        <record id="sssws6" model="sred_system.sred_working_status">
             <field name="name">Scheduling</field>
             <field name="is_default">False</field>
             <field name="sequence">20</field>
         </record>
 
-        <record id="ssws7" model="sred_system.sred_working_status">
+        <record id="sssws7" model="sred_system.sred_working_status">
             <field name="name">Technical</field>
             <field name="is_default">False</field>
             <field name="sequence">30</field>
         </record>
 
-        <record id="ssws8" model="sred_system.sred_working_status">
+        <record id="sssws8" model="sred_system.sred_working_status">
             <field name="name">Customer Info</field>
             <field name="is_default">False</field>
             <field name="sequence">40</field>
         </record>
 
         <!-- LOAD SRED PROCESSING PICKS -->
-        <record id="ssws8" model="sred_system.sred_processing_status">
+        <record id="svvspse8" model="sred_system.sred_processing_status">
             <field name="name">None</field>
-            <field name="is_default">False</field>
+            <field name="is_default">True</field>
             <field name="sequence">10</field>
         </record>
-        <record id="ssws9" model="sred_system.sred_processing_status">
-            <field name="name">Preparing</field>
-            <field name="is_default">False</field>
-            <field name="sequence">20</field>
-        </record>
-        <record id="ssws10" model="sred_system.sred_processing_status">
-            <field name="name">Abandoned</field>
-            <field name="is_default">False</field>
-            <field name="sequence">30</field>
-        </record>
-        <record id="ssws11" model="sred_system.sred_processing_status">
-            <field name="name">CRA Filed</field>
-            <field name="is_default">False</field>
-            <field name="sequence">40</field>
-        </record>
-
-          <!-- LOAD SRED PROCESSING PICKS -->
-        <record id="ssws8" model="sred_system.sred_processing_status">
-            <field name="name">None</field>
-            <field name="is_default">False</field>
-            <field name="sequence">10</field>
-        </record>
-        <record id="ssws9" model="sred_system.sred_processing_status">
+        <record id="ssps9" model="sred_system.sred_processing_status">
             <field name="name">Preparing</field>
             <field name="sequence">20</field>
-            <field name="is_default">False</field>
         </record>
-        <record id="ssws10" model="sred_system.sred_processing_status">
+        <record id="ssps10" model="sred_system.sred_processing_status">
             <field name="name">Abandoned</field>
-            <field name="is_default">False</field>
             <field name="sequence">30</field>
         </record>
-        <record id="ssws11" model="sred_system.sred_processing_status">
+        <record id="ssps11" model="sred_system.sred_processing_status">
             <field name="name">CRA Filed</field>
-            <field name="is_default">False</field>
             <field name="sequence">40</field>
         </record>
 
-
-        <!-- LOAD CRA PROCESSING STATUS -->
-        <record id="ssws12" model="sred_system.sred_cra_status">
-            <field name="name">None</field>
-            <field name="is_default">False</field>
-            <field name="sequence">10</field>
-        </record>
-        <record id="ssws13" model="sred_system.sred_cra_status">
-            <field name="name">Review</field>
-            <field name="is_default">False</field>
-            <field name="sequence">20</field>
-        </record>
-        <record id="ssws14" model="sred_system.sred_cra_status">
-            <field name="name">FTCAST</field>
-            <field name="is_default">False</field>
-            <field name="sequence">30</field>
-        </record>
-        <record id="ssws15" model="sred_system.sred_cra_status">
-            <field name="name">Audit</field>
-            <field name="is_default">False</field>
-            <field name="sequence">40</field>
-        </record>
-           <record id="ssws16" model="sred_system.sred_cra_status">
-            <field name="name">Accepted</field>
-            <field name="is_default">False</field>
-            <field name="sequence">50</field>
-        </record>
-       <record id="ssws17" model="sred_system.sred_cra_status">
-            <field name="name">Rejected</field>
-            <field name="is_default">False</field>
-            <field name="sequence">60</field>
-        </record>
-        <record id="ssws18" model="sred_system.sred_cra_status">
-            <field name="name">Approved</field>
-            <field name="is_default">False</field>
-            <field name="sequence">70</field>
-        </record>
-          <record id="ssws19" model="sred_system.sred_cra_status">
-            <field name="name">Disputing</field>
-            <field name="is_default">False</field>
-            <field name="sequence">80</field>
-        </record>
-
-    </data>
+     </data>
 
 </openerp>

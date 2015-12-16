@@ -1,0 +1,149 @@
+<openerp>
+    <data>
+        <!-- SRED CLAIM -->
+        <record model="ir.ui.view"  id="sred_system.my_sred_form">
+            <field name="name">SRED Work</field>
+            <field name="model">sred_system.sred_project</field>
+            <field name="target">new</field>
+            <field name="arch" type="xml">
+                <form string="SRED Work">
+
+                <Header>
+                    <field name="sred_state" string="Claim Status" widget="statusbar" clickable="True"/>
+
+                </Header>
+
+                <sheet string="SRED Work">
+
+                    <templates>
+                    <div>
+                        <group>
+                            <field name="sred_processing_status" string="Processing Status" widget="statusbar" clickable="True"/>
+                            <field name="sred_cra_status" string="CRA Status" widget="statusbar" clickable="True"/>
+                        </group>
+                    </div>
+                    <div>
+                        <group>
+                             <group>
+                                   <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
+                                   <field name="tax_years" widget="many2many_tags"/>
+                                   <field name="financial_year_end_mm" string="Year End Month MM "/>
+                                   <field name="financial_year_end_dd" string="Year End Year  YY "/>
+                             </group>
+                             <group>
+                                   <field name="an_assigned_folder" string="Folder"/>
+                                   <field name="a_claim_project" string="Linked Project" />
+                                   <field name="bin_number" string="Business Nummber"/>
+                                   <field name="current_financial_lead"/>
+                                   <field name="current_technical_lead"/>
+                             </group>
+                        </group>
+                    </div>
+
+                    <div>
+                    <notebook>
+                        <page string="Work Tracking">
+                            <group>
+                                <field name="sred_working_status" string="Work Status" widget="statusbar" clickable="True"/>
+                                <field name="Work_Commenced" string="Started On"/>
+                                <field name="Work_Submitted" string="Filed On"/>
+                                <field name="CRA_Deadline"   string="CRA Deadline"/>
+                                <field name="RC59_Submitted" string="RC59 On"/>
+                            </group>
+                        </page>
+
+                        <page string="Work Journal">
+                            <field name="a_work_journal" string="Work Journal">
+                                <tree>
+                                    <field name="journal_date" string="date"/>
+                                    <field name="journal_types" string="type"/>
+                                    <field name="journal_person" string="person" />
+                                    <field name="journal_description" string="notes" widget="html" />
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Estimations">
+                                  <group>
+                                       <field name="Estimated_Fee" string="Current Fee" widget="monetary" readonly="0"/>
+                                       <field name="Estimated_Refund" string="Current Refund" widget="monetary" readonly="0"/>
+                                  </group>
+                                  <field name="estimations" string="Estimations">
+                                    <tree editable="true">
+                                        <field name="e_date" string="date"/>
+                                        <field name="person" string="person"/>
+                                        <field name="refund" widget="monetary"/>
+                                        <field name="fee" widget="monetary"/>
+                                    </tree>
+                                   </field>
+                         </page>
+
+                        <page string="Roles">
+                        <notebook>
+                            <page string = "New">
+
+
+                                <field name="a_work_roles" string="Project Roles" widget="one2many" >
+                                   <tree editable="true">
+                                        <field name="work_resource_scope" string="Scope"/>
+                                        <field name="work_person" string="Assigned"/>
+                                        <field name="work_types" placeholder="Roles" widget="many2many_tags" />
+                                        <field name="work_functions" placeholder="Functions" widget="many2many_tags"/>
+                                   </tree>
+                                </field>
+
+                            </page>
+
+                        </notebook>
+                        </page>
+
+                        <page string="Notes">
+                            <field name="Notes" type="html"/>
+
+                        </page>
+                        <page string="Documents">
+
+                        </page>
+                    </notebook>
+                    </div>
+
+                    </templates>
+
+
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+                <header>
+
+                </header>
+
+
+
+            </form>
+          </field>
+
+      </record>
+
+      <record model="ir.ui.view" id="sred_system.tree_of_sred_claims">
+           <field name="name">List Claim Folders</field>
+            <field name="model">sred_system.sred_project</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Claim" />
+                    <field name="Estimated_Fee" widget="monetary" string="Fee"/>
+                    <field name="Estimated_Refund" widget="monetary" string="Refund"/>
+                    <field name="sred_state" string="Status"/>
+                    <field name="sred_working_status" string="Work"/>
+                    <field name="sred_processing_status" string="Processing"/>
+                    <field name="sred_cra_status" string="CRA"/>
+                </tree>
+            </field>
+      </record>
+
+    </data>
+  </openerp>

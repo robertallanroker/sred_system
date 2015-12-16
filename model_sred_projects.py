@@ -57,8 +57,13 @@ class my_sred_projects(models.Model):
     _inherit     = ["mail.thread", "ir.needaction_mixin"]
     name         = fields.Char()
 
+    many_months = [('aJan','Jan'),('aFeb','Feb'), ('aMar','Mar'), ('aApr','Apr'),
+              ('aMay','May'), ('aJune','June'),('aJuly','July'),
+              ('aAug','Aug'),('aSep','Sep'),('aOct','Oct'),
+              ('aNov','Nov'),('aDec','Dec')]
+
     bin_number = fields.Char()
-    financial_year_end_mm = fields.Integer()
+    financial_year_end_mm = fields.Selection(many_months)
     financial_year_end_dd = fields.Integer()
 
     # ORGANIZATION INTO FOLDERS
@@ -191,9 +196,10 @@ class my_sred_projects(models.Model):
                 refund_amount = my_rec['refund']
         return refund_amount
 
-    @api.one
-    @api.onchange('estimations')
-    def _calculate_claim(self):
+
+    @api.model
+    def _get_current_estimate(self):
+        answer = []
         fee_amount = 0.00
         refund_amount = 0.00
         found_one = False
@@ -201,18 +207,29 @@ class my_sred_projects(models.Model):
             for my_rec in self.estimations:
                 if (my_rec['fee'] + my_rec['refund']) > 0:
                     if found_one == False:
-                        fee_amount = fee_amount + my_rec['fee']
-                        refund_amount = refund_amount + my_rec['refund']
+                        fee_amount = my_rec['fee']
+                        refund_amount = my_rec['refund']
                         last_entry = my_rec['e_date']
                         found_one = True
                     if found_one == True:
                         if last_entry < my_rec['e_date']:
-                            fee_amount = fee_amount + my_rec['fee']
-                            refund_amount = refund_amount + my_rec['refund']
+                            fee_amount = my_rec['fee']
+                            refund_amount = my_rec['refund']
                             last_entry = my_rec['e_date']
+        answer.append(fee_amount)
+        answer.append(refund_amount)
+        return answer
 
-        self.Estimated_Fee = fee_amount
-        self.Estimated_Refund = refund_amount
+    @api.one
+    @api.onchange('estimations')
+    def _calculate_claim(self):
+        response = self._get_current_estimate()
+        self.say(response[0])
+        self.say(response[1])
+        self.Estimated_Fee = response[0]
+        self.Estimated_Refund = response[1]
+        if self.an_assigned_folder:
+            self.an_assigned_folder._calculate_fees()
 
 
     _defaults = {'tax_years': _get_tax_year_defaults,
