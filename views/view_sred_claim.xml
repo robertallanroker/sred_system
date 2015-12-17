@@ -15,10 +15,10 @@
 
                 <sheet string="SRED Work">
 
-                    <templates>
+
                     <div>
                         <group string="Status">
-                            <field name="sred_processing_status" string="Processing" widget="statusbar" clickable="True"/>
+                            <field name="sred_processing_status" class="oe_small_tags" string="Processing" widget="statusbar" clickable="True"/>
                             <field name="sred_cra_status" string="The CRA" widget="statusbar" clickable="True"/>
                         </group>
                     </div>
@@ -122,9 +122,6 @@
                     </notebook>
                     </div>
 
-                    </templates>
-
-
                 </sheet>
 
                 <div class="oe_chatter">
@@ -151,6 +148,7 @@
                 <tree>
                     <field name="work_types" string="Work Type" />
                     <field name="name" string="Claim" />
+                    <field name="tax_years" string="Tax" />
                     <field name="Estimated_Fee" widget="monetary" string="Fee"/>
                     <field name="Estimated_Refund" widget="monetary" string="Refund"/>
                     <field name="sred_state" string="Status"/>

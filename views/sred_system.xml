@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="sred_system_name assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/sred_system/static/src/css/sred_system.css"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

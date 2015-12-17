@@ -42,6 +42,7 @@
 
     # always loaded
     'data': [
+        'views/sred_system.xml',
         'views/views.xml',
         'views/view_work_folders.xml',
         'views/view_work_load.xml',
