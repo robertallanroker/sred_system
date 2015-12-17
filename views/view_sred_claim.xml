@@ -148,7 +148,7 @@
                 <tree>
                     <field name="work_types" string="Work Type" />
                     <field name="name" string="Claim" />
-                    <field name="tax_years" string="Tax" />
+                    <field name="tax_years" string="Tax" widget="many2many"/>
                     <field name="Estimated_Fee" widget="monetary" string="Fee"/>
                     <field name="Estimated_Refund" widget="monetary" string="Refund"/>
                     <field name="sred_state" string="Status"/>
