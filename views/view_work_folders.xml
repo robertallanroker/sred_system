@@ -9,18 +9,27 @@
             <field name="model">sred_system.work_folders</field>
             <field name="type">form</field>
             <field name="target">current</field>
+            <!-- xpath expr="//div[@name='buttons']" position="inside"-->
             <field name="arch" type="xml">
                 <form>
                         <group>
                             <h1><field name="name" readonly="1"/></h1>
                         </group>
                         <group>
-                            <field name="folder_fee_booked" widget="monetary" string="Booked Fees" />
-                            <field name="folder_fee_filed" widget="monetary" string="Filed Fees" />
+                            <div>
+                                <field name="folder_fee_booked" widget="monetary" string="Booked Fees" />
+                                <field name="folder_fee_filed" widget="monetary" string="Filed Fees" />
+                            </div>
+                            <div>
+                                <button class="oe_inline oe_stat_button" type="object" name="calculate_fees"
+                                   string="Re-Calculate Folder">
+                                </button>
+
+                            </div>
                         </group>
-                        <group>
                             <field name="Folder_id" string="Claims">
                                 <tree>
+                                    <field name="work_types" string="work type" />
                                     <field name="name" string="Claim" />
                                     <field name="Estimated_Fee" widget="monetary" string="Fee"/>
                                     <field name="Estimated_Refund" widget="monetary" string="Refund"/>
@@ -30,8 +39,7 @@
                                     <field name="sred_cra_status" string="CRA"/>
                                 </tree>
                             </field>
-                        </group>
-                </form>
+                 </form>
 
             </field>
         </record>

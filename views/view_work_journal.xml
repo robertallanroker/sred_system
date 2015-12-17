@@ -1,0 +1,30 @@
+<openerp>
+
+    <data>
+
+        <record model="ir.ui.view"  id="sred_system.my_sred_journal_form">
+            <field name="name">Work Journal</field>
+            <field name="model">sred_system.work_journal</field>
+            <field name="arch" type="xml">
+                <form string="SRED Work">
+                    <Header>
+                        <group>
+                            <field name="journal_date" string="Entry" />
+                            <field name="journal_person" string= "Person" />
+                        </group>
+                    </Header>
+                    <sheet string="Log Work Journale Entry">
+                        <group>
+                            <field name="journal_types" widget="many2one" string="Type" />
+                            <field name="journal_description" widget= "html" string="Note" />
+                        </group>
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+    </data>
+
+</openerp>

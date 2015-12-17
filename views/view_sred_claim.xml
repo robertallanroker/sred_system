@@ -17,25 +17,40 @@
 
                     <templates>
                     <div>
-                        <group>
-                            <field name="sred_processing_status" string="Processing Status" widget="statusbar" clickable="True"/>
-                            <field name="sred_cra_status" string="CRA Status" widget="statusbar" clickable="True"/>
+                        <group string="Status">
+                            <field name="sred_processing_status" string="Processing" widget="statusbar" clickable="True"/>
+                            <field name="sred_cra_status" string="The CRA" widget="statusbar" clickable="True"/>
                         </group>
                     </div>
                     <div>
                         <group>
                              <group>
-                                   <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
-                                   <field name="tax_years" widget="many2many_tags"/>
-                                   <field name="financial_year_end_mm" string="Year End Month MM "/>
-                                   <field name="financial_year_end_dd" string="Year End Year  YY "/>
+                                   <div>
+                                        <div>
+                                            <group string="Claim file">
+                                               <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
+                                               <field name="work_types" string="work type" />
+                                               <field name="tax_years" widget="many2many_tags"/>
+                                            </group>
+                                        </div>
+                                       <group string="Year End">
+                                            <div>
+                                                <field name="financial_year_end_mm" string="mmm"/>
+                                            </div>
+                                            <div>
+                                                <field name="financial_year_end_dd" placeholder="day" string="dd"/>
+                                           </div>
+                                       </group>
+
+                                   </div>
+
                              </group>
-                             <group>
+                             <group string="Organization">
                                    <field name="an_assigned_folder" string="Folder"/>
                                    <field name="a_claim_project" string="Linked Project" />
                                    <field name="bin_number" string="Business Nummber"/>
-                                   <field name="current_financial_lead"/>
-                                   <field name="current_technical_lead"/>
+                                   <!--field name="current_financial_lead"/>
+                                   <field name="current_technical_lead"/ -->
                              </group>
                         </group>
                     </div>
@@ -134,6 +149,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="work_types" string="Work Type" />
                     <field name="name" string="Claim" />
                     <field name="Estimated_Fee" widget="monetary" string="Fee"/>
                     <field name="Estimated_Refund" widget="monetary" string="Refund"/>

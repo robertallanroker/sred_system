@@ -42,11 +42,11 @@
             </field>
         </record>
 
-       <record model="ir.actions.act_window" id="sred_system.action_set_tax_years_window">
-          <field name="name">Set Journal Types</field>
-          <field name="res_model">sred_system.tax_years</field>
-          <field name="view_mode">tree</field>
-       </record>
+         <record model="ir.actions.act_window" id="sred_system.action_set_tax_years_window">
+            <field name="name">Set Tax Years</field>
+            <field name="res_model">sred_system.tax_years</field>
+            <field name="view_mode">tree</field>
+        </record>
 
 
         <!--

@@ -42,11 +42,11 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/view_work_folders.xml',
         'views/view_work_load.xml',
         'views/view_sred_claim.xml',
+        'views/view_work_journal.xml',
         'views/view_menus.xml',
         'reports/templates.xml',
         'load_data/load_folder_data.xml',

@@ -64,6 +64,24 @@
             <field name="sequence">40</field>
         </record>
 
+
+        <record id="sswta1" model="sred_system.sred_type">
+            <field name="name">Never-Filed</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="sswta2" model="sred_system.sred_type">
+            <field name="name">Repeat</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="sswta3" model="sred_system.sred_type">
+            <field name="name">Previously-Approved</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="sswta4" model="sred_system.sred_type">
+            <field name="name">Previously-Rejected</field>
+            <field name="sequence">40</field>
+        </record>
+
      </data>
 
 </openerp>

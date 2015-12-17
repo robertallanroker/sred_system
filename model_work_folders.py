@@ -13,9 +13,10 @@ class my_work_folders(models.Model):
     folder_fee_refund   = fields.Float()
     is_active           = fields.Boolean(default=True)
 
+
     @api.one
     @api.model
-    def _calculate_fees(self):
+    def calculate_fees(self):
         fee_amount_booked = 0.00
         fee_amount_filed  = 0.00
         fee_amount_refund = 0.00
@@ -35,4 +36,4 @@ class my_work_folders(models.Model):
     @api.one
     @api.onchange('Folder_id')
     def _calculate_folder_fees(self):
-       self._calculate_fees()
+       self.calculate_fees()

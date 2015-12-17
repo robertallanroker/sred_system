@@ -52,6 +52,14 @@ class my_work_progress(models.Model):
 #    project_type_id = fields.One2many('sred_system.sred_project', 'project_type', string='project work types', ondelete = 'cascade')
 
 
+class my_sred_type(models.Model):
+    _name   = 'sred_system.sred_type'
+    name    = fields.Char()
+    is_default = fields.Boolean()
+    sequence   = fields.Integer()
+    sred_type_id = fields.One2many('sred_system.sred_project','work_types',string="Type of work", ondelete='cascade')
+
+
 class my_sred_projects(models.Model):
     _name        = 'sred_system.sred_project'
     _inherit     = ["mail.thread", "ir.needaction_mixin"]
@@ -65,6 +73,8 @@ class my_sred_projects(models.Model):
     bin_number = fields.Char()
     financial_year_end_mm = fields.Selection(many_months)
     financial_year_end_dd = fields.Integer()
+
+    work_types  = fields.Many2one('sred_system.sred_type', string='work type', ondelete='set null')
 
     # ORGANIZATION INTO FOLDERS
     an_assigned_folder = fields.Many2one('sred_system.work_folders', string="assigned folder", ondelete='cascade')
@@ -229,7 +239,7 @@ class my_sred_projects(models.Model):
         self.Estimated_Fee = response[0]
         self.Estimated_Refund = response[1]
         if self.an_assigned_folder:
-            self.an_assigned_folder._calculate_fees()
+            self.an_assigned_folder.calculate_fees()
 
 
     _defaults = {'tax_years': _get_tax_year_defaults,
