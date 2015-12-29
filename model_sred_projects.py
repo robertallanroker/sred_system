@@ -99,6 +99,8 @@ class my_sred_projects(models.Model):
     a_list_of_sred_projects = fields.Many2one('project.project', string='List of eligable SRED project', ondelete='cascade')
     a_work_load = fields.Many2many('sred_system.work_load','a_work_load','work_load_id', string='calendar of work')
 
+    customer = fields.Many2one('res.partner', string="Customer", ondelete='set null')
+
     # This will go away soon, these are either linked tasks, or events dates on status, or both.
     Work_Commenced = fields.Date()
     Work_Submitted = fields.Date()
@@ -122,35 +124,57 @@ class my_sred_projects(models.Model):
 
     @api.model
     def create(self, values):
+        self.say('CREATING OBJECT')
+        self.say(self.env.context)
         new_id = super(my_sred_projects, self).create(values)
-        print "inside create !!!!!"
         return new_id
 
-
     @api.model
-    def set_default_project(self):
-        my_record = []
-        my_object = []
-        dval = {
-           'name': 'My Brother',
-           'active': True,
-           'sequence': 100}
-        return
+    def _set_default_folder(self):
+        my_folder_rec = []
+        my_folder_id  = 0
+        my_context = self.env.context
+        self.say(self.env)
+        self.say(self._context)
+        self.say('inside set default folder')
+        self.say(my_context)
+        if my_context:
+            self.say('inside my_contect *if*')
+            my_folder_id = my_context.get('my_folder_id')
+            self.say(my_folder_id)
+            my_folder_rec = self.env['sred_system.work_folders'].browse(my_folder_id)
+            if my_folder_rec:
+                self.say('found folder value')
+                return my_folder_rec
+        return my_folder_rec
 
-#    @api.onchange('estimations')
+
+
+#   @api.onchange('estimations')
     def _update_fees(self):
         my_rec = []
         for my_rec in self.estimations:
             self.Estimated_Refund = my_rec['refund']
             self.Estimated_Fee = my_rec['fee']
 
+
+    # say()
+    # I used this s/r to display debug messages onto the terminal window
+    #
     @api.model
     def say(self, info):
         print "#########################################"
+        if not info:
+            info = "--Nothing--"
         print info
         print "#########################################"
 
 
+    #
+    # _get_tax_year_defaults()
+    # tax_years is a table picklist of SR&ED claim years that can be associated to a work file.
+    # this s/r pre-populate the list based on a boolean set value that the user can change.
+    #
     @api.model
     def _get_tax_year_defaults(self):
         my_rec = []
@@ -182,12 +206,13 @@ class my_sred_projects(models.Model):
     def _get_project_default(self):
         dval = {'name':"New Project"}
         my_rec = self.env['project.project'].create(dval)
-        self.say("CREATING")
         return my_rec
 
+    @api.one
     @api.onchange('name')
     def _name_has_changed(self):
-       self.a_claim_project['name'] = "test"
+       self.say('on name change')
+       self.a_claim_project.name= self.name
 
 
     @api.one
@@ -230,6 +255,8 @@ class my_sred_projects(models.Model):
         answer.append(refund_amount)
         return answer
 
+
+
     @api.one
     @api.onchange('estimations')
     def _calculate_claim(self):
@@ -241,6 +268,22 @@ class my_sred_projects(models.Model):
         if self.an_assigned_folder:
             self.an_assigned_folder.calculate_fees()
 
+    @api.one
+    def open_claim(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'sred_system.sred_project',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'current',
+        }
+
+    @api.one
+    @api.model
+    @api.onchange('sred_state')
+    def on_status_changed(self):
+       self.message_post('testing')
+
 
     _defaults = {'tax_years': _get_tax_year_defaults,
                  'sred_state': _get_sred_state_default,
@@ -248,4 +291,6 @@ class my_sred_projects(models.Model):
                  'sred_processing_status': _get_processing_status_default,
                  'sred_cra_status': _get_cra_status_default,
                  'a_claim_project': _get_project_default,
-                 'project_type': _get_project_type_default}
+                 'project_type': _get_project_type_default,
+                 'an_assigned_folder': _set_default_folder}
+

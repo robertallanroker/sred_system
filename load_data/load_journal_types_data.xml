@@ -6,12 +6,7 @@
                 <field name="sequence">10</field>
         </record>
 
-        <record id="ssjt200" model="sred_system.work_journal_types">
-                <field name="name">Calls</field>
-                <field name="sequence">20</field>
-        </record>
-
-          <record id="ssjt300" model="sred_system.work_journal_types">
+        <record id="ssjt300" model="sred_system.work_journal_types">
                 <field name="name">Emails</field>
                 <field name="sequence">30</field>
         </record>

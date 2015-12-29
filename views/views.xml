@@ -10,10 +10,57 @@
       </record>
 
 
-       <record model="ir.actions.act_window" id="sred_system.action_set_work_functions_window">
-          <field name="name">Set Work Functional Areas</field>
+       <!-- SET Project Types -->
+      <record model="ir.ui.view"  id="sred_system.action_set_project_types_form">
+            <field name="name">Set claim types</field>
+            <field name="model">sred_system.sred_type</field>
+            <field name="arch" type="xml">
+                <tree default_order="sequence" editable="True">
+                     <field name="name" string="claim type"/>
+                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
+                     <field name="sequence" string = "sequence"/>
+                </tree>
+            </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="sred_system.action_set_project_types_window">
+          <field name="name">Set claim types</field>
+          <field name="res_model">sred_system.sred_type</field>
+          <field name="view_mode">tree,form</field>
+       </record>
+
+
+      <!-- SET Work Functional Areas -->
+      <record model="ir.ui.view"  id="sred_system.action_set_work_functions_form">
+            <field name="name">Set work functional areas</field>
+            <field name="model">sred_system.work_functions</field>
+            <field name="arch" type="xml">
+                <tree default_order="sequence" editable="True">
+                     <field name="name" string="Journal Types"/>
+                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
+                     <field name="sequence" string = "sequence"/>
+                </tree>
+            </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="sred_system.action_set_work_functions_window">
+          <field name="name">Set work functional areas</field>
           <field name="res_model">sred_system.work_functions</field>
           <field name="view_mode">tree,form</field>
+       </record>
+
+
+       <!-- SET WORK Journal / Notes Types -->
+       <record model="ir.ui.view"  id="sred_system.action_set_journal_types_form">
+            <field name="name">Set work journal types</field>
+            <field name="model">sred_system.work_journal_types</field>
+            <field name="arch" type="xml">
+                <tree default_order="sequence" editable="True">
+                     <field name="name" string="Journal Types"/>
+                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
+                     <field name="sequence" string = "sequence"/>
+                </tree>
+            </field>
        </record>
 
 
@@ -24,20 +71,38 @@
        </record>
 
 
+       <!-- SET CRA STATES -->
+       <record model="ir.ui.view"  id="sred_system.action_set_cra_states_form">
+            <field name="name">Set CRA Processing States</field>
+            <field name="model">sred_system.sred_cra_status</field>
+            <field name="arch" type="xml">
+                <tree default_order="sequence" editable="True">
+                     <field name="revenue" string="revenue stage" />
+                     <field name="name" string="CRA States"/>
+                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
+                     <field name="sequence" string = "sequence"/>
+                </tree>
+            </field>
+        </record>
+
+
        <record model="ir.actions.act_window" id="sred_system.action_set_cra_states_window">
-          <field name="name">Set Journal Types</field>
+          <field name="name">Set CRA Processing States</field>
           <field name="res_model">sred_system.sred_cra_status</field>
           <field name="view_mode">tree,form</field>
        </record>
 
 
+
+       <!-- TAX YEARS -->
        <record model="ir.ui.view"  id="sred_system.my_tax_year_form">
             <field name="name">Tax Years</field>
             <field name="model">sred_system.tax_years</field>
             <field name="arch" type="xml">
-                <tree editable="True">
+                <tree default_order="sequence" editable="True">
                   <field name="name" string="tax year label"/>
-                     <field name="is_default" string ="set as default"/>
+                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
+                     <field name="sequence" string = "sequence"/>
                  </tree>
             </field>
         </record>
@@ -58,7 +123,7 @@
             <field name="name">Documentation ++ Directories</field>
             <field name="model">sred_system.documentation_labels</field>
             <field name="arch" type="xml">
-                <tree editable="True">
+                <tree default_order="sequence" editable="True">
                   <field name="name" string="documentation directories"/>
                      <field name="is_default" string ="set as default checkbox"/>
                  </tree>
@@ -80,7 +145,7 @@
             <field name="name">Documentation Tags</field>
             <field name="model">sred_system.documentation_tags</field>
             <field name="arch" type="xml">
-                <tree editable="True">
+                <tree default_order="sequence" editable="True">
                   <field name="name" string="type of documentation"/>
                      <field name="is_default" string ="set as default checkbox"/>
                  </tree>
@@ -102,15 +167,16 @@
             <field name="name">SRED CLaim States</field>
             <field name="model">sred_system.sred_states</field>
             <field name="arch" type="xml">
-                <tree editable="True">
+                <tree default_order="sequence" editable="True">
                   <field name="name" string="Claim States"/>
-                     <field name="is_default" string ="set as default checkbox"/>
+                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
+                     <field name="sequence" string = "sequence"/>
                  </tree>
             </field>
         </record>
 
        <record model="ir.actions.act_window" id="sred_system.action_set_claim_states_window">
-          <field name="name">Set Documentation Tags</field>
+          <field name="name">SRED Claim States</field>
           <field name="res_model">sred_system.sred_states</field>
           <field name="view_mode">tree</field>
        </record>
@@ -125,15 +191,16 @@
             <field name="name">CRA Claim States</field>
             <field name="model">sred_system.sred_cra_status</field>
             <field name="arch" type="xml">
-                <tree editable="True">
+                <tree default_order="sequence" editable="True">
                      <field name="name" string="Claim States!"/>
-                     <field name="is_default" string ="set as default"/>
+                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
+                     <field name="sequence" string = "sequence"/>
                  </tree>
             </field>
         </record>
 
        <record model="ir.actions.act_window" id="sred_system.action_set_cra_states_window">
-          <field name="name">Set CRA States!</field>
+          <field name="name">Set CRA States</field>
           <field name="res_model">sred_system.sred_cra_status</field>
           <field name="view_mode">tree</field>
        </record>
@@ -148,9 +215,11 @@
             <field name="name">Processing States</field>
             <field name="model">sred_system.sred_processing_status</field>
             <field name="arch" type="xml">
-                <tree editable="True">
-                  <field name="name" string="Claim States"/>
-                     <field name="is_default" string ="set as default"/>
+               <tree default_order="sequence" editable="True">
+                     <field name="revenue" string = "revenue stage"/>
+                     <field name="name" string="Claim States"/>
+                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
+                     <field name="sequence" string = "sequence"/>
                  </tree>
             </field>
         </record>
@@ -167,14 +236,14 @@
       # SET WORK SCOPE AREAS
       #####################
       -->
-      <!--record model="ir.ui.view"  id="sred_system.my_documentation_work_scope_form">
+      <record model="ir.ui.view"  id="sred_system.action_work_scope_form">
             <field name="name">Work Scope Areas</field>
             <field name="model">sred_system.work_resource_scope</field>
             <field name="arch" type="xml">
-                <tree editable="True">
-                  <field name="name" string="Claim States"/>
-                     <field name="is_internal" string="set as internal" />
-                     <field name="is_default" string ="set as default checkbox"/>
+                <tree default_order="sequence" editable="True">
+                     <field name="name" string="Work Scope"/>
+                     <field name="is_internal" string="set as internal" widget="checkbox" />
+                     <field name="is_default" string ="set as default checkbox" widget="checkbox"/>
                  </tree>
             </field>
         </record>
@@ -183,7 +252,7 @@
           <field name="name">Set work scope areas</field>
           <field name="res_model">sred_system.work_resource_scope</field>
           <field name="view_mode">tree</field>
-       </record-->
+       </record>
 
 
             <!--
@@ -195,8 +264,8 @@
             <field name="name">Work Roles</field>
             <field name="model">sred_system.work_types</field>
             <field name="arch" type="xml">
-                <tree editable="True">
-                  <field name="name" string="Claim States"/>
+                <tree default_order="sequence" editable="True">
+                     <field name="name" string="Claim States"/>
                      <field name="is_default" string ="set as default checkbox"/>
                  </tree>
             </field>

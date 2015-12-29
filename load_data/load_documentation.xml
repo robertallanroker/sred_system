@@ -2,9 +2,6 @@
 
     <data>
 
-
-
-
          <record id="dll1" model="sred_system.documentation_labels">
              <field name="name">Technical</field>
              <field name="is_default">True</field>

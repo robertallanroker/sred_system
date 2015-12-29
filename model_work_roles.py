@@ -14,28 +14,33 @@ import time
 #
 
 class my_work_functions(models.Model):
-    _inherit = 'sred_system.base_sred_object'
     _name = 'sred_system.work_functions'
+    name = fields.Char()
     work_function_id = fields.Many2many('sred_system.work_resource_roles', 'work_functions', 'work_function_id', string='work_functions')
     description = fields.Html()
-
+    is_default = fields.Boolean()
+    sequence = fields.Integer()
 
 
 
 # A Picklist of roles working types from db
 class my_work_types(models.Model):
-    _inherit = 'sred_system.base_sred_object'
     _name = 'sred_system.work_types'
+    name = fields.Char()
     work_type_id = fields.Many2many('sred_system.work_resource_roles', 'work_types', 'work_type_id', string='work_types')
     description = fields.Html()
-
+    is_default = fields.Boolean()
+    sequence = fields.Integer()
 
 
 # A Picklist of role scopes from db
 class my_scope(models.Model):
-    _inherit = 'sred_system.base_sred_object'
     _name = 'sred_system.work_resource_scope'
+    name = fields.Char()
     scope_id = fields.One2many('sred_system.work_resource_roles', 'work_resource_scope', string='scope')
+    is_default = fields.Boolean()
+    is_internal = fields.Boolean()
+    sequence = fields.Integer()
 
 
 

@@ -4,18 +4,15 @@
         <record model="ir.ui.view"  id="sred_system.my_sred_form">
             <field name="name">SRED Work</field>
             <field name="model">sred_system.sred_project</field>
-            <field name="target">new</field>
+            <field name="target">current</field>
             <field name="arch" type="xml">
                 <form string="SRED Work">
 
                 <Header>
                     <field name="sred_state" string="Claim Status" widget="statusbar" clickable="True"/>
-
                 </Header>
 
                 <sheet string="SRED Work">
-
-
                     <div>
                         <group string="Status">
                             <field name="sred_processing_status" class="oe_small_tags" string="Processing" widget="statusbar" clickable="True"/>
@@ -41,11 +38,11 @@
                                                 <field name="financial_year_end_dd" placeholder="day" string="dd"/>
                                            </div>
                                        </group>
-
                                    </div>
 
                              </group>
                              <group string="Organization">
+                                   <field name="customer" string="Customer" widget="many2one"/>
                                    <field name="an_assigned_folder" string="Folder"/>
                                    <field name="a_claim_project" string="Linked Project" />
                                    <field name="bin_number" string="Business Nummber"/>
@@ -146,7 +143,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="work_types" string="Work Type" />
+                    <field name="work_types" string="Work Types" />
                     <field name="name" string="Claim" />
                     <field name="tax_years" string="Tax" widget="many2many"/>
                     <field name="Estimated_Fee" widget="monetary" string="Fee"/>

@@ -1,68 +1,81 @@
-<data noupdate="1">
+<data>
 
       <record id="wt1" model="sred_system.work_types">
             <field name="name">Technical</field>
             <field name="is_default">False</field>
+            <field name="sequence">10</field>
         </record>
 
         <record id="wt2" model="sred_system.work_types">
             <field name="name">Financial</field>
             <field name="is_default">False</field>
+            <field name="sequence">20</field>
         </record>
 
         <record id="wt3" model="sred_system.work_types">
             <field name="name">Sales</field>
             <field name="is_default">False</field>
+            <field name="sequence">30</field>
         </record>
 
         <record id="wt4" model="sred_system.work_types">
             <field name="name">Legal</field>
             <field name="is_default">False</field>
+            <field name="sequence">40</field>
         </record>
 
         <record id="wf1" model="sred_system.work_functions">
             <field name="name">Project Leader</field>
             <field name="is_default">False</field>
+            <field name="sequence">50</field>
         </record>
 
         <record id="wf2a" model="sred_system.work_functions">
             <field name="name">Financial Reports</field>
             <field name="is_default">False</field>
+            <field name="sequence">60</field>
         </record>
 
         <record id="wf2b" model="sred_system.work_functions">
             <field name="name">Technical Reports</field>
             <field name="is_default">False</field>
+            <field name="sequence">70</field>
         </record>
 
         <record id="wf3" model="sred_system.work_functions">
             <field name="name">Intellectual Property</field>
             <field name="is_default">False</field>
+            <field name="sequence">80</field>
         </record>
 
         <record id="wf4" model="sred_system.work_functions">
             <field name="name">Accounting</field>
             <field name="is_default">False</field>
+            <field name="sequence">90</field>
         </record>
 
         <record id="wf5" model="sred_system.work_functions">
             <field name="name">Book Keeping</field>
             <field name="is_default">False</field>
+            <field name="sequence">10</field>
         </record>
 
         <record id="wf6" model="sred_system.work_functions">
             <field name="name">Decision Maker</field>
             <field name="is_default">False</field>
+            <field name="sequence">100</field>
         </record>
 
         <record id="wf7" model="sred_system.work_functions">
             <field name="name">Signatory</field>
             <field name="is_default">False</field>
+            <field name="sequence">110</field>
         </record>
 
         <record id="wf8" model="sred_system.work_functions">
             <field name="name">Files Claim</field>
             <field name="is_default">False</field>
+            <field name="sequence">120</field>
         </record>
 
 </data>

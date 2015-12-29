@@ -31,11 +31,17 @@
               sequence="30" />
 
         <!-- Work GROUP -->
-        <menuitem id="sred_system.projects_by_folder"
-              name="Folders"
+        <menuitem id="sred_system.projects_by_folder_all"
+              name="All Folders"
               parent="sred_system.work_menu"
-              action="sred_system.sred_folder_action_window"
+              action="sred_system.sred_folder_action_window_all"
               sequence="40"/>
+
+        <menuitem id="sred_system.projects_by_folder_active"
+              name="Active Folders"
+              parent="sred_system.work_menu"
+              action="sred_system.sred_folder_action_window_active"
+              sequence="45"/>
 
         <menuitem id="sred_system.projects_by_search"
                 name = "List"
@@ -80,11 +86,11 @@
 
         <!-- COnfiguration Group -->
 
-        <!--menuitem id="sred_system.config_project_types"
+        <menuitem id="sred_system.config_project_types"
                 name = "Set project types"
                 parent = "sred_system.config_menu"
                 action = "sred_system.action_set_project_types_window"
-                sequence = "1005" /-->
+                sequence = "1005" />
 
          <menuitem id="sred_system.config_claim_states"
                 name = "Set Claim States"
@@ -104,11 +110,11 @@
                 action = "sred_system.action_set_cra_states_window"
                 sequence = "1030" />
 
-        <!--menuitem id="sred_system.config_work_scope_areas"
+        <menuitem id="sred_system.config_work_scope_areas"
                 name = "Set work scope areas"
                 parent = "sred_system.config_menu"
                 action = "sred_system.action_set_work_scope_window"
-                sequence = "1040" /-->
+                sequence = "1040" />
 
         <!--menuitem id="sred_system.config_work_functions"
                 name = "Set work roles"

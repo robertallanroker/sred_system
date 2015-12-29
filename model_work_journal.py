@@ -7,7 +7,7 @@ class my_journal_types(models.Model):
     name = fields.Char()
     sequence = fields.Integer()
     journal_type_id = fields.One2many('sred_system.work_journal', 'journal_types', ondelete='cascade')
-
+    is_default = fields.Boolean()
 
 class my_work_journal(models.Model):
     _name = 'sred_system.work_journal'
