@@ -46,12 +46,6 @@ class my_work_progress(models.Model):
     def log_stop(self, sred_project, status_label):
         return
 
-#class my_sred_project_type(models.Model):
-#    _inherit = 'sred_system.base_sred_object'
-#    _name = 'sred_system.project_types'
-#    project_type_id = fields.One2many('sred_system.sred_project', 'project_type', string='project work types', ondelete = 'cascade')
-
-
 class my_sred_type(models.Model):
     _name   = 'sred_system.sred_type'
     name    = fields.Char()
@@ -59,8 +53,10 @@ class my_sred_type(models.Model):
     sequence   = fields.Integer()
     sred_type_id = fields.One2many('sred_system.sred_project','work_types',string="Type of work", ondelete='cascade')
 
-
-
+#
+# MY_SRED_FINANCIAL_YEAR
+# Structure used by other classes to contain a new financial year end field used in accounting and SRED claims processing
+#
 class my_sred_financial_year(models.Model):
     _name = 'sred_system.sred_financial_year'
     many_months = [('aJan','Jan'),('aFeb','Feb'), ('aMar','Mar'), ('aApr','Apr'),
@@ -70,8 +66,9 @@ class my_sred_financial_year(models.Model):
     financial_year_end_mm = fields.Selection(many_months)
     financial_year_end_dd = fields.Integer()
 
-
-
+#
+# MY_SRED_PROJECTS
+#
 class my_sred_projects(models.Model):
     _name        = 'sred_system.sred_project'
     _inherit     = ["mail.thread", "ir.needaction_mixin", "sred_system.sred_financial_year"]
