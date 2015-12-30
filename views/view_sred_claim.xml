@@ -1,6 +1,6 @@
 <openerp>
     <data>
-        <!-- SRED CLAIM -->
+
         <record model="ir.ui.view"  id="sred_system.my_sred_form">
             <field name="name">SRED Work</field>
             <field name="model">sred_system.sred_project</field>
@@ -8,153 +8,107 @@
             <field name="arch" type="xml">
                 <form string="SRED Work">
 
-                <Header>
-                    <field name="sred_state" string="Claim Status" widget="statusbar" clickable="True"/>
-                </Header>
+                    <Header>
+                        <button name="project" string="Project/Tasks" type="object" class="oe_inline oe_stat_button" icon="fa-book">
+                        </button>
+                        <field name="sred_state" string="Claim Status" widget="statusbar" clickable="True"/>
+                    </Header>
+                    <sheet string="SRED Work">
 
-                <sheet string="SRED Work">
-                    <div>
-                        <group string="Status">
-                            <field name="sred_processing_status" class="oe_small_tags" string="Processing" widget="statusbar" clickable="True"/>
-                            <field name="sred_cra_status" string="The CRA" widget="statusbar" clickable="True"/>
-                        </group>
-                    </div>
-                    <div>
                         <group>
-                             <group>
-                                   <div>
-                                        <div>
-                                            <group string="Claim file">
-                                               <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
-                                               <field name="work_types" string="work type" class="oe_small_tags" />
-                                               <field name="tax_years" widget="many2many_tags"/>
-                                            </group>
-                                        </div>
-                                       <group string="Year End">
-                                            <div>
-                                                <field name="financial_year_end_mm" string="mmm"/>
-                                            </div>
-                                            <div>
-                                                <field name="financial_year_end_dd" placeholder="day" string="dd"/>
-                                           </div>
-                                       </group>
-                                   </div>
-
-                             </group>
-                             <group string="Organization">
-                                   <field name="customer" string="Customer" widget="many2one"/>
-                                   <field name="an_assigned_folder" string="Folder"/>
-                                   <field name="a_claim_project" string="Linked Project" />
-                                   <field name="bin_number" string="Business Nummber"/>
-                                   <!--field name="current_financial_lead"/>
-                                   <field name="current_technical_lead"/ -->
-                             </group>
-                        </group>
-                    </div>
-
-                    <div>
-                    <notebook>
-                        <page string="Work Tracking">
-                            <group>
-                                <field name="sred_working_status" string="Work Status" widget="statusbar" clickable="True"/>
-                                <field name="Work_Commenced" string="Started On"/>
-                                <field name="Work_Submitted" string="Filed On"/>
-                                <field name="CRA_Deadline"   string="CRA Deadline"/>
-                                <field name="RC59_Submitted" string="RC59 On"/>
+                            <group string="Claim">
+                                <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
+                                <field name="work_types" string="work type" />
                             </group>
-                        </page>
-
-                        <page string="Work Journal">
-                            <field name="a_work_journal" string="Work Journal">
-                                <tree>
-                                    <field name="journal_date" string="date"/>
-                                    <field name="journal_types" string="type"/>
-                                    <field name="journal_person" string="person" />
-                                    <field name="journal_description" string="notes" widget="html" />
-                                </tree>
-                            </field>
-                        </page>
-
-                        <page string="Estimations">
+                            <group string="Assigned">
+                                <field name="customer" string="Customer" widget="many2one"/>
+                                <field name="an_assigned_folder" string="Folder"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string = "Progress">
+                                <group>
+                                    <field name="sred_processing_status" class="oe_small_tags" string="Processing" widget="statusbar" clickable="True"/>
+                                    <field name="sred_cra_status" string="The CRA" widget="statusbar" clickable="True"/>
+                                </group>
+                            </page>
+                            <page string = "Financial">
+                                <group string="Submission">
+                                    <!-- to-do, this should be a calculated field -->
+                                    <field name="CRA_Deadline" string="CRA Deadline"/>
+                                    <field name="tax_years" widget="many2many_tags"/>
+                                </group>
+                                <group string = "Corporate">
+                                    <field name="bin_number" string="Business Nummber"/>
+                                    <field name="financial_year_end_mm" string="mmm"/>
+                                    <field name="financial_year_end_dd" placeholder="day" string="dd"/>
+                                </group>
+                            </page>
+                            <page string="Estimations">
                                   <group>
                                        <field name="Estimated_Fee" string="Current Fee" widget="monetary" readonly="0"/>
                                        <field name="Estimated_Refund" string="Current Refund" widget="monetary" readonly="0"/>
+                                       <field name="estimations" string="Estimations">
+                                           <tree editable="true">
+                                               <field name="e_date" string="date"/>
+                                               <field name="person" string="person"/>
+                                               <field name="refund" widget="monetary"/>
+                                               <field name="fee" widget="monetary"/>
+                                           </tree>
+                                       </field>
                                   </group>
-                                  <field name="estimations" string="Estimations">
-                                    <tree editable="true">
-                                        <field name="e_date" string="date"/>
-                                        <field name="person" string="person"/>
-                                        <field name="refund" widget="monetary"/>
-                                        <field name="fee" widget="monetary"/>
-                                    </tree>
-                                   </field>
-                         </page>
-
-                        <page string="Roles">
-                        <notebook>
-                            <page string = "New">
-
-
+                            </page>
+                            <page string = "Roles">
                                 <field name="a_work_roles" string="Project Roles" widget="one2many" >
-                                   <tree editable="true">
+                                    <tree editable="true">
                                         <field name="work_resource_scope" string="Scope"/>
                                         <field name="work_person" string="Assigned"/>
                                         <field name="work_types" placeholder="Roles" widget="many2many_tags" />
                                         <field name="work_functions" placeholder="Functions" widget="many2many_tags"/>
-                                   </tree>
+                                    </tree>
                                 </field>
-
                             </page>
-
+                            <page string="Work Journal">
+                                <field name="a_work_journal" string="Work Journal">
+                                    <tree>
+                                        <field name="journal_date" string="date"/>
+                                        <field name="journal_types" string="type"/>
+                                        <field name="journal_person" string="person" />
+                                        <field name="journal_description" string="notes" widget="html" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Notes">
+                                <field name="Notes" type="html"/>
+                            </page>
                         </notebook>
-                        </page>
-
-                        <page string="Notes">
-                            <field name="Notes" type="html"/>
-
-                        </page>
-                        <page string="Documents">
-
-                        </page>
-                    </notebook>
-                    </div>
-
-                </sheet>
-
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" help="?"/>
                     <field name="message_ids" widget="mail_thread"/>
-                </div>
-
-                <header>
-
-                </header>
-
-
-
-            </form>
-          </field>
-
-      </record>
-
-      <record model="ir.ui.view" id="sred_system.tree_of_sred_claims">
-           <field name="name">List Claim Folders</field>
-            <field name="model">sred_system.sred_project</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="work_types" string="Work Types" />
-                    <field name="name" string="Claim" />
-                    <field name="tax_years" string="Tax" widget="many2many"/>
-                    <field name="Estimated_Fee" widget="monetary" string="Fee"/>
-                    <field name="Estimated_Refund" widget="monetary" string="Refund"/>
-                    <field name="sred_state" string="Status"/>
-                    <field name="sred_working_status" string="Work"/>
-                    <field name="sred_processing_status" string="Processing"/>
-                    <field name="sred_cra_status" string="CRA"/>
-                </tree>
+                   </div>
+                </form>
             </field>
-      </record>
+        </record>
+
+        <record model="ir.ui.view" id="sred_system.tree_of_sred_claims">
+        <field name="name">List Claim Folders</field>
+        <field name="model">sred_system.sred_project</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="work_types" string="Work Types" />
+                <field name="name" string="Claim" />
+                <field name="tax_years" string="Tax" widget="many2many"/>
+                <field name="Estimated_Fee" widget="monetary" string="Fee"/>
+                <field name="Estimated_Refund" widget="monetary" string="Refund"/>
+                <field name="sred_state" string="Status"/>
+                <field name="sred_working_status" string="Work"/>
+                <field name="sred_processing_status" string="Processing"/>
+                <field name="sred_cra_status" string="CRA"/>
+            </tree>
+        </field>
+        </record>
 
     </data>
   </openerp>

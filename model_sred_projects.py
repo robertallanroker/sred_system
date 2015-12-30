@@ -60,19 +60,24 @@ class my_sred_type(models.Model):
     sred_type_id = fields.One2many('sred_system.sred_project','work_types',string="Type of work", ondelete='cascade')
 
 
-class my_sred_projects(models.Model):
-    _name        = 'sred_system.sred_project'
-    _inherit     = ["mail.thread", "ir.needaction_mixin"]
-    name         = fields.Char()
 
+class my_sred_financial_year(models.Model):
+    _name = 'sred_system.sred_financial_year'
     many_months = [('aJan','Jan'),('aFeb','Feb'), ('aMar','Mar'), ('aApr','Apr'),
               ('aMay','May'), ('aJune','June'),('aJuly','July'),
               ('aAug','Aug'),('aSep','Sep'),('aOct','Oct'),
               ('aNov','Nov'),('aDec','Dec')]
-
-    bin_number = fields.Char()
     financial_year_end_mm = fields.Selection(many_months)
     financial_year_end_dd = fields.Integer()
+
+
+
+class my_sred_projects(models.Model):
+    _name        = 'sred_system.sred_project'
+    _inherit     = ["mail.thread", "ir.needaction_mixin", "sred_system.sred_financial_year"]
+    name         = fields.Char()
+
+    bin_number = fields.Char()
 
     work_types  = fields.Many2one('sred_system.sred_type', string='work type', ondelete='set null')
 
@@ -116,16 +121,11 @@ class my_sred_projects(models.Model):
 
     estimations = fields.One2many('sred_system.work_estimations', 'estimate_id', string='Estimates')
 
- #   Estimated_Due = fields.Date()
- #   Elapsed_Days  = fields.Char()
-
     tax_years = fields.Many2many('sred_system.tax_years','taxyear_id','tax_years')
 
 
     @api.model
     def create(self, values):
-        self.say('CREATING OBJECT')
-        self.say(self.env.context)
         new_id = super(my_sred_projects, self).create(values)
         return new_id
 
@@ -283,6 +283,7 @@ class my_sred_projects(models.Model):
     @api.onchange('sred_state')
     def on_status_changed(self):
        self.message_post('testing')
+
 
 
     _defaults = {'tax_years': _get_tax_year_defaults,
