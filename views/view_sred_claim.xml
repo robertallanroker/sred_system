@@ -9,45 +9,51 @@
                 <form string="SRED Work">
 
                     <Header>
-                        <button name="project" string="Project/Tasks" type="object" class="oe_inline oe_stat_button" icon="fa-book">
-                        </button>
-                        <field name="sred_state" string="Claim Status" widget="statusbar" clickable="True"/>
+                        <field name="claim_status" string="Claim Status" widget="statusbar" clickable="True" />
                     </Header>
                     <sheet string="SRED Work">
 
+                        <field name="saved_company_logo" widget="image" class="oe_avatar"/>
+                        <group class= "oe_title">
+                            <field name="email_feed" string = "Email system" />
+                            <field name="fee" string="Current Fee" widget="monetary" />
+                            <field name="refund" string="Current Refund" widget="monetary" />
+                            <field name="estimated_fee" attrs="{'invisible':True}"/>
+                            <field name="estimated_refund" attrs="{'invisible':True}"/>
+                        </group>
                         <group>
                             <group string="Claim">
                                 <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
-                                <field name="work_types" string="work type" />
+                                <field name="claim_type" string="claim type" />
                             </group>
                             <group string="Assigned">
-                                <field name="customer" string="Customer" widget="many2one"/>
-                                <field name="an_assigned_folder" string="Folder"/>
+                                <field name="user_id"/>
+                                <field name="partner_id" string="Customer" widget="many2one"/>
+                                <field name="folder_group" string="Folder group" />
+                                <field name="folder" string="Folder"/>
                             </group>
                         </group>
                         <notebook>
-                            <page string = "Progress">
+                            <page string = "Processing">
                                 <group>
-                                    <field name="sred_processing_status" class="oe_small_tags" string="Processing" widget="statusbar" clickable="True"/>
-                                    <field name="sred_cra_status" string="The CRA" widget="statusbar" clickable="True"/>
+                                    <field name="glip_processing_status" string="Greenlight" widget="statusbar" clickable="True"/>
+                                    <field name="cra_processing_status"  string="CRA" widget="statusbar" clickable="True"/>
+                                    <field name="work_processing_status" string="Work" widget="statusbar" clickable="True"/>
                                 </group>
                             </page>
                             <page string = "Financial">
                                 <group string="Submission">
                                     <!-- to-do, this should be a calculated field -->
-                                    <field name="CRA_Deadline" string="CRA Deadline"/>
+                                    <field name="work_started_on" />
+                                    <field name="work_cra_deadline" string="CRA Deadline"/>
                                     <field name="tax_years" widget="many2many_tags"/>
                                 </group>
                                 <group string = "Corporate">
                                     <field name="bin_number" string="Business Nummber"/>
-                                    <field name="financial_year_end_mm" string="mmm"/>
-                                    <field name="financial_year_end_dd" placeholder="day" string="dd"/>
+                                    <field name="financial_year_end" string="Year End"/>
                                 </group>
                             </page>
                             <page string="Estimations">
-                                  <group>
-                                       <field name="Estimated_Fee" string="Current Fee" widget="monetary" readonly="0"/>
-                                       <field name="Estimated_Refund" string="Current Refund" widget="monetary" readonly="0"/>
                                        <field name="estimations" string="Estimations">
                                            <tree editable="true">
                                                <field name="e_date" string="date"/>
@@ -56,37 +62,62 @@
                                                <field name="fee" widget="monetary"/>
                                            </tree>
                                        </field>
-                                  </group>
                             </page>
                             <page string = "Roles">
-                                <field name="a_work_roles" string="Project Roles" widget="one2many" >
+                                <field name="work_roles" string="Project Roles" widget="one2many" >
                                     <tree editable="true">
-                                        <field name="work_resource_scope" string="Scope"/>
+                                        <field name="work_scope" string="Scope"/>
                                         <field name="work_person" string="Assigned"/>
                                         <field name="work_types" placeholder="Roles" widget="many2many_tags" />
                                         <field name="work_functions" placeholder="Functions" widget="many2many_tags"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Work Journal">
-                                <field name="a_work_journal" string="Work Journal">
-                                    <tree>
-                                        <field name="journal_date" string="date"/>
-                                        <field name="journal_types" string="type"/>
-                                        <field name="journal_person" string="person" />
-                                        <field name="journal_description" string="notes" widget="html" />
+                            <page string="Task List">
+                                <field name="task_ids" string="Task Items" widget="one2many" >
+                                    <tree editable="true" decoration-danger="date_deadline and (date_deadline&lt;current_date)">
+                                        <!--field name="sequence"/-->
+                                        <field name="sequence" string="#" />
+                                        <field name="completed" string="completed?" widget="checkbox" help="Check off when completed work"/>
+                                        <field name="assigned_to" string="assigned"/>
+                                        <field name="name" string="task item"/>
+                                        <field name="date_deadline" string="deadline"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Notes">
-                                <field name="Notes" type="html"/>
+                            <page string="Emails">
+                                <group>
+                                    <field name="alias_id" string="Manual setup of email:"/>
+                                    <field name="message_ids">
+                                        <tree editable="true">
+
+                                        </tree>
+                                   </field>
+                                </group>
+                            </page>
+                            <page string="Documents">
+                                <field name="attachment_ids" string="attached documents" widget="one2many" >
+                                    <tree editable="true" >
+                                        <!--field name="sequence"/-->
+                                        <field name="name" string="document" />
+                                        <!--field name="mimetype" string="file type"/-->
+                                        <field name="create_uid" string="user"/>
+                                        <field name="datas"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Note Pad">
+                                <field name="notes" type="html"/>
                             </page>
                         </notebook>
                     </sheet>
-                    <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" help="?"/>
-                    <field name="message_ids" widget="mail_thread"/>
+                   <div class="oe_chatter">
+
+                       <field name="message_follower_ids" widget="mail_followers"/>
+                       <field name="message_ids" widget="mail_thread" />
+
                    </div>
+
                 </form>
             </field>
         </record>
@@ -97,18 +128,88 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="work_types" string="Work Types" />
+                <field name="claim_type" string="claim type" />
                 <field name="name" string="Claim" />
                 <field name="tax_years" string="Tax" widget="many2many"/>
-                <field name="Estimated_Fee" widget="monetary" string="Fee"/>
-                <field name="Estimated_Refund" widget="monetary" string="Refund"/>
-                <field name="sred_state" string="Status"/>
-                <field name="sred_working_status" string="Work"/>
-                <field name="sred_processing_status" string="Processing"/>
-                <field name="sred_cra_status" string="CRA"/>
+                <field name="estimated_fee" widget="monetary" string="Fee"/>
+                <field name="estimated_refund" widget="monetary" string="Refund"/>
+                <field name="claim_status" string="Claim"/>
+                <field name="work_processing_status" string="Work"/>
+                <field name="glip_processing_status" string="Processing"/>
+                <field name="cra_processing_status" string="CRA"/>
             </tree>
         </field>
         </record>
+
+
+
+        <record id="sred_system.sred_project_search" model="ir.ui.view">
+            <field name="name">Search Folders</field>
+            <field name="model">sred_system.sred_project</field>
+            <field name="arch" type="xml">
+                <search string="sred claims">
+
+                    <field name="user_id"/>
+                    <filter string="Assigned to me" name="assigned-to-me" domain="[('user','=',uid)]"/>
+
+                    <group expand="1" string="Group By">
+                        <filter string="assigned person" name="assigned-to-me-group" context="{'group_by':'user_id'}"/>
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+
+
+        <record model="ir.actions.act_window" id="sred_system.action_sred_projects">
+            <field name="name">SRED Claim</field>
+            <field name="target">current</field>
+            <field name="res_model">sred_system.sred_project</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record id="sred_system.project_folder_search" model="ir.ui.view">
+            <field name="name">Search Folders</field>
+            <field name="model">sred_system.sred_project</field>
+            <field name="arch" type="xml">
+                <search string="sred claims">
+
+                    <field name="user_id"/>
+                    <field name="folder"/>
+                    <field name="folder_group"/>
+                    <field name="claim_status"/>
+                    <filter string="Assigned to me" name="assigned-to-me" domain="[('user_id','=',uid)]"/>
+                    <separator/>
+                    <filter string="Active claims" name="active-claim" domain="['|', ('claim_status','=','New'),
+                                                                                ('claim_status','=','Open')]" />
+                    <filter string="New claim" name="new-claim" domain="[('claim_status','=','New')]" />
+                    <filter string="Open claim" name="open-claim" domain="[('claim_status','=','Open')]" />
+                    <filter string="Closed claim" name="closed-claim" domain="[('claim_status','=','Closed')]" />
+                    <group expand="1" string="Group By">
+                        <filter string="folder groups" name="my-folders-group" context="{'group_by':'folder_group'}" />
+                        <filter string="folders" name="my-folders" context="{'group_by':'folder'}" />
+                        <filter string="assigned person" name="assigned-to-me-group" context="{'group_by':'user_id'}"/>
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sred_system.action_project_folder">
+            <field name="name">folders search</field>
+            <field name="target">current</field>
+            <field name="res_model">sred_system.sred_project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="sred_system.project_folder_search"/>
+            <field name="context">{'search_default_my-folders-group':1,
+                                    'search_default_my-folders':1,
+                                    'search_default_assigned-to-me':1}'
+                                    'search_default_active-claim':1)</field>
+        </record>
+
+
 
     </data>
   </openerp>

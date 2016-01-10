@@ -2,170 +2,387 @@ from openerp import models, fields, api, osv
 from datetime import datetime, date
 import time
 
+
+
+class my_claim_types(models.Model):
+    _name = 'sred_system.claim_types'
+    _inherit = 'sred_system.base_sred_picklist'
+    sred_id  = fields.One2many('sred_system.sred_project', 'claim_type', ondelete='cascade')
+
+
+
+
 class my_estimations(models.Model):
-    _name = 'sred_system.work_estimations'
+    _name       = 'sred_system.work_estimations'
     estimate_id = fields.Many2one('sred_system.sred_project', string='Estimation', ondelete='cascade')
-    e_date   = fields.Datetime()
-    person = fields.Many2one('res.users', string="person", ondelete='set null')
-    refund = fields.Float(digits=(10,2))
-    fee    = fields.Float(digits=(10,2))
+    e_date      = fields.Datetime()
+    person      = fields.Many2one('res.users', string="person", ondelete='set null')
+    refund      = fields.Float(digits=(10,2))
+    fee         = fields.Float(digits=(10,2))
 
     _defaults={
       'e_date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
       'person': lambda s, cr, uid, c: uid
     }
 
-class my_sred_tax_years(models.Model):
-    _inherit   = 'sred_system.base_sred_object'
-    _name = 'sred_system.tax_years'
+
+
+
+
+class my_work_base_object(models.Model):
+    _name = 'sred_system.base_roles_object'
+    _inherit = 'sred_system.base_sred_picklist'
+    is_internal = fields.Boolean()
+
+    _defaults = {'is_internal':False}
+
+
+
+class my_work_functions(models.Model):
+    _name = 'sred_system.work_functions'
     name = fields.Char()
-    taxyear_id = fields.Many2many('sred_system.tax_years','tax_years','taxyear_id')
-
-# To-do, log date changes, keep running status changes
-class status_dates(models.Model):
-    _inherit   = 'sred_system.base_sred_object'
-    _name = 'sred_system.sred_project'
+    _inherit = 'sred_system.base_roles_object'
+    work_function_id = fields.Many2many('sred_system.work_roles', 'work_functions', 'work_function_id', string='work_functions', ondelete='cascade')
+    description = fields.Html()
 
 
-class my_work_progress(models.Model):
-    _name = 'sred_system.work_progress'
+# A Picklist of roles working types from db
+class my_work_types(models.Model):
+    _name = 'sred_system.work_types'
+    _inherit = 'sred_system.base_roles_object'
+    name = fields.Char()
+    work_type_id = fields.Many2many('sred_system.work_roles', 'work_types', 'work_type_id', string='work_types')
+    description = fields.Html()
 
-    status_label = fields.Char()
-    started = fields.Datetime()
-    eta     = fields.Datetime()
-    stoped  = fields.Datetime()
 
+
+# A Picklist of role scopes from db
+class my_scope(models.Model):
+    _name = 'sred_system.work_scope'
+    _inherit = 'sred_system.base_roles_object'
+    name = fields.Char()
+    scope_id = fields.One2many('sred_system.work_roles', 'work_scope', string='scope')
+
+
+
+# Journals all the roles assigned to a claim project
+class my_work_resource_roles(models.Model):
+    _name = 'sred_system.work_roles'
+#    name = fields.Char()  # not used
+
+    work_types     = fields.Many2many('sred_system.work_types', 'work_type_id', 'work_types', string='work assignments')
+    work_functions  = fields.Many2many('sred_system.work_functions', 'work_function_id', 'work_functions', string='work functions', ondelete='set null')
+    work_person     = fields.Many2one('res.partner', string="Individual", ondelete='set null')
+    work_role_id    = fields.Many2one('sred_system.sred_project', string='people assigned', ondelete='cascade')
+    work_scope      = fields.Many2one('sred_system.work_scope', string='scope', ondelete='cascade')
+
+
+class my_sred_projects_tasks(models.Model):
+    _name       = 'sred_system.sred_project_tasks'
+    _inherit    = 'sred_system.base_sred_tasks'
+
+    task_id = fields.Many2one('sred_system.sred_project', string='project', ondelete='set null')
+
+    stage_type   = [('s1', 'Work'), ('s2','Greenlight'), ('s3', 'CRA'), ('s4', 'Claim-State')]
+    stagetype    = fields.Selection(stage_type)
+
+    stageme      = fields.Char(_compute='get_stage')
+
+    processing_status = fields.Many2one('sred_system.processing_status', 'processing-queue',
+                                        domain=[('stage', '=', 's2')],
+                                        ondelete='set null')
+    @api.one
     @api.model
-    def _get_dt(self):
-        return time.strftime('%Y-%m-%d %H:%M:%S')
+    def relink_stage(self):
+        self.stagetype = processing_status.stage
 
+    @api.one
     @api.model
-    def log_start(self, sred_project, status_label):
-        return
+    def get_stage(self):
+        self.stageme='s2'
+        return ret
 
-    def log_stop(self, sred_project, status_label):
-        return
-
-class my_sred_type(models.Model):
-    _name   = 'sred_system.sred_type'
-    name    = fields.Char()
-    is_default = fields.Boolean()
-    sequence   = fields.Integer()
-    sred_type_id = fields.One2many('sred_system.sred_project','work_types',string="Type of work", ondelete='cascade')
-
-#
-# MY_SRED_FINANCIAL_YEAR
-# Structure used by other classes to contain a new financial year end field used in accounting and SRED claims processing
-#
-class my_sred_financial_year(models.Model):
-    _name = 'sred_system.sred_financial_year'
-    many_months = [('aJan','Jan'),('aFeb','Feb'), ('aMar','Mar'), ('aApr','Apr'),
-              ('aMay','May'), ('aJune','June'),('aJuly','July'),
-              ('aAug','Aug'),('aSep','Sep'),('aOct','Oct'),
-              ('aNov','Nov'),('aDec','Dec')]
-    financial_year_end_mm = fields.Selection(many_months)
-    financial_year_end_dd = fields.Integer()
 
 #
 # MY_SRED_PROJECTS
 #
 class my_sred_projects(models.Model):
-    _name        = 'sred_system.sred_project'
-    _inherit     = ["mail.thread", "ir.needaction_mixin", "sred_system.sred_financial_year"]
-    name         = fields.Char()
+ #   _inherit        = ['project.project', 'mail.thread', 'ir.needaction_mixin']
+ #   _inherit = ['project.project', 'mail.thread', 'ir.needaction_mixin']
+    _inherit = ['sred_system.base_sred_object', 'mail.thread', 'ir.needaction_mixin']
 
-    bin_number = fields.Char()
-
-    work_types  = fields.Many2one('sred_system.sred_type', string='work type', ondelete='set null')
-
-    # ORGANIZATION INTO FOLDERS
-    an_assigned_folder = fields.Many2one('sred_system.work_folders', string="assigned folder", ondelete='cascade')
-
-    documentation = fields.Many2many('sred_system.documentation','sred_project', 'documentation', ondelete='cascade')
-
-    # VARIOUS CLAIM STATUS
-    #  New, Open, Closed, Etc...
-#    project_type            = fields.Many2one('sred_system.project_types', string='project types', ondelete='set null')
-    sred_state              = fields.Many2one('sred_system.sred_states', string="assigned_states", ondelete='set null')
-    sred_working_status     = fields.Many2one('sred_system.sred_working_status', string="work in progress", ondelete='set null')
-    sred_processing_status  = fields.Many2one('sred_system.sred_processing_status', string="Processing Status", ondelete='set null')
-    sred_cra_status         = fields.Many2one('sred_system.sred_cra_status', string="CRA Status", ondelete='set null')
-
-    # These should only be assigned onchange of relevant work roles
-    current_technical_lead       = fields.Many2one('res.partner', string="Technical Lead", ondelete='set null')
-    current_financial_lead       = fields.Many2one('res.partner', string="Financial Lead", ondelete='set null')
-
-    a_claim_project = fields.Many2one('project.project', string="Claim Work Project", ondelete='set null')
-    a_work_journal = fields.One2many('sred_system.work_journal','journal_sred_project', string ='Work Journal')
-
-    a_list_of_sred_projects = fields.Many2one('project.project', string='List of eligable SRED project', ondelete='cascade')
-    a_work_load = fields.Many2many('sred_system.work_load','a_work_load','work_load_id', string='calendar of work')
-
-    customer = fields.Many2one('res.partner', string="Customer", ondelete='set null')
-
-    # This will go away soon, these are either linked tasks, or events dates on status, or both.
-    Work_Commenced = fields.Date()
-    Work_Submitted = fields.Date()
-    RC59_Submitted = fields.Date()
-    CRA_Deadline = fields.Date()
-
-    Notes = fields.Html('Notes')
-    a_work_roles = fields.One2many('sred_system.work_resource_roles', 'work_role_id', string='assignment of work roles')
-
-    Estimated_Refund = fields.Float(digits=(10,2), help = "123")
-    Estimated_Fee    = fields.Float(digits=(10,2), help = "123")
+ #    I would rather link to a new record relationship for now
+ #   _inherits = {"mail.alias": "alias_id"}
+    _name           = 'sred_system.sred_project'
 
 
-    estimations = fields.One2many('sred_system.work_estimations', 'estimate_id', string='Estimates')
+    _period_number  = 5
 
-    tax_years = fields.Many2many('sred_system.tax_years','taxyear_id','tax_years')
+    saved_company_logo = fields.Binary()
 
+    ###########################################
+    # MISSING FIELDS FROM PROJECT INHERITANCE #
+    ###########################################
+    #_alias#_models           = lambda self, *args, **kwargs: self._get_alias_models(*args, **kwargs)
+    #_visibility_selection   = lambda self, *args, **kwargs: self._get_visibility_selection(*args, **kwargs)
+
+    active                  = fields.Boolean('Active',
+                                help ="If the active field is set to False, it will allow you to hide the project without removing it.")
+
+    sequence                = fields.Integer('Sequence',
+                                help = "Gives the sequence order when displaying a list of Projects.")
+
+ #   analytic_account_id     = fields.Many2one('account.analytic.account', 'Contract/Analytic',
+ #                               help    = "Link this project to an analytic account if you need financial management on projects. "
+ #                                         "It enables you to connect projects with budgets, planning, cost and revenue analysis, timesheets on projects, etc.",
+ #                               ondelete= "cascade",
+ #                               required= True, auto_join=True)
+
+ #   label_tasks             = fields.Char('Use Tasks as',
+ #                               help    = "Gives label to tasks on project's kanban view.")
+
+ #   resource_calendar_id    = fields.Many2one('resource.calendar', 'Working Time',
+ #                               help    = "Timetable working hours to adjust the gantt diagram report", states={'close':[('readonly',True)]} )
+
+ #   type_ids                = fields.Many2many('project.task.type', 'project_task_type_rel', 'project_id', 'type_id', 'Tasks Stages', states={'close':[('readonly',True)], 'cancelled':[('readonly',True)]})
+
+ #   task_count              = fields.Integer(compute='_task_count', string  = "Tasks")
+
+ #   task_needaction_count   = fields.Integer(compute='_task_needaction_count', string = "Tasks",)
+
+    task_ids                = fields.One2many('sred_system.sred_project_tasks', 'task_id', "Task Items")
+
+    color                   = fields.Integer('Color Index')
+
+    user_id                 = fields.Many2one('res.users', 'Project Manager', track_visibility='onchange')
+
+    alias_id                = fields.Many2one('mail.alias', 'Alias')
+
+    partner_id              = fields.Many2one('res.partner','rel_to_company_from_sred_projects',
+                                              domain=[('is_company', '=', True)],
+                                              ondelete='set null')
+
+
+#                                help    = "Internal email associated with this project. Incoming emails are automatically synchronized "
+#                                                 "with Tasks (or optionally Issues if the Issue Tracker module is installed).")
+
+  #  alias_model             = fields.Selection(_alias_models, "Alias Model", select=True, required=True,
+  #                              help    = "The kind of document created when an email is received on this project's email alias")
+
+#    privacy_visibility      = fields.Selection(_visibility_selection, 'Privacy / Visibility', required=True,
+#                                help    = "Holds visibility of the tasks or issues that belong to the current project:\n"
+#                                                "- Portal : employees see everything;\n"
+#                                                "   if portal is activated, portal users see the tasks or issues followed by\n"
+#                                                "   them or by someone of their company\n"
+#                                                "- Employees Only: employees see all tasks or issues\n"
+#                                                "- Followers Only: employees see only the followed tasks or issues; if portal\n"
+#                                                "   is activated, portal users see the followed tasks or issues.")
+
+#    state                   = fields.Selection([('draft','New'), ('open','In Progress'), ('cancelled', 'Cancelled'),
+#                                             ('pending','Pending'), ('close','Closed')],
+#                                                string='Status', required=True, copy=False)
+
+#    doc_count               = fields.Integer(compute='_get_attached_docs', string="Number of documents attached")
+#
+    date_start              = fields.Date('Start Date')
+
+    date                    = fields.Date('Expiration Date', select=True, track_visibility='onchange')
+
+#    attachment_ids          = fields.One2many('ir.attachment', 'res_id', domain=lambda self: [('res_model', '=', self._name)], auto_join=True, string='Attachments')
+    # In the domain of displayed_image_id, we couln't use attachment_ids because a one2many is represented as a list of commands so we used res_model & res_id
+#    displayed_image_id      = fields.Many2one('ir.attachment', domain="[('res_model', '=', 'project.sred_project'), ('res_id', '=', id), ('mimetype', 'ilike', 'image')]", string='Displayed Image')
+
+    attachment_ids          = fields.One2many('ir.attachment', 'res_id', string='Attachments')
+
+    #######################
+    # CLAIM STATUS FIELDS #
+    #######################
+    work_processing_status   = fields.Many2one('sred_system.processing_status',
+                             string="work in progress",
+                             ondelete='set null',
+                             domain=[('stage', '=', 's1')],
+                             track_visibility='onchange')
+
+    glip_processing_status  = fields.Many2one('sred_system.processing_status',
+                             string="Processing Status",
+                             ondelete='set null',
+                             domain=[('stage', '=', 's2')],
+                             track_visibility='onchange')
+
+    cra_processing_status = fields.Many2one('sred_system.processing_status',
+                             string="CRA Status",
+                             ondelete='set null',
+                             domain=[('stage', '=', 's3')],
+                             track_visibility='onchange')
+
+    claim_status          = fields.Many2one('sred_system.processing_status',
+                            string='claim Status',
+                            ondelete='set null',
+                            domain=[('stage', '=', 's4')],
+                            track_visibility='onchange')
+
+
+    ###################################
+    # TRACK CLAIM ORGANIZATION FIELDS #
+    ###################################
+    folder_group            = fields.Many2one('sred_system.folder_groups', string='relation to folder group', ondelete='set null')
+    folder                  = fields.Many2one('sred_system.work_folders',
+                                  string="assigned folder",
+                                  ondelete='cascade',
+                                  track_visibility='on_change')
+
+    claim_type               = fields.Many2one('sred_system.claim_types',
+                                  string='claim type',
+                                  ondelete='set null',
+                                  track_visibility='on_change')
+
+    tax_years               = fields.Many2many('sred_system.tax_years','taxyear_id','tax_years')
+
+    work_started_on         = fields.Date()
+
+    work_cra_deadline       = fields.Date()
+
+
+    ####################
+    # FINANCIAL FIELDS #
+    ####################
+    bin_number              = fields.Char()
+
+    financial_year_end      = fields.Date()
+
+    # Read only computed copies of the Estimated values
+    # glitch in setting fields that requiring updating using views that are read-only turn fields into non-updatable
+    # use the calculated fields instead on view forms to avoid the crazy glitch
+    refund                  = fields.Float(compute='_calc_refund')
+
+    fee                     = fields.Float(compute='_calc_fee')
+
+    estimated_refund        = fields.Float()
+
+    estimated_fee           = fields.Float()
+
+    estimations             = fields.One2many('sred_system.work_estimations', 'estimate_id',
+                                  string='Estimates',
+                                  track_visibility='on_change')
+
+
+    ###############################
+    # ROLES AND LEADERSHIP FIELDS #
+    ###############################
+    technical_lead          = fields.Char()
+
+    financial_lead          = fields.Char()
+
+    work_roles              = fields.One2many('sred_system.work_roles', 'work_role_id',
+                                   string='assignment of work roles', ondelete='cascade')
+
+
+    #######################
+    # TASK RELATED FIELDS #
+    #######################
+
+
+    ####################
+    # ALL OTHER FIELDS #
+    ####################
+    notes = fields.Html('Notes')
+
+    email_feed = fields.Char(compute='_calc_alias')
+
+
+    ############################## M E T H O D S ##################################
+
+#    def _auto_init(self, cr, context=None):
+#        """ Installation hook: aliases, project.project """
+#        # create aliases for all projects and avoid constraint errors
+#        alias_context = dict(context, alias_model_name='sred_system.sred_project')
+#        new_alias = self.pool.get('mail.alias').migrate_to_alias(cr, self._name, self._table, super(my_sred_projects, self)._auto_init,
+#            'sred_system.sred_project', self._columns['alias_id'], 'id', alias_prefix='claim+', alias_defaults={'claim_id':'id'}, context=alias_context)#
+#
+#        self.alias_id = new_alias
+#
+#        return new_alias
+
+ #   def create(self, cr, uid, vals, context=None):
+ #$       if context is None:
+ #           context = {}
+ #       create_context = {}
+#        ir_values = self.pool.get('ir.values').get_default(cr, uid, 'project.config.settings', 'generate_project_alias')
+#        if ir_values:
+#            vals['alias_name'] = vals.get('alias_name') or vals.get('name')
+
+  #      new_id = super(my_sred_projects, self).create(cr, uid, vals, context=create_context)
+  #      project_rec = self.browse(cr, uid, new_id, context=context)
+#        project_rec.id = new_id.id
+#        self.setup_alias(cr, uid, new_id, context=context)
+
+ #       return new_id
 
     @api.model
-    def create(self, values):
-        new_id = super(my_sred_projects, self).create(values)
-        return new_id
+    def create(self, vals):
+        new_record = super(my_sred_projects, self).create(vals)
+        self.setup_alias
+        return new_record
+
+
+
+
+    @api.one
+    @api.model
+    def setup_alias(self):
+
+        create_default_values = {'alias_name':'new claim file',
+                                 'aliased_model_id': self._name,
+                                 'aliased_parent_model': self._name,
+                                 'alias_defaults': '{"id": self.id}' }
+        new_alias = self.env['mail.alias'].create(create_default_values)
+        self.alias_id = new_alias
+        return
+
+
+    @api.one
+    @api.model
+    @api.onchange('partner_id')
+    def _update_partner_logo(self):
+        if self.partner_id.image:
+            self.saved_company_logo = self.partner_id.image
+        return
+
+    @api.one
+    @api.model
+    @api.depends('alias_id')
+    def _calc_alias(self):
+        feed_n = ""
+        if self.alias_id:
+            feed_n = self.alias_id.alias_name
+        self.email_feed = feed_n
+        return feed_n
+
+    @api.one
+    @api.model
+    @api.depends('estimated_refund')
+    def _calc_refund(self):
+        self.refund = self.estimated_refund
+        return self.estimated_refund
+
+    @api.one
+    @api.model
+    @api.depends('estimated_fee')
+    def _calc_fee(self):
+        self.fee = self.estimated_fee
+        return self.estimated_fee
 
     @api.model
     def _set_default_folder(self):
         my_folder_rec = []
         my_folder_id  = 0
         my_context = self.env.context
-        self.say(self.env)
-        self.say(self._context)
-        self.say('inside set default folder')
-        self.say(my_context)
         if my_context:
-            self.say('inside my_contect *if*')
             my_folder_id = my_context.get('my_folder_id')
-            self.say(my_folder_id)
             my_folder_rec = self.env['sred_system.work_folders'].browse(my_folder_id)
             if my_folder_rec:
-                self.say('found folder value')
                 return my_folder_rec
         return my_folder_rec
-
-
-
-#   @api.onchange('estimations')
-    def _update_fees(self):
-        my_rec = []
-        for my_rec in self.estimations:
-            self.Estimated_Refund = my_rec['refund']
-            self.Estimated_Fee = my_rec['fee']
-
-
-    # say()
-    # I used this s/r to display debug messages onto the terminal window
-    #
-    @api.model
-    def say(self, info):
-        print "#########################################"
-        if not info:
-            info = "--Nothing--"
-        print info
-        print "#########################################"
-
 
     #
     # _get_tax_year_defaults()
@@ -180,36 +397,33 @@ class my_sred_projects(models.Model):
         return my_list
 
     @api.model
-    def _get_sred_state_default(self):
-        return self.env['sred_system.sred_states'].search([('is_default','=',True)])[0]
+    def _get_default_claim_type(self):
+        this_one = self.env['sred_system.claim_types'].search([('is_default','=',True)])[0]
+        self._say(this_one)
+        return this_one
+
+
+    #  [('s1', 'Work'), ('s2','Greenlight'), ('s3', 'CRA'), ('s4', 'Claim-State')
+    @api.model
+    def _get_claim_status_default(self):
+        return self.env['sred_system.processing_status'].search([('stage', '=', 's4'),
+                                                                 ('is_default', '=', True)])[0]
+
 
     @api.model
-    def _get_working_status_default(self):
-        return self.env['sred_system.sred_working_status'].search([('is_default','=',True)])[0]
+    def _get_work_processing_status_default(self):
+        return self.env['sred_system.processing_status'].search([('stage', '=', 's1'),
+                                                                 ('is_default', '=', True)])[0]
 
     @api.model
-    def _get_processing_status_default(self):
-        return self.env['sred_system.sred_processing_status'].search([('is_default','=',True)])[0]
+    def _get_glip_processing_status_default(self):
+        return self.env['sred_system.processing_status'].search([('stage', '=', 's2'),
+                                                                 ('is_default', '=', True)])[0]
 
     @api.model
-    def _get_cra_status_default(self):
-        return self.env['sred_system.sred_cra_status'].search([('is_default','=',True)])[0]
-
-    @api.model
-    def _get_project_type_default(self):
-        return self.env['sred_system.project_types'].search([('is_default','=',True)])[0]
-
-    @api.model
-    def _get_project_default(self):
-        dval = {'name':"New Project"}
-        my_rec = self.env['project.project'].create(dval)
-        return my_rec
-
-    @api.one
-    @api.onchange('name')
-    def _name_has_changed(self):
-       self.say('on name change')
-       self.a_claim_project.name= self.name
+    def _get_cra_processing_status_default(self):
+        return self.env['sred_system.processing_status'].search([('stage', '=', 's3'),
+                                                                 ('is_default', '=', True)])[0]
 
 
     @api.one
@@ -252,18 +466,31 @@ class my_sred_projects(models.Model):
         answer.append(refund_amount)
         return answer
 
+  #  @api.one
+  #  @api.model
+  #  def _set_default_tasks(self):
+  #      this_data = self.env['sred_system.default_working_tasks'].search([('sequence','>=',0)])
+  #      for this_rec in this_data:
+  #         data_vals = {'name':this_rec.name,'project_id':self.id, 'user_id':self.user_id}
+  #          this_new_record = self.env['sred_system.sred_project_tasks'].create(data_vals)
+  #      self._say(this_data)
+  #      self._say(this_new_list)
+  #      return
 
 
     @api.one
     @api.onchange('estimations')
     def _calculate_claim(self):
         response = self._get_current_estimate()
-        self.say(response[0])
-        self.say(response[1])
-        self.Estimated_Fee = response[0]
-        self.Estimated_Refund = response[1]
-        if self.an_assigned_folder:
-            self.an_assigned_folder.calculate_fees()
+        self.estimated_fee = response[0]
+        self.estimated_refund = response[1]
+        self._calc_fee
+        self._calc_refund
+        self._say(response[0])
+        self._say(response[1])
+
+        if self.folder:
+           self.folder.calculate_fees()
 
     @api.one
     def open_claim(self):
@@ -275,20 +502,47 @@ class my_sred_projects(models.Model):
             'target': 'current',
         }
 
+
     @api.one
     @api.model
-    @api.onchange('sred_state')
-    def on_status_changed(self):
-       self.message_post('testing')
+    def _make_new_alias(self):
+ #       new_alias_dict = {'name':'new-alias','alias_parent_thread_id': self.id, 'alias_defaults': {'project_id': self.id}}
+ #       new_alias_record = self.env['mail.alias']
+ #       new_id = new_alias_record.create(new_alias_dict)
+ #       this_project_record = self.env['sred_system.sred_project'].browse(self.id)
+        return
 
 
+    @api.one
+    @api.model
+    def open_project_claim(self):
+        result = {
+            "type": "ir.actions.act_window",
+            "res_model": "sred_system.sred_project",
+            "view_type": "form",
+            "target": "current",
+#            "domain": [('id', '=', claim_project_id)],
+#            "context":
+#            "context": context,
+            "name": "SRED Project",
+            "nodestroy": True}
+        return result
 
-    _defaults = {'tax_years': _get_tax_year_defaults,
-                 'sred_state': _get_sred_state_default,
-                 'sred_working_status': _get_working_status_default,
-                 'sred_processing_status': _get_processing_status_default,
-                 'sred_cra_status': _get_cra_status_default,
-                 'a_claim_project': _get_project_default,
-                 'project_type': _get_project_type_default,
-                 'an_assigned_folder': _set_default_folder}
-
+    _order = "sequence, name, id"
+    _defaults = {
+        'active': True,
+#        'type': 'contract',
+#       'label_tasks': 'Tasks',
+#       'state': 'open',
+        'sequence': 10,
+        'user_id': lambda self,cr,uid,ctx: uid,
+#        'alias_model': 'project.task',
+        'name': "New Claim",
+        'tax_years': _get_tax_year_defaults,
+        'claim_type': _get_default_claim_type,
+        'claim_status': _get_claim_status_default,
+        'work_processing_status': _get_work_processing_status_default,
+        'glip_processing_status': _get_glip_processing_status_default,
+        'cra_processing_status': _get_cra_processing_status_default,
+        'alias_id': _make_new_alias,
+        'folder': _set_default_folder}

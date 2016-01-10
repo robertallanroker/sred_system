@@ -1,0 +1,405 @@
+<openerp>
+
+      <!-- LOAD PROCESSING STATUS
+           Combines all 4 together -->
+    <data>
+
+        <!-- CRA -->
+        <record id="ps_cra_None" model="sred_system.processing_status">
+            <field name="name">None</field>
+            <field name="is_default">True</field>
+            <field name="stage">s3</field>
+            <field name="revenue">a1</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="ps_cra_Review" model="sred_system.processing_status">
+            <field name="name">Review</field>
+            <field name="stage">s3</field>
+            <field name="revenue">a2</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="ps_cra_FTCAST" model="sred_system.processing_status">
+            <field name="name">FTCAST</field>
+            <field name="stage">s3</field>
+            <field name="revenue">a2</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="ps_cra_Audit" model="sred_system.processing_status">
+            <field name="name">Audit</field>
+            <field name="stage">s3</field>
+            <field name="revenue">a2</field>
+            <field name="sequence">40</field>
+
+        </record>
+           <record id="ps_cra_Accepted" model="sred_system.processing_status">
+            <field name="name">Accepted</field>
+            <field name="stage">s3</field>
+            <field name="revenue">a3</field>
+            <field name="sequence">50</field>
+        </record>
+
+        <record id="ps_cra_Rejected" model="sred_system.processing_status">
+            <field name="name">Rejected</field>
+            <field name="stage">s3</field>
+            <field name="revenue">a2</field>
+            <field name="sequence">60</field>
+        </record>
+
+        <record id="ps_cra_Approved" model="sred_system.processing_status">
+            <field name="name">Approved</field>
+            <field name="stage">s3</field>
+            <field name="revenue">a3</field>
+            <field name="sequence">70</field>
+        </record>
+
+        <record id="ps_cra_Disputing" model="sred_system.processing_status">
+            <field name="name">Disputing</field>
+            <field name="stage">s3</field>
+            <field name="revenue">a2</field>
+            <field name="sequence">80</field>
+        </record>
+
+        <!-- GLIP -->
+        <record id="_glip_none" model="sred_system.processing_status">
+            <field name="name">None</field>
+            <field name="is_default">True</field>
+            <field name="sequence">10</field>
+            <field name="stage">s2</field>
+            <field name="revenue">a1</field>
+        </record>
+
+        <record id="_glip_preparing" model="sred_system.processing_status">
+            <field name="name">Preparing</field>
+            <field name="sequence">20</field>
+            <field name="stage">s2</field>
+            <field name="revenue">a1</field>
+        </record>
+
+        <record id="_glip_abandoned" model="sred_system.processing_status">
+            <field name="name">Abandoned</field>
+            <field name="sequence">30</field>
+            <field name="stage">s2</field>
+            <field name="revenue">a1</field>
+        </record>
+
+        <record id="_glip_cra" model="sred_system.processing_status">
+            <field name="name">CRA Filed</field>
+            <field name="sequence">40</field>
+            <field name="stage">s2</field>
+            <field name="revenue">a2</field>
+        </record>
+
+        <!-- WORK -->
+        <record id="_work_status_none" model="sred_system.processing_status">
+            <field name="name">None</field>
+            <field name="is_default">True</field>
+            <field name="stage">s1</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="_work_status_admin" model="sred_system.processing_status">
+            <field name="name">Administration</field>
+            <field name="stage">s1</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="_work_status_scheduling" model="sred_system.processing_status">
+            <field name="name">Scheduling</field>
+            <field name="stage">s1</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="_work_status_technical" model="sred_system.processing_status">
+            <field name="name">Technical</field>
+            <field name="stage">s1</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="_work_status_Cust-Info" model="sred_system.processing_status">
+            <field name="name">Customer Info</field>
+            <field name="stage">s1</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <!-- Claim States -->
+         <record id="_status_new" model="sred_system.processing_status">
+            <field name="name">New</field>
+            <field name="stage">s4</field>
+            <field name="is_default">True</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="_status_open" model="sred_system.processing_status">
+            <field name="name">Open</field>
+            <field name="stage">s4</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="_status_closed" model="sred_system.processing_status">
+            <field name="name">Closed</field>
+            <field name="stage">s4</field>
+            <field name="sequence">30</field>
+        </record>
+
+    </data>
+
+
+   <!-- LOAD WORK FOLDERS
+         2015 & 2016 Groups
+         Trash, Pending, etc
+         January, February, ... December Sub Folders -->
+    <data>
+
+        <record id="_fg_2014" model="sred_system.folder_groups">
+            <field name="name">2014</field>
+        </record>
+        <record id="_fg_2015" model="sred_system.folder_groups">
+            <field name="name">2015</field>
+        </record>
+        <record id="_fg_2016" model="sred_system.folder_groups">
+            <field name="name">2016</field>
+        </record>
+
+        <record id="_2016_Jan" model="sred_system.work_folders">
+              <field name="sequence">10</field>
+              <field name="name">January</field>
+        </record>
+
+        <record id="_2016_Feb" model="sred_system.work_folders">
+            <field name="sequence">20</field>
+            <field name="name">February</field>
+        </record>
+
+        <record id="_2016_Mar" model="sred_system.work_folders">
+            <field name="sequence">30</field>
+            <field name="name">March</field>
+        </record>
+
+        <record id="_2016_Apr" model="sred_system.work_folders">
+            <field name="sequence">40</field>
+            <field name="name">April</field>
+        </record>
+
+        <record id="_2016_May" model="sred_system.work_folders">
+            <field name="sequence">50</field>
+            <field name="name">May</field>
+        </record>
+
+        <record id="_2016_June" model="sred_system.work_folders">
+            <field name="sequence">60</field>
+            <field name="name">June</field>
+        </record>
+
+        <record id="_2016_July" model="sred_system.work_folders">
+            <field name="sequence">70</field>
+            <field name="name">July</field>
+        </record>
+
+        <record id="_2016_Aug" model="sred_system.work_folders">
+            <field name="sequence">80</field>
+            <field name="name">August</field>
+        </record>
+
+        <record id="_2016_Sept" model="sred_system.work_folders">
+            <field name="sequence">90</field>
+            <field name="name">September</field>
+        </record>
+
+        <record id="_2016_Oct" model="sred_system.work_folders">
+            <field name="sequence">100</field>
+            <field name="name">October</field>
+        </record>
+
+        <record id="_2016_Nov" model="sred_system.work_folders">
+            <field name="sequence">110</field>
+            <field name="name">November</field>
+        </record>
+
+        <record id="_2016_Dec" model="sred_system.work_folders">
+            <field name="sequence">120</field>
+            <field name="name">December</field>
+        </record>
+
+        <record id="_Trash_2016" model="sred_system.work_folders">
+            <field name="sequence">20</field>
+            <field name="name">Trash</field>
+        </record>
+
+        <record id="_Unassigned" model="sred_system.work_folders">
+            <field name="name">Pending Previous Approvals</field>
+        </record>
+
+    </data>
+
+    <!-- LOAD TAX YEARS
+         2013, 2014, 2015, etc. -->
+    <data>
+
+        <record id="_tax_2013" model="sred_system.tax_years">
+            <field name="name">2013</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="_tax_2014" model="sred_system.tax_years">
+            <field name="name">2014</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="_tax_2015" model="sred_system.tax_years">
+            <field name="name">2015</field>
+            <field name="is_default">True</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="_tax_2016" model="sred_system.tax_years">
+            <field name="name">2016</field>
+            <field name="is_default">True</field>
+            <field name="sequence">40</field>
+        </record>
+    </data>
+
+    <!-- LOAD CLAIM TYPES
+         Never-Filed, Repeat, Previously Approved, etc -->
+    <data>
+
+        <record id="_claim_type_never-filed" model="sred_system.claim_types">
+            <field name="name">Never-Filed</field>
+            <field name="is_default">True</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="_claim_type_repeat" model="sred_system.claim_types">
+            <field name="name">Repeat</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="_claim_type_prev-approved" model="sred_system.claim_types">
+            <field name="name">Previously-Approved</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="_claim_type_prev-rejected" model="sred_system.claim_types">
+            <field name="name">Previously-Rejected</field>
+            <field name="sequence">40</field>
+        </record>
+
+    </data>
+
+    <!-- LOAD ROLES FOR - WORK RESPONSIBLE AREAS - WORK_Types
+         Technical, Financial, Sales, Legal -->
+    <data>
+
+         <!-- WORK RESPONSIBLE AREA -->
+        <record id="_wt_Technical" model="sred_system.work_types">
+            <field name="name">Technical</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="_wt_Financial" model="sred_system.work_types">
+            <field name="name">Financial</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="_wt_Sales" model="sred_system.work_types">
+            <field name="name">Sales</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="_wt_Legal" model="sred_system.work_types">
+            <field name="name">Legal</field>
+            <field name="sequence">40</field>
+        </record>
+
+    </data>
+
+    <!-- LOAD ROLES FOR - WORK FUNCTIONS - Work_functions
+         Project Leader, Financial Reports, Technical Reports, Intellectual Property, etc. -->
+    <data>
+
+        <record id="_wf_Project-Leader" model="sred_system.work_functions">
+            <field name="name">Project Leader</field>
+            <field name="sequence">50</field>
+        </record>
+
+        <record id="_wf_Financial-Reports" model="sred_system.work_functions">
+            <field name="name">Financial Reports</field>
+            <field name="sequence">60</field>
+        </record>
+
+        <record id="_wf_Technical-Reports" model="sred_system.work_functions">
+            <field name="name">Technical Reports</field>
+            <field name="sequence">70</field>
+        </record>
+
+        <record id="_wf_Intel-Property" model="sred_system.work_functions">
+            <field name="name">Intellectual Property</field>
+            <field name="sequence">80</field>
+        </record>
+
+        <record id="_wf_Accounting" model="sred_system.work_functions">
+            <field name="name">Accounting</field>
+            <field name="sequence">90</field>
+        </record>
+
+        <record id="_wf_Book-Keeping" model="sred_system.work_functions">
+            <field name="name">Book Keeping</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="_wf_Decision-maker" model="sred_system.work_functions">
+            <field name="name">Decision Maker</field>
+            <field name="sequence">100</field>
+        </record>
+
+        <record id="_wf_Signatory" model="sred_system.work_functions">
+            <field name="name">Signatory</field>
+            <field name="sequence">110</field>
+        </record>
+
+        <record id="_wf_Files-Claim" model="sred_system.work_functions">
+              <field name="name">Files Claim</field>
+              <field name="sequence">120</field>
+        </record>
+
+
+    </data>
+
+    <!-- LOAD ROLES FOR - WORK SCOPE - Work_Scope
+         Greenlight, Outside Firm, Customer, etc. -->
+         <!-- Load Work Scope -->
+    <data>
+
+         <record id="_roles_glip" model="sred_system.work_scope">
+            <field name="name">GreenLight</field>
+            <field name="is_internal">True</field>
+            <field name="is_default">True</field>
+             <field name="sequence">10</field>
+         </record>
+
+         <record id="_roles_customer" model="sred_system.work_scope">
+            <field name="name">Customer</field>
+            <field name="sequence">20</field>
+         </record>
+
+         <record id="_roles_cra" model="sred_system.work_scope">
+            <field name="name">CRA</field>
+            <field name="sequence">30</field>
+         </record>
+
+         <record id="_roles_of" model="sred_system.work_scope">
+            <field name="name">Outside Firm</field>
+            <field name="sequence">40</field>
+         </record>
+
+         <record id="_roles_oi" model="sred_system.work_scope">
+            <field name="name">Outside Individual</field>
+            <field name="sequence">50</field>
+         </record>
+
+    </data>
+
+
+</openerp>

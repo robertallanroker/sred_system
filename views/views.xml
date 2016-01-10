@@ -3,99 +3,11 @@
   <data>
 
 
-      <record model="ir.actions.act_window" id="sred_system.list_all_projects">
-          <field name="name">SRED Claim</field>
-          <field name="res_model">sred_system.sred_project</field>
-          <field name="view_mode">tree,form</field>
-      </record>
-
-
-       <!-- SET Project Types -->
-      <record model="ir.ui.view"  id="sred_system.action_set_project_types_form">
-            <field name="name">Set claim types</field>
-            <field name="model">sred_system.sred_type</field>
-            <field name="arch" type="xml">
-                <tree default_order="sequence" editable="True">
-                     <field name="name" string="claim type"/>
-                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
-                     <field name="sequence" string = "sequence"/>
-                </tree>
-            </field>
-      </record>
-
-      <record model="ir.actions.act_window" id="sred_system.action_set_project_types_window">
-          <field name="name">Set claim types</field>
-          <field name="res_model">sred_system.sred_type</field>
-          <field name="view_mode">tree,form</field>
-       </record>
-
-
-      <!-- SET Work Functional Areas -->
-      <record model="ir.ui.view"  id="sred_system.action_set_work_functions_form">
-            <field name="name">Set work functional areas</field>
-            <field name="model">sred_system.work_functions</field>
-            <field name="arch" type="xml">
-                <tree default_order="sequence" editable="True">
-                     <field name="name" string="Journal Types"/>
-                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
-                     <field name="sequence" string = "sequence"/>
-                </tree>
-            </field>
-      </record>
-
-      <record model="ir.actions.act_window" id="sred_system.action_set_work_functions_window">
-          <field name="name">Set work functional areas</field>
-          <field name="res_model">sred_system.work_functions</field>
-          <field name="view_mode">tree,form</field>
-       </record>
-
-
-       <!-- SET WORK Journal / Notes Types -->
-       <record model="ir.ui.view"  id="sred_system.action_set_journal_types_form">
-            <field name="name">Set work journal types</field>
-            <field name="model">sred_system.work_journal_types</field>
-            <field name="arch" type="xml">
-                <tree default_order="sequence" editable="True">
-                     <field name="name" string="Journal Types"/>
-                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
-                     <field name="sequence" string = "sequence"/>
-                </tree>
-            </field>
-       </record>
-
-
-       <record model="ir.actions.act_window" id="sred_system.action_set_journal_types_window">
-          <field name="name">Set Journal Types</field>
-          <field name="res_model">sred_system.work_journal_types</field>
-          <field name="view_mode">tree,form</field>
-       </record>
-
-
-       <!-- SET CRA STATES -->
-       <record model="ir.ui.view"  id="sred_system.action_set_cra_states_form">
-            <field name="name">Set CRA Processing States</field>
-            <field name="model">sred_system.sred_cra_status</field>
-            <field name="arch" type="xml">
-                <tree default_order="sequence" editable="True">
-                     <field name="revenue" string="revenue stage" />
-                     <field name="name" string="CRA States"/>
-                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
-                     <field name="sequence" string = "sequence"/>
-                </tree>
-            </field>
-        </record>
-
-
-       <record model="ir.actions.act_window" id="sred_system.action_set_cra_states_window">
-          <field name="name">Set CRA Processing States</field>
-          <field name="res_model">sred_system.sred_cra_status</field>
-          <field name="view_mode">tree,form</field>
-       </record>
 
 
 
        <!-- TAX YEARS -->
-       <record model="ir.ui.view"  id="sred_system.my_tax_year_form">
+      <record model="ir.ui.view"  id="sred_system.my_tax_year_form">
             <field name="name">Tax Years</field>
             <field name="model">sred_system.tax_years</field>
             <field name="arch" type="xml">
@@ -114,119 +26,29 @@
         </record>
 
 
-        <!--
-       ##########################
-       # SET DOCUMENTATION LABELS
-       ##########################
-        -->
-        <record model="ir.ui.view"  id="sred_system.my_documentation_labels_form">
-            <field name="name">Documentation ++ Directories</field>
-            <field name="model">sred_system.documentation_labels</field>
-            <field name="arch" type="xml">
-                <tree default_order="sequence" editable="True">
-                  <field name="name" string="documentation directories"/>
-                     <field name="is_default" string ="set as default checkbox"/>
-                 </tree>
-            </field>
-        </record>
-
-      <record model="ir.actions.act_window" id="sred_system.action_set_documentation_labels_window">
-          <field name="name">Set Documentation Directories</field>
-          <field name="res_model">sred_system.documentation</field>
-          <field name="view_mode">tree</field>
-      </record>
-
-        <!--
-      #########################
-      # SET DOCUMENTATION TAGS
-      #########################
-      -->
-      <record model="ir.ui.view"  id="sred_system.my_documentation_tags_form">
-            <field name="name">Documentation Tags</field>
-            <field name="model">sred_system.documentation_tags</field>
-            <field name="arch" type="xml">
-                <tree default_order="sequence" editable="True">
-                  <field name="name" string="type of documentation"/>
-                     <field name="is_default" string ="set as default checkbox"/>
-                 </tree>
-            </field>
-        </record>
-
-       <record model="ir.actions.act_window" id="sred_system.action_set_documentation_tags_window">
-          <field name="name">Set Documentation Tags</field>
-          <field name="res_model">sred_system.documentation_tags</field>
-          <field name="view_mode">tree</field>
-       </record>
 
       <!--
       #####################
-      # SET CLAIMS STATES
+      # SET * NEW * PROCESSING STATUS
       #####################
       -->
-      <record model="ir.ui.view"  id="sred_system.my_documentation_claim_states_form">
-            <field name="name">SRED CLaim States</field>
-            <field name="model">sred_system.sred_states</field>
+      <record model="ir.ui.view"  id="sred_system.window_sred_processing_status">
+            <field name="name">Processing Status</field>
+            <field name="model">sred_system.processing_status</field>
             <field name="arch" type="xml">
-                <tree default_order="sequence" editable="True">
-                  <field name="name" string="Claim States"/>
-                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
-                     <field name="sequence" string = "sequence"/>
-                 </tree>
+                <tree default_order="stage, sequence, name" editable="True" colors="green:revenue in 'a3', blue:revenue in 'a1', yellow:revenue in 'a2' ">
+                   <field name="stage" string = "work stage"/>
+                   <field name="sequence" string = "#"/>
+                   <field name="name" string="Claim States"/>
+                   <field name="revenue" string = "revenue stage"/>
+                   <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
+                </tree>
             </field>
         </record>
 
-       <record model="ir.actions.act_window" id="sred_system.action_set_claim_states_window">
-          <field name="name">SRED Claim States</field>
-          <field name="res_model">sred_system.sred_states</field>
-          <field name="view_mode">tree</field>
-       </record>
-
-
-       <!--
-      #####################
-      # SET CRA STATES
-      #####################
-      -->
-      <record model="ir.ui.view"  id="sred_system.my_documentation_cra_states_form">
-            <field name="name">CRA Claim States</field>
-            <field name="model">sred_system.sred_cra_status</field>
-            <field name="arch" type="xml">
-                <tree default_order="sequence" editable="True">
-                     <field name="name" string="Claim States!"/>
-                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
-                     <field name="sequence" string = "sequence"/>
-                 </tree>
-            </field>
-        </record>
-
-       <record model="ir.actions.act_window" id="sred_system.action_set_cra_states_window">
-          <field name="name">Set CRA States</field>
-          <field name="res_model">sred_system.sred_cra_status</field>
-          <field name="view_mode">tree</field>
-       </record>
-
-
-      <!--
-      #####################
-      # SET PROCESSING STATES
-      #####################
-      -->
-      <record model="ir.ui.view"  id="sred_system.my_documentation_cra_states_form">
-            <field name="name">Processing States</field>
-            <field name="model">sred_system.sred_processing_status</field>
-            <field name="arch" type="xml">
-               <tree default_order="sequence" editable="True">
-                     <field name="revenue" string = "revenue stage"/>
-                     <field name="name" string="Claim States"/>
-                     <field name="is_default" string = "set as default checkbox" widget="checkbox"/>
-                     <field name="sequence" string = "sequence"/>
-                 </tree>
-            </field>
-        </record>
-
-       <record model="ir.actions.act_window" id="sred_system.action_set_processing_states_window">
-          <field name="name">Set processing states</field>
-          <field name="res_model">sred_system.sred_processing_status</field>
+       <record model="ir.actions.act_window" id="sred_system.action_sred_processing_status">
+          <field name="name">Set processing status</field>
+          <field name="res_model">sred_system.processing_status</field>
           <field name="view_mode">tree</field>
        </record>
 
@@ -238,7 +60,7 @@
       -->
       <record model="ir.ui.view"  id="sred_system.action_work_scope_form">
             <field name="name">Work Scope Areas</field>
-            <field name="model">sred_system.work_resource_scope</field>
+            <field name="model">sred_system.work_scope</field>
             <field name="arch" type="xml">
                 <tree default_order="sequence" editable="True">
                      <field name="name" string="Work Scope"/>
@@ -250,31 +72,180 @@
 
        <record model="ir.actions.act_window" id="sred_system.action_set_work_scope_window">
           <field name="name">Set work scope areas</field>
-          <field name="res_model">sred_system.work_resource_scope</field>
+          <field name="res_model">sred_system.work_scope</field>
           <field name="view_mode">tree</field>
        </record>
 
 
-            <!--
+
+      <!--
       #####################
-      # SET WORK ROLES
+      # SET FOLDERS
       #####################
       -->
-      <record model="ir.ui.view"  id="sred_system.my_documentation_work_roles_form">
-            <field name="name">Work Roles</field>
+      <record model="ir.ui.view"  id="sred_system.window_set_folders">
+            <field name="name">Set Folders</field>
+            <field name="model">sred_system.work_folders</field>
+            <field name="arch" type="xml">
+                <tree default_order="sequence" editable="True" colors="red:is_active==False and not is_default,green:is_default==True">
+                     <field name="sequence" string = "sequence"></field>
+                     <field name="name" string="folder"/>
+                     <field name="is_default" string = "set as default" widget="checkbox"/>
+                     <field name="is_active" string = "set as active" widget="checkbox"/>
+                 </tree>
+            </field>
+        </record>
+
+       <record model="ir.actions.act_window" id="sred_system.action_set_folders">
+          <field name="name">Set work scope areas</field>
+          <field name="res_model">sred_system.work_folders</field>
+          <field name="view_mode">tree</field>
+          <field name="view_id" ref="sred_system.window_set_folders"/>
+       </record>
+
+
+
+      <!--
+          #####################
+          # SET WORK FUNCTIONS
+          #####################
+      -->
+      <record model="ir.ui.view"  id="sred_system.window_work_functions">
+            <field name="name">Work Functions</field>
+            <field name="model">sred_system.work_functions</field>
+            <field name="arch" type="xml">
+                <tree default_order="sequence" editable="True">
+                     <field name="name" string="function"/>
+                     <field name="is_default" string ="set as default checkbox"/>
+                 </tree>
+            </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="sred_system.action_set_work_functions">
+          <field name="name">Set Work Functions</field>
+          <field name="res_model">sred_system.work_functions</field>
+          <field name="view_mode">tree</field>
+      </record>
+
+
+      <!--
+          ##########################################
+          # SET WORK TYPES - AKA RESPONSIBILITIES
+          ##########################################
+      -->
+      <record model="ir.ui.view"  id="sred_system.window_work_types">
+            <field name="name">Work responsibilities</field>
             <field name="model">sred_system.work_types</field>
             <field name="arch" type="xml">
                 <tree default_order="sequence" editable="True">
-                     <field name="name" string="Claim States"/>
+                     <field name="name" string="responsibility"/>
+                     <field name="is_default" string ="set as default checkbox"/>
+                 </tree>
+            </field>
+      </record>
+
+
+      <record model="ir.actions.act_window" id="sred_system.action_set_work_types">
+          <field name="name">Set Work Functions</field>
+          <field name="res_model">sred_system.work_types</field>
+          <field name="view_mode">tree</field>
+      </record>
+
+
+
+
+      <!--
+            #####################
+            # SET PROJECT TYPES
+            #####################
+      -->
+      <record model="ir.ui.view"  id="sred_system.window_set_project_types">
+            <field name="name">Set claim types</field>
+            <field name="model">sred_system.claim_types</field>
+            <field name="arch" type="xml">
+                <tree default_order="sequence" editable="True">
+                     <field name="name" string="claim types"/>
                      <field name="is_default" string ="set as default checkbox"/>
                  </tree>
             </field>
         </record>
 
-       <record model="ir.actions.act_window" id="sred_system.action_set_work_roles_window">
-          <field name="name">Set work scope areas</field>
-          <field name="res_model">sred_system.work_types</field>
+       <record model="ir.actions.act_window" id="sred_system.action_set_project_types_window">
+          <field name="name">Set claim types</field>
+          <field name="res_model">sred_system.claim_types</field>
           <field name="view_mode">tree</field>
+       </record>
+
+
+       <!--
+            #####################
+            # SET DEFAULT TASKS - INHERIT FORM VIEW BY DEFAULT BUT NOT ASSIGNING VIEW FORM
+            #####################
+       -->
+
+        <record model="ir.ui.view"  id="sred_system.window_set_default_working_tasks">
+            <field name="name">Set default tasks</field>
+            <field name="model">sred_system.default_tasks</field>
+            <field name="arch" type="xml">
+                <tree default_order="processing_status, sequence, name" editable="True">
+                     <field name="processing_status" string= "processing status"/>
+                     <field name="name" string="task title"/>
+                     <field name="sequence"/>
+                 </tree>
+            </field>
+        </record>
+
+
+       <record model="ir.actions.act_window" id="sred_system.action_set_default_tasks">
+          <field name="name">Set default working tasks</field>
+          <field name="res_model">sred_system.default_tasks</field>
+          <field name="view_mode">tree</field>
+       </record>
+
+
+
+      !-- TASKS -->
+
+       <record model="ir.ui.view"  id="sred_system.view_tasks">
+            <field name="name">Set claim types</field>
+            <field name="model">sred_system.sred_project_tasks</field>
+            <field name="arch" type="xml">
+                <tree default_order="sequence" editable="True">
+                    <field name="task_id" string = "claim project" />
+                    <field name="stagetype" string ="stage"/>
+                    <field name="processing_status" string="status"/>
+                    <field name="completed" string="completed?" widget="checkbox" help="Check off when completed work"/>
+                    <field name="assigned_to" string="assigned"/>
+                    <field name="name" string="task item"/>
+                    <field name="date_deadline" string="deadline"/>
+                </tree>
+            </field>
+       </record>
+
+
+       <record id="sred_system.search_tasks" model="ir.ui.view">
+            <field name="name">Search Tasks</field>
+            <field name="model">sred_system.sred_project_tasks</field>
+            <field name="arch" type="xml">
+                <search string="active folders">
+                    <field name="task_id"   string="project claim"/>
+                    <field name="stagetype" string="stage"/>
+                    <field name="processing_status" string="status"/>
+                    <field name="completed" string="completion"/>
+                    <filter string="Not completed" name="not-completed" domain="[('completed','=',False)]"/>
+                    <filter string="Assigned to me" name="assigned-to-me" domain="[('assigned_to','=',uid)]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="project" name="project-group-me" context="{'group_by':task_id}"/>
+                    </group>
+                </search>
+            </field>
+       </record>
+
+       <record model="ir.actions.act_window" id="sred_system.action_tasks">
+          <field name="name">My Tasks</field>
+          <field name="res_model">sred_system.sred_project_tasks</field>
+          <field name="view_mode">tree</field>
+          <field name="context">{"search_default_not-completed":1, "search_default_assigned-to-me":1}</field>
        </record>
 
 

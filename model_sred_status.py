@@ -2,45 +2,28 @@ from openerp import models, fields, api, osv
 from datetime import datetime, date
 import time
 
-# GREENLIGHTS CLAIM FILE STATE
-class my_sred_states(models.Model):
-    _name       = 'sred_system.sred_states'
-    name        = fields.Char()
-    state_id    = fields.One2many('sred_system.sred_project','sred_state', string ='SRED Work States')
-    sequence    = fields.Integer()
-    is_default  = fields.Boolean()
 
-# GREENLIGHT's WORKING STATUS
-class my_sred_working_status(models.Model):
-    _name       = 'sred_system.sred_working_status'
-    name        = fields.Char()
-    working_status_id = fields.One2many('sred_system.sred_project','sred_working_status', string ='SRED Working Status')
-    sequence    = fields.Integer()
-    is_default  = fields.Boolean()
-    _defaults = {'is_default': False}
 
-# COMMON ATTRIBUTES IN PROCESSING AND STAGE TABLES
-class my_sred_revenue_stages(models.Model):
-    _name = "sred_system.revenue_stages"
-    revenue_type = [('a1','New'),('a2','Processed'),('a3','Booked')]
-    revenue      = fields.Selection(revenue_type)
+class my_default_tasks(models.Model):
+    _name       = 'sred_system.default_tasks'
+    _inherit    = 'sred_system.base_sred_tasks'
+    processing_status = fields.Many2one('sred_system.processing_status', ondelete='set null')
 
-# GREENLIGHT'S PROCESSING STAGE
+
+# PROCESSING STATUS
 class my_sred_processing_status(models.Model):
-    _name      = 'sred_system.sred_processing_status'
-    _inherit   = ["sred_system.revenue_stages"]
-    name        = fields.Char()
-    processing_status_id = fields.One2many('sred_system.sred_project','sred_processing_status', string='SRED Processing Status')
-    sequence     = fields.Integer()
-    is_default   = fields.Boolean()
-    _defaults = {'is_default':False, 'is_booked_revenue': False}
+    _name        = 'sred_system.processing_status'
+    _inherit     = "sred_system.base_sred_picklist"
+    name         = fields.Char()
+    revenue_type = [('a1', 'New'), ('a2', 'Processed'), ('a3', 'Booked'), ('a4', 'Deferred'), ('a4', 'Lost')]
+    stage_type   = [('s1', 'Work'), ('s2','Greenlight'), ('s3', 'CRA'), ('s4', 'Claim-State')]
+    revenue      = fields.Selection(revenue_type)
+    stage        = fields.Selection(stage_type)
+    sred_claim   = fields.One2many('sred_system.sred_project','claim_status','sred_claim_rel', ondelete='cascade')
+    default_tasks= fields.One2many('sred_system.default_tasks','processing_status','status_task_rel', ondelete='cascade')
 
-# CRA's PROCESSING STAGE
-class my_sred_cra_status(models.Model):
-    _name      = 'sred_system.sred_cra_status'
-    _inherit   = ["sred_system.revenue_stages"]
-    name        = fields.Char()
-    cra_status_id = fields.One2many('sred_system.sred_project', 'sred_cra_status', string='SRED CRA Status')
-    sequence    = fields.Integer()
-    is_default  = fields.Boolean()
-    _defaults = {'is_default': False}
+    _default = {'revenue':'a1', 'stage_type':'s1'}
+
+
+
+

@@ -4,28 +4,30 @@
 
     <data>
 
-        <record model="ir.ui.view" id="sred_system.folders_form_new">
+        <record id="sred_system.folders_form_new" model="ir.ui.view">
             <field name="name">Claim Folder</field>
             <field name="model">sred_system.work_folders</field>
             <field name="type">form</field>
-            <field name="target">current</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <group>
-                            <h1><field name="name" readonly="1"/></h1>
+                            <h2>
+                                <field name="name" readonly="1"/>
+                            </h2>
                         </group>
                         <group>
-                            <div>
-                                <group>
-                                    <field name="folder_fee_new" widget="monetary" string="New Fees" />
-                                    <field name="folder_fee_processed" widget="monetary" string="Processed Fees" />
-                                    <field name="folder_fee_booked" widget="monetary" string="Booked Fees" />
-                                    <field name="num_sred_projects" string="# Claims" />
+                            <div color='green'>
+                                <group class= "oe_subtotal_footer">
+                                    <field name="f_new" widget="monetary" string="New Fees" />
+                                    <field name="f_processed" widget="monetary" string="Processed Fees" />
+                                    <field name="f_booked" widget="monetary" string="Booked Fees" />
+                                    <field name="f_total" widget="monetary" string="Total Value" class="oe_subtotal_footer_separator"/>
                                 </group>
                             </div>
                             <div>
                                 <group>
+                                    <field name="f_progress" widget="progressbar" string="progress made" />
                                     <field name="is_active" string="active folder?" widget="checkbox"/>
                                     <button class="oe_inline oe_stat_button" type="object" name="calculate_fees"
                                        string="Re-Calculate Folder">
@@ -33,18 +35,17 @@
                                 </group>
                             </div>
                         </group>
-                            <field name="Folder_id" string="Claims">
-                                <tree>
-                                    <button name="open_claim" type="object" icon="gtk-file" string="open claim" />
-                                    <field name="work_types" string="work type"/>
+                            <field name="folder_id" string="Claims">
+                                <tree >
+                                    <button class="oe_stat_button" name="open_project_claim" type="object" icon="fa-files-o"/>
+                                    <field name="claim_type" string="claim type" />
                                     <field name="name" string="Claim"/>
                                     <field name="tax_years" string="Tax" widget="many2many"/>
-                                    <field name="Estimated_Fee" widget="monetary" string="Fee"/>
-                                    <field name="Estimated_Refund" widget="monetary" string="Refund"/>
-                                    <field name="sred_state" string="Status"/>
-                                    <field name="sred_working_status" string="Work"/>
-                                    <field name="sred_processing_status" string="Processing"/>
-                                    <field name="sred_cra_status" string="CRA"/>
+                                    <field name="estimated_fee" widget="monetary" string="Fee"/>
+                                    <field name="estimated_refund" widget="monetary" string="Refund"/>
+                                    <field name="work_processing_status" string="Work"/>
+                                    <field name="glip_processing_status" string="Processing"/>
+                                    <field name="cra_processing_status" string="CRA"/>
                                 </tree>
                             </field>
                     </sheet>
@@ -54,44 +55,48 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="sred_system.tree_of_sred_folders">
-            <field name="name">List Claim Folders</field>
+        <record id="sred_system.tree_of_sred_folders" model="ir.ui.view">
             <field name="model">sred_system.work_folders</field>
+            <field name="name">List Claim Folders</field>
             <field name="target">current</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
-                    <field name="name" string="Folders" action="sred_system.form"/>
+                <tree create="false" delete = "false">
+                    <field name="name" string="Folders" />
                     <field name="num_sred_projects" string = "# Claims"/>
                     <field name="folder_fee_new" widget="monetary" string="New Fees" />
                     <field name="folder_fee_processed" widget="monetary" string="Processed Fees" />
                     <field name="folder_fee_booked" widget="monetary" string="Booked Fees" />
+                    <field name="folder_fee_total" widget="monetary" string="Total Value"/>
                 </tree>
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="sred_system.sred_folder_action_window_all">
+
+
+        <record id="sred_system.sred_folder_search2" model="ir.ui.view">
+            <field name="name">Search Folders</field>
+            <field name="model">sred_system.work_folders</field>
+            <field name="arch" type="xml">
+                <search string="active folders">
+                    <field name="is_active"/>
+                    <filter string="Only Active Folders" name="only-active" domain="[('is_active','=','name')]"/>
+                </search>
+            </field>
+        </record>
+
+
+
+        <record id="sred_system.sred_folder_action_window_all" model="ir.actions.act_window">
           <field name="name">Claims Folders</field>
           <field name="res_model">sred_system.work_folders</field>
           <field name="target">current</field>
-          <field name="views">[[False, "tree"], [False, "form"]]</field>
+          <field name="views">tree, form</field>
+          <field name="search_view_id" ref="sred_system.sred_folder_search2"/>
+          <field name="context">{"search_default_only-active":1, "search_default_folder-group":1}</field>
         </record>
 
 
-        <record model="ir.actions.act_window" id="sred_system.sred_folder_action_window_active">
-            <field name="name">Claims Folders</field>
-            <field name="res_model">sred_system.work_folders</field>
-            <field name="target">current</field>
-            <field name="views">[[False, "tree"], [False, "form"]]</field>
-            <field name="domain">[["is_active", "=", True]]</field>
-        </record>
-
-
-        <record model="ir.actions.act_window" id="sred_system.sred_work_load_window">
-          <field name="name">Claims Folders</field>
-          <field name="res_model">sred_system.sred_project</field>
-          <field name="view_mode">Calender</field>
-        </record>
 
     </data>
 
