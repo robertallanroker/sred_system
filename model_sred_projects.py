@@ -7,14 +7,14 @@ import time
 class my_claim_types(models.Model):
     _name = 'sred_system.claim_types'
     _inherit = 'sred_system.base_sred_picklist'
-    sred_id  = fields.One2many('sred_system.sred_project', 'claim_type', ondelete='cascade')
+    sred_id  = fields.One2many('sred_system.claim_project', 'claim_type', ondelete='cascade')
 
 
 
 
 class my_estimations(models.Model):
     _name       = 'sred_system.work_estimations'
-    estimate_id = fields.Many2one('sred_system.sred_project', string='Estimation', ondelete='cascade')
+    estimate_id = fields.Many2one('sred_system.claim_project', string='Estimation', ondelete='cascade')
     e_date      = fields.Datetime()
     person      = fields.Many2one('res.users', string="person", ondelete='set null')
     refund      = fields.Float(digits=(10,2))
@@ -36,7 +36,7 @@ class my_sred_projects_tasks(models.Model):
     _name       = 'sred_system.sred_project_tasks'
     _inherit    = 'sred_system.base_sred_tasks'
 
-    task_id = fields.Many2one('sred_system.sred_project', string='project', ondelete='set null')
+    task_id = fields.Many2one('sred_system.claim_project', string='project', ondelete='set null')
 
     stage_type   = [('s1', 'Work'), ('s2','Greenlight'), ('s3', 'CRA'), ('s4', 'Claim-State')]
     stagetype    = fields.Selection(stage_type)
@@ -68,7 +68,7 @@ class my_sred_projects(models.Model):
 
  #    I would rather link to a new record relationship for now
  #   _inherits = {"mail.alias": "alias_id"}
-    _name           = 'sred_system.sred_project'
+    _name           = 'sred_system.claim_project'
 
 
     _period_number  = 5
@@ -453,7 +453,7 @@ class my_sred_projects(models.Model):
     def open_claim(self):
         return {
             'type': 'ir.actions.act_window',
-            'res_model': 'sred_system.sred_project',
+            'res_model': 'sred_system.claim_project',
             'view_type': 'form',
             'view_mode': 'form',
             'target': 'current',
@@ -475,7 +475,7 @@ class my_sred_projects(models.Model):
     def open_project_claim(self):
         result = {
             "type": "ir.actions.act_window",
-            "res_model": "sred_system.sred_project",
+            "res_model": "sred_system.claim_project",
             "view_type": "form",
             "target": "current",
 #            "domain": [('id', '=', claim_project_id)],

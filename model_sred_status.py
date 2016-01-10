@@ -19,7 +19,7 @@ class my_sred_processing_status(models.Model):
     stage_type   = [('s1', 'Work'), ('s2','Greenlight'), ('s3', 'CRA'), ('s4', 'Claim-State')]
     revenue      = fields.Selection(revenue_type)
     stage        = fields.Selection(stage_type)
-    sred_claim   = fields.One2many('sred_system.sred_project','claim_status','sred_claim_rel', ondelete='cascade')
+    sred_claim   = fields.One2many('sred_system.claim_project','claim_status','sred_claim_rel', ondelete='cascade')
     default_tasks= fields.One2many('sred_system.default_tasks','processing_status','status_task_rel', ondelete='cascade')
 
     _default = {'revenue':'a1', 'stage_type':'s1'}
