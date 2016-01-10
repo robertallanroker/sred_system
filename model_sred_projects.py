@@ -42,7 +42,7 @@ class my_work_functions(models.Model):
     _name = 'sred_system.work_functions'
     name = fields.Char()
     _inherit = 'sred_system.base_roles_object'
-    work_function_id = fields.Many2many('sred_system.work_roles', 'work_functions', 'work_function_id', string='work_functions', ondelete='cascade')
+    work_function_id = fields.Many2many('sred_system.work_roles', 'work_functions', 'work_function_id', string='work functions rel')
     description = fields.Html()
 
 
@@ -71,7 +71,7 @@ class my_work_resource_roles(models.Model):
 #    name = fields.Char()  # not used
 
     work_types     = fields.Many2many('sred_system.work_types', 'work_type_id', 'work_types', string='work assignments')
-    work_functions  = fields.Many2many('sred_system.work_functions', 'work_function_id', 'work_functions', string='work functions', ondelete='set null')
+    work_functions  = fields.Many2many('sred_system.work_functions', 'work_function_id', 'work_functions', string='work functions rel')
     work_person     = fields.Many2one('res.partner', string="Individual", ondelete='set null')
     work_role_id    = fields.Many2one('sred_system.sred_project', string='people assigned', ondelete='cascade')
     work_scope      = fields.Many2one('sred_system.work_scope', string='scope', ondelete='cascade')
