@@ -273,11 +273,11 @@ class my_sred_projects(models.Model):
 
  #       return new_id
 
-    @api.model
-    def create(self, vals):
-        new_record = super(my_sred_projects, self).create(vals)
-        self.setup_alias
-        return new_record
+   # @api.model
+   # def create(self, vals):
+   #     new_record = super(my_sred_projects, self).create(vals)
+   #    self.setup_alias
+   #     return new_record
 
 
 
@@ -286,13 +286,13 @@ class my_sred_projects(models.Model):
     @api.model
     def setup_alias(self):
 
-        create_default_values = {'alias_name':'new claim file',
-                                 'aliased_model_id': self._name,
-                                 'aliased_parent_model': self._name,
-                                 'alias_defaults': '{"id": self.id}' }
-        new_alias = self.env['mail.alias'].create(create_default_values)
-        self.alias_id = new_alias
-        return
+   #     create_default_values = {'alias_name':'new claim file',
+   #                              'aliased_model_id': self._name,
+   #                              'aliased_parent_model': self._name,
+   #                              'alias_defaults': '{"id": self.id}' }
+   #     new_alias = self.env['mail.alias'].create(create_default_values)
+   #     self.alias_id = new_alias
+   #    return
 
 
     @api.one
@@ -515,5 +515,5 @@ class my_sred_projects(models.Model):
         'work_processing_status': _get_work_processing_status_default,
         'glip_processing_status': _get_glip_processing_status_default,
         'cra_processing_status': _get_cra_processing_status_default,
-        'alias_id': _make_new_alias,
+#        'alias_id': _make_new_alias,
         'folder': _set_default_folder}
