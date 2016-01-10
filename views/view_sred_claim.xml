@@ -3,7 +3,7 @@
 
         <record model="ir.ui.view"  id="sred_system.my_sred_form">
             <field name="name">SRED Work</field>
-            <field name="model">sred_system.sred_project</field>
+            <field name="model">sred_system.claim_project</field>
             <field name="target">current</field>
             <field name="arch" type="xml">
                 <form string="SRED Work">
@@ -124,7 +124,7 @@
 
         <record model="ir.ui.view" id="sred_system.tree_of_sred_claims">
         <field name="name">List Claim Folders</field>
-        <field name="model">sred_system.sred_project</field>
+        <field name="model">sred_system.claim_project</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree>
@@ -145,7 +145,7 @@
 
         <record id="sred_system.sred_project_search" model="ir.ui.view">
             <field name="name">Search Folders</field>
-            <field name="model">sred_system.sred_project</field>
+            <field name="model">sred_system.claim_project</field>
             <field name="arch" type="xml">
                 <search string="sred claims">
 
@@ -165,14 +165,14 @@
         <record model="ir.actions.act_window" id="sred_system.action_sred_projects">
             <field name="name">SRED Claim</field>
             <field name="target">current</field>
-            <field name="res_model">sred_system.sred_project</field>
+            <field name="res_model">sred_system.claim_project</field>
             <field name="view_mode">tree,form</field>
         </record>
 
 
         <record id="sred_system.project_folder_search" model="ir.ui.view">
             <field name="name">Search Folders</field>
-            <field name="model">sred_system.sred_project</field>
+            <field name="model">sred_system.claim_project</field>
             <field name="arch" type="xml">
                 <search string="sred claims">
 
@@ -200,7 +200,7 @@
         <record model="ir.actions.act_window" id="sred_system.action_project_folder">
             <field name="name">folders search</field>
             <field name="target">current</field>
-            <field name="res_model">sred_system.sred_project</field>
+            <field name="res_model">sred_system.claim_project</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="sred_system.project_folder_search"/>
             <field name="context">{'search_default_my-folders-group':1,
