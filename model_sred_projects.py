@@ -111,7 +111,7 @@ class my_sred_projects(models.Model):
 
     user_id                 = fields.Many2one('res.users', 'Project Manager', track_visibility='onchange')
 
-    alias_id                = fields.Many2one('mail.alias', 'Alias')
+  #  alias_id                = fields.Many2one('mail.alias', 'Alias')
 
     partner_id              = fields.Many2one('res.partner','rel_to_company_from_sred_projects',
                                               domain=[('is_company', '=', True)],
@@ -305,11 +305,10 @@ class my_sred_projects(models.Model):
 
     @api.one
     @api.model
-    @api.depends('alias_id')
     def _calc_alias(self):
         feed_n = ""
-        if self.alias_id:
-            feed_n = self.alias_id.alias_name
+ #       if self.alias_id:
+ #           feed_n = self.alias_id.alias_name
         self.email_feed = feed_n
         return feed_n
 
