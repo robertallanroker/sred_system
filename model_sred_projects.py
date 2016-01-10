@@ -26,7 +26,16 @@ class my_estimations(models.Model):
     }
 
 
+# Journals all the roles assigned to a claim project
+class my_work_resource_roles(models.Model):
+    _name = 'sred_system.work_roles'
+#    name = fields.Char()  # not used
 
+    work_types     = fields.Many2many('sred_system.work_types', 'work_type_id', 'work_types', string='work assignments')
+    work_functions  = fields.Many2many('sred_system.work_functions', 'work_function_id', 'work_functions', string='work functions rel')
+    work_person     = fields.Many2one('res.partner', string="Individual", ondelete='set null')
+    work_role_id    = fields.Many2one('sred_system.sred_project', string='people assigned', ondelete='cascade')
+    work_scope      = fields.Many2one('sred_system.work_scope', string='scope', ondelete='cascade')
 
 
 class my_work_base_object(models.Model):
@@ -65,16 +74,7 @@ class my_scope(models.Model):
 
 
 
-# Journals all the roles assigned to a claim project
-class my_work_resource_roles(models.Model):
-    _name = 'sred_system.work_roles'
-#    name = fields.Char()  # not used
 
-    work_types     = fields.Many2many('sred_system.work_types', 'work_type_id', 'work_types', string='work assignments')
-    work_functions  = fields.Many2many('sred_system.work_functions', 'work_function_id', 'work_functions', string='work functions rel')
-    work_person     = fields.Many2one('res.partner', string="Individual", ondelete='set null')
-    work_role_id    = fields.Many2one('sred_system.sred_project', string='people assigned', ondelete='cascade')
-    work_scope      = fields.Many2one('sred_system.work_scope', string='scope', ondelete='cascade')
 
 
 class my_sred_projects_tasks(models.Model):
