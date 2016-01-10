@@ -361,24 +361,40 @@ class my_sred_projects(models.Model):
     #  [('s1', 'Work'), ('s2','Greenlight'), ('s3', 'CRA'), ('s4', 'Claim-State')
     @api.model
     def _get_claim_status_default(self):
-        return self.env['sred_system.processing_status'].search([('stage', '=', 's4'),
-                                                                 ('is_default', '=', True)])[0]
+        new_record = []
+        new_list = self.env['sred_system.processing_status'].search([('stage', '=', 's4'),
+                                                                     ('is_default', '=', True)])
+        if new_list:
+            new_record = new_list[0]
+        return new_record
+
 
 
     @api.model
     def _get_work_processing_status_default(self):
-        return self.env['sred_system.processing_status'].search([('stage', '=', 's1'),
-                                                                 ('is_default', '=', True)])[0]
+        new_record = []
+        new_list   = self.env['sred_system.processing_status'].search([('stage', '=', 's1'), ('is_default', '=', True)])
+        if new_list:
+            new_record = new_list[0]
+        return new_record
+
 
     @api.model
     def _get_glip_processing_status_default(self):
-        return self.env['sred_system.processing_status'].search([('stage', '=', 's2'),
-                                                                 ('is_default', '=', True)])[0]
+        new_record = []
+        new_list   = self.env['sred_system.processing_status'].search([('stage', '=', 's2'), ('is_default', '=', True)])
+        if new_list:
+            new_record = new_list[0]
+        return new_record
+
 
     @api.model
     def _get_cra_processing_status_default(self):
-        return self.env['sred_system.processing_status'].search([('stage', '=', 's3'),
-                                                                 ('is_default', '=', True)])[0]
+        new_record = []
+        new_list   = self.env['sred_system.processing_status'].search([('stage', '=', 's3'), ('is_default', '=', True)])
+        if new_list:
+            new_record = new_list[0]
+        return new_record
 
 
     @api.one
