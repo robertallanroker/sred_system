@@ -87,7 +87,7 @@
                             </page>
                             <page string="Emails">
                                 <group>
-                                    <field name="alias_id" string="Manual setup of email:"/>
+                                    <!--field name="alias_id" string="Manual setup of email:"/-->
                                     <field name="message_ids">
                                         <tree editable="true">
 

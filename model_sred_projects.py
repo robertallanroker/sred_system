@@ -280,21 +280,6 @@ class my_sred_projects(models.Model):
    #     return new_record
 
 
-
-
-    @api.one
-    @api.model
-    def setup_alias(self):
-
-   #     create_default_values = {'alias_name':'new claim file',
-   #                              'aliased_model_id': self._name,
-   #                              'aliased_parent_model': self._name,
-   #                              'alias_defaults': '{"id": self.id}' }
-   #     new_alias = self.env['mail.alias'].create(create_default_values)
-   #     self.alias_id = new_alias
-   #    return
-
-
     @api.one
     @api.model
     @api.onchange('partner_id')
