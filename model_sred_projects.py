@@ -337,9 +337,11 @@ class my_sred_projects(models.Model):
 
     @api.model
     def _get_default_claim_type(self):
-        this_one = self.env['sred_system.claim_types'].search([('is_default','=',True)])[0]
-        self._say(this_one)
-        return this_one
+        new_record = []
+        this_one = self.env['sred_system.claim_types'].search([('is_default','=',True)])
+        if this_one:
+            new_record = this_one[0]
+        return new_record
 
 
     #  [('s1', 'Work'), ('s2','Greenlight'), ('s3', 'CRA'), ('s4', 'Claim-State')
