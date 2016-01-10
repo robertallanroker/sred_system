@@ -29,6 +29,7 @@ class my_estimations(models.Model):
 # Journals all the roles assigned to a claim project
 class my_work_resource_roles(models.Model):
     _name = 'sred_system.work_roles'
+    name = fields.Char()  # not used
 #    name = fields.Char()  # not used
 
     work_types     = fields.Many2many('sred_system.work_types', 'work_type_id', 'work_types', string='work assignments')
