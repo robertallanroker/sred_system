@@ -23,7 +23,7 @@
     # for the full list
     'category': 'Projects, SRED, Applications, Canada',
 
-    'version': '0.5',
+    'version': '3.0',
     'sequence': 11,
 
     # any module necessary for this one to work correctly
