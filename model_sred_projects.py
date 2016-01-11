@@ -73,8 +73,6 @@ class my_sred_projects(models.Model):
 
     _period_number  = 5
 
-    saved_company_logo = fields.Binary()
-
     ###########################################
     # MISSING FIELDS FROM PROJECT INHERITANCE #
     ###########################################
@@ -110,12 +108,16 @@ class my_sred_projects(models.Model):
     color                   = fields.Integer('Color Index')
 
     user_id                 = fields.Many2one('res.users', 'Project Manager', track_visibility='onchange')
+    user_image              = fields.Binary(string='user image', related='user_id.image')
+
+
 
   #  alias_id                = fields.Many2one('mail.alias', 'Alias')
 
     partner_id              = fields.Many2one('res.partner','rel_to_company_from_sred_projects',
-                                              domain=[('is_company', '=', True)],
-                                              ondelete='set null')
+                                              domain=[('is_company', '=', True)])
+    partner_tax_id          = fields.Char(string='Tax bn', related='partner_id.vat')
+    saved_company_logo      = fields.Binary(string='company logo', related='partner_id.image')
 
 
 #                                help    = "Internal email associated with this project. Incoming emails are automatically synchronized "
@@ -279,14 +281,6 @@ class my_sred_projects(models.Model):
    #    self.setup_alias
    #     return new_record
 
-
-    @api.one
-    @api.model
-    @api.onchange('partner_id')
-    def _update_partner_logo(self):
-        if self.partner_id.image:
-            self.saved_company_logo = self.partner_id.image
-        return
 
     @api.one
     @api.model

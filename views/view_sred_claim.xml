@@ -13,24 +13,35 @@
                     </Header>
                     <sheet string="SRED Work">
 
-                        <field name="saved_company_logo" widget="image" class="oe_avatar"/>
-                        <group class= "oe_title">
-                            <field name="email_feed" string = "Email system" />
-                            <field name="fee" string="Current Fee" widget="monetary" />
-                            <field name="refund" string="Current Refund" widget="monetary" />
-                            <field name="estimated_fee" attrs="{'invisible':True}"/>
-                            <field name="estimated_refund" attrs="{'invisible':True}"/>
+                        <div>
+                            <div>
+                                <field name="saved_company_logo" widget="image" class="oe_avatar"/>
+                            </div>
+                            <div>
+                                 <field name="user_image" widget="image" class="oe_avatar"/>
+                            </div>
+                            <div>
+                                <field name="email_feed" string = "Email system" />
+                            </div>
+                        </div>
+                        <group>
+                           <group class= "oe_title">
+                                <field name="fee" string="Current Fee" widget="monetary" />
+                                <field name="refund" string="Current Refund" widget="monetary" />
+                            </group>
                         </group>
+
                         <group>
                             <group string="Claim">
                                 <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
                                 <field name="claim_type" string="claim type" />
+                                <field name="tax_years" widget="many2many_tags"/>
                             </group>
                             <group string="Assigned">
-                                <field name="user_id"/>
-                                <field name="partner_id" string="Customer" widget="many2one"/>
-                                <field name="folder_group" string="Folder group" />
-                                <field name="folder" string="Folder"/>
+                                    <field name="partner_id" string="Customer" widget="many2one"/>
+                                    <field name="user_id"/>
+                                    <field name="folder_group" string="Folder group" />
+                                    <field name="folder" string="Folder"/>
                             </group>
                         </group>
                         <notebook>
@@ -46,10 +57,9 @@
                                     <!-- to-do, this should be a calculated field -->
                                     <field name="work_started_on" />
                                     <field name="work_cra_deadline" string="CRA Deadline"/>
-                                    <field name="tax_years" widget="many2many_tags"/>
                                 </group>
                                 <group string = "Corporate">
-                                    <field name="bin_number" string="Business Nummber"/>
+                                    <field name="partner_tax_id" string="BN" />
                                     <field name="financial_year_end" string="Year End"/>
                                 </group>
                             </page>
@@ -110,6 +120,8 @@
                                 <field name="notes" type="html"/>
                             </page>
                         </notebook>
+                        <field name="estimated_fee" attrs="{'invisible':True}"/>
+                        <field name="estimated_refund" attrs="{'invisible':True}"/>
                     </sheet>
                    <div class="oe_chatter">
 

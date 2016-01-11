@@ -25,6 +25,7 @@ class my_work_resource_roles(models.Model):
     work_types     = fields.Many2many('sred_system.work_types', 'work_type_id', 'work_types', string='work assignments')
     work_functions  = fields.Many2many('sred_system.work_functions', 'work_function_id', 'work_functions', string='work functions rel')
     work_person     = fields.Many2one('res.partner', string="Individual", ondelete='set null')
+    work_person_image = fields.Binary(related='work_person.image', string="person image")
     work_role_id    = fields.Many2one('sred_system.claim_project', string='people assigned', ondelete='cascade')
     work_scope      = fields.Many2one('sred_system.work_scope', string='scope', ondelete='cascade')
 
@@ -53,7 +54,6 @@ class my_work_types(models.Model):
     name = fields.Char()
     work_type_id = fields.Many2many('sred_system.work_roles', 'work_types', 'work_type_id', string='work_types')
     description = fields.Html()
-
 
 
 # A Picklist of role scopes from db
