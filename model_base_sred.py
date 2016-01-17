@@ -8,7 +8,7 @@ class my_base_sred_object(models.Model):
     name        = fields.Char()
 
     @api.one
-    def _say(self, info):
+    def say(self, info):
         print "#######################"
         print info
         print "#######################"
@@ -31,6 +31,12 @@ class my_base_sred_picklist(models.Model):
     def get_default(self):
         # this_pool = self.env.search([('is_default','=',True)])[0]
         return []
+
+    @api.one
+    @api.model
+    def get_pool(self, model_name, search_filter):
+        return self.env[model_name].search(search_filter)
+
 
     _defaults = {'is_internal':False, 'is_default':False, 'sequence': 10}
 

@@ -63,9 +63,8 @@
             <field name="model">sred_system.work_scope</field>
             <field name="arch" type="xml">
                 <tree default_order="sequence" editable="True">
+                     <field name="scope_type" string = "Type"/>
                      <field name="name" string="Work Scope"/>
-                     <field name="is_internal" string="set as internal" widget="checkbox" />
-                     <field name="is_default" string ="set as default checkbox" widget="checkbox"/>
                  </tree>
             </field>
         </record>

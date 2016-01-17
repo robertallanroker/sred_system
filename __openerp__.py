@@ -27,7 +27,8 @@
     'sequence': 11,
 
     # any module necessary for this one to work correctly
-    'depends': ['base',
+    'depends': ['web',
+        'base',
         'project',
         'base_setup',
         'product',
@@ -38,7 +39,9 @@
         'web_kanban',
         'web_tip',
         'web_planner',
-        'calendar'],
+        'calendar',],
+
+    'js': ['static/src/js/view_list.js'],
 
     # always loaded
     'data': [

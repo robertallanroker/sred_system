@@ -112,7 +112,7 @@ class my_sred_projects(models.Model):
 
 
 
-  #  alias_id                = fields.Many2one('mail.alias', 'Alias')
+    alias_id                = fields.Many2one('mail.alias', 'Alias')
 
     partner_id              = fields.Many2one('res.partner','rel_to_company_from_sred_projects',
                                               domain=[('is_company', '=', True)])
@@ -437,8 +437,8 @@ class my_sred_projects(models.Model):
         self.estimated_refund = response[1]
         self._calc_fee
         self._calc_refund
-        self._say(response[0])
-        self._say(response[1])
+        self.say(response[0])
+        self.say(response[1])
 
         if self.folder:
            self.folder.calculate_fees()

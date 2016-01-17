@@ -147,7 +147,53 @@
     </data>
 
 
-   <!-- LOAD WORK FOLDERS
+    <!-- LOAD CONTACT CONTAINERS FOR RES.PARTNERS
+        THIS IS REQUIRED SO THAT ASSIGNING WORK SCOPE AND
+        COLLABORATION AND SRED TASKS WILL FUNCTION PROPERLY -->
+    <data noupdate="0">
+
+        <record id = "_Greenlight_tag" model="res.partner.category">
+            <field name ="name">Internal</field>
+            <field name ="color">1</field>
+        </record>
+
+        <record id = "_SRED_Client_tag" model="res.partner.category">
+            <field name ="name">SRED Client</field>
+            <field name ="color">2</field>
+        </record>
+
+        <record id = "_Outside_firm_tag" model="res.partner.category">
+            <field name ="name">Outside Firm</field>
+            <field name ="color">3</field>
+        </record>
+
+        <record id = "_CRA_tag" model="res.partner.category">
+            <field name ="name">CRA</field>
+            <field name ="color">3</field>
+        </record>
+
+        <record id = "_Outside_Individual_tag" model="res.partner.category">
+            <field name ="name">Outside Individual</field>
+            <field name ="color">4</field>
+        </record>
+
+
+        <record id="_CRA" model="res.partner">
+            <field name ="name">Canada Revenue Agency</field>
+            <field name ="active">True</field>
+            <field name ="is_company">True</field>
+        </record>
+
+        <record id="_Greenlight" model="res.partner">
+            <field name ="id">1</field>
+            <field name ="name">GLIP</field>
+            <field name ="active">True</field>
+            <field name ="is_company">True</field>
+        </record>
+
+    </data>
+
+    <!-- LOAD WORK FOLDERS
          2015 & 2016 Groups
          Trash, Pending, etc
          January, February, ... December Sub Folders -->
@@ -372,30 +418,37 @@
          <!-- Load Work Scope -->
     <data>
 
+         <!--
+         scope_type = fields.Selection([(1,'Internal'),(2,'Customer'),(3,'CRA'), (4,'External'), (5,'Competitor'), (6,'Partner')-->
          <record id="_roles_glip" model="sred_system.work_scope">
             <field name="name">GreenLight</field>
             <field name="is_internal">True</field>
             <field name="is_default">True</field>
-             <field name="sequence">10</field>
+            <field name="scope_type">1</field>
+            <field name="sequence">10</field>
          </record>
 
          <record id="_roles_customer" model="sred_system.work_scope">
             <field name="name">Customer</field>
             <field name="sequence">20</field>
+            <field name="scope_type">2</field>
          </record>
 
          <record id="_roles_cra" model="sred_system.work_scope">
             <field name="name">CRA</field>
             <field name="sequence">30</field>
+            <field name="scope_type">3</field>
          </record>
 
          <record id="_roles_of" model="sred_system.work_scope">
             <field name="name">Outside Firm</field>
+            <field name="scope_type">4</field>
             <field name="sequence">40</field>
          </record>
 
          <record id="_roles_oi" model="sred_system.work_scope">
             <field name="name">Outside Individual</field>
+            <field name="scope_type">5</field>
             <field name="sequence">50</field>
          </record>
 

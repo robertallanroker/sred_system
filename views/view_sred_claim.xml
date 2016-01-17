@@ -76,17 +76,19 @@
                             <page string = "Roles">
                                 <field name="work_roles" string="Project Roles" widget="one2many" >
                                     <tree editable="true">
+                                        <button class="oe_stat_button" name="user_login_button" type="object" string="portal"/>
                                         <field name="work_scope" string="Scope"/>
                                         <field name="work_person" string="Assigned"/>
                                         <field name="work_types" placeholder="Roles" widget="many2many_tags" />
                                         <field name="work_functions" placeholder="Functions" widget="many2many_tags"/>
                                     </tree>
-                                </field>
+                                </field>ß
                             </page>
                             <page string="Task List">
                                 <field name="task_ids" string="Task Items" widget="one2many" >
                                     <tree editable="true" decoration-danger="date_deadline and (date_deadline&lt;current_date)">
                                         <!--field name="sequence"/-->
+                                        <!--button class="oe_stat_button" name="user_login_button" type="object" string="login"/-->
                                         <field name="sequence" string="#" />
                                         <field name="completed" string="completed?" widget="checkbox" help="Check off when completed work"/>
                                         <field name="assigned_to" string="assigned"/>
@@ -98,6 +100,7 @@
                             <page string="Emails">
                                 <group>
                                     <!--field name="alias_id" string="Manual setup of email:"/-->
+                                    <field name="alias_id" string = "correspondence" />
                                     <field name="message_ids">
                                         <tree editable="true">
 
@@ -111,7 +114,7 @@
                                         <!--field name="sequence"/-->
                                         <field name="name" string="document" />
                                         <!--field name="mimetype" string="file type"/-->
-                                        <field name="create_uid" string="user"/>
+                                        <field name="create_uid" string="userx"/>
                                         <field name="datas"/>
                                     </tree>
                                 </field>
@@ -141,6 +144,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="claim_type" string="claim type" />
+                <field name="partner_id" string="client" />
                 <field name="name" string="Claim" />
                 <field name="tax_years" string="Tax" widget="many2many"/>
                 <field name="estimated_fee" widget="monetary" string="Fee"/>
@@ -155,17 +159,20 @@
 
 
 
-        <record id="sred_system.sred_project_search" model="ir.ui.view">
-            <field name="name">Search Folders</field>
+        <record id="sred_system.project_claim_search" model="ir.ui.view">
+            <field name="name">Search Claims</field>
             <field name="model">sred_system.claim_project</field>
             <field name="arch" type="xml">
                 <search string="sred claims">
 
                     <field name="user_id"/>
-                    <filter string="Assigned to me" name="assigned-to-me" domain="[('user','=',uid)]"/>
+                    <field name="partner_id"/>
+
+                    <!--filter string="Assigned to me" name="assigned-to-me" domain="[('user','=',uid)]"/-->
 
                     <group expand="1" string="Group By">
                         <filter string="assigned person" name="assigned-to-me-group" context="{'group_by':'user_id'}"/>
+                        <filter string="Company" name="my-company" context="{'group_by':'partner_id'}"/>
                     </group>
 
                 </search>
@@ -179,6 +186,10 @@
             <field name="target">current</field>
             <field name="res_model">sred_system.claim_project</field>
             <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="sred_system.project_claim_search"/>
+            <field name="context">{'search_default_assigned-to-me':1}</field>
+
+
         </record>
 
 
@@ -187,11 +198,11 @@
             <field name="model">sred_system.claim_project</field>
             <field name="arch" type="xml">
                 <search string="sred claims">
-
                     <field name="user_id"/>
                     <field name="folder"/>
                     <field name="folder_group"/>
                     <field name="claim_status"/>
+                    <field name="partner_id"/>
                     <filter string="Assigned to me" name="assigned-to-me" domain="[('user_id','=',uid)]"/>
                     <separator/>
                     <filter string="Active claims" name="active-claim" domain="['|', ('claim_status','=','New'),
@@ -202,6 +213,9 @@
                     <group expand="1" string="Group By">
                         <filter string="folder groups" name="my-folders-group" context="{'group_by':'folder_group'}" />
                         <filter string="folders" name="my-folders" context="{'group_by':'folder'}" />
+                        <seperator/>
+                        <filter string="Company" name="my-company" context="{'group_by':'partner_id'}"/>
+                        <seperator/>
                         <filter string="assigned person" name="assigned-to-me-group" context="{'group_by':'user_id'}"/>
                     </group>
 
