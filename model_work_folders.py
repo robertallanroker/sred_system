@@ -92,7 +92,6 @@ class my_work_folders(models.Model):
         if eee > 0:
             np = ppp / eee
         self.progress = np
-        self._say([ppp,eee,np])
         return np
 
 
@@ -123,7 +122,6 @@ class my_work_folders(models.Model):
                 elif 'a4' in rev_list:
                     calc_fee['a4'] = my_rec.estimated_fee
 
-        self._say(calc_fee)
         if calc_fee:
             self.folder_fee_new       = calc_fee['a1']
             self.folder_fee_booked    = calc_fee['a3']
