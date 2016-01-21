@@ -131,13 +131,6 @@ class my_work_folders(models.Model):
 
 
     @api.one
-    @api.onchange('Folder_id')
-    def _calculate_folder_fees(self):
-       self.calculate_fees()
-       self.count_folders()
-
-
-    @api.one
     @api.model
     def open_project_claim(self):
         result = {

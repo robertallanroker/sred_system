@@ -58,7 +58,6 @@
         <record id="sred_system.tree_of_sred_folders" model="ir.ui.view">
             <field name="model">sred_system.work_folders</field>
             <field name="name">List Claim Folders</field>
-            <field name="target">current</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree create="false" delete = "false">
@@ -90,8 +89,7 @@
         <record id="sred_system.sred_folder_action_window_all" model="ir.actions.act_window">
           <field name="name">Claims Folders</field>
           <field name="res_model">sred_system.work_folders</field>
-          <field name="target">current</field>
-          <field name="views">tree, form</field>
+           <field name="views">tree, form</field>
           <field name="search_view_id" ref="sred_system.sred_folder_search2"/>
           <field name="context">{"search_default_only-active":1, "search_default_folder-group":1}</field>
         </record>

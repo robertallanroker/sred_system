@@ -9,7 +9,7 @@ import time
 #           V             \
 #           |              \---| WORK_FUNCTIONS
 #           |
-#           |-----------> SRED_PROJECT
+#           |-----------> CLAIM_PROJECT
 #
 #
 

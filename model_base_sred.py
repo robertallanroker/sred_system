@@ -11,7 +11,7 @@ class my_base_sred_object(models.Model):
     def say(self, info):
         print "#######################"
         print info
-        print "#######################"
+        print "+++++++++++++++++++++++"
 
 
 class my_base_sred_picklist(models.Model):

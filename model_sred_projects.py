@@ -1,7 +1,6 @@
 from openerp import models, fields, api, osv
-from datetime import datetime, date
+from random import randint
 import time
-
 
 
 class my_claim_types(models.Model):
@@ -25,16 +24,10 @@ class my_estimations(models.Model):
       'person': lambda s, cr, uid, c: uid
     }
 
-
-
-
-
-
-
-
 class my_sred_projects_tasks(models.Model):
     _name       = 'sred_system.sred_project_tasks'
-    _inherit    = 'sred_system.base_sred_tasks'
+    _inherit    = ['sred_system.base_sred_tasks', 'mail.thread', 'ir.needaction_mixin']
+    _description = 'sred claim project tasks'
 
     task_id = fields.Many2one('sred_system.claim_project', string='project', ondelete='set null')
 
@@ -49,7 +42,7 @@ class my_sred_projects_tasks(models.Model):
     @api.one
     @api.model
     def relink_stage(self):
-        self.stagetype = processing_status.stage
+        self.stagetype = self.processing_status.stage
 
     @api.one
     @api.model
@@ -58,98 +51,61 @@ class my_sred_projects_tasks(models.Model):
         return ret
 
 
+
+class my_sred_emails(models.Model):
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _name = 'sred_system.emails'
+    _description = 'Track SRED related Emails'
+
+    claim_project = fields.One2many('sred_system.claim_project', 'emails', string='Claim Project')
+    date_received = fields.Datetime()
+
+    @api.onchange
+    def on_message_changed(self):
+        print "SOMETHING CHANGED"
+
+
+
+
 #
 # MY_SRED_PROJECTS
 #
 class my_sred_projects(models.Model):
- #   _inherit        = ['project.project', 'mail.thread', 'ir.needaction_mixin']
- #   _inherit = ['project.project', 'mail.thread', 'ir.needaction_mixin']
-    _inherit = ['sred_system.base_sred_object', 'mail.thread', 'ir.needaction_mixin']
-
- #    I would rather link to a new record relationship for now
- #   _inherits = {"mail.alias": "alias_id"}
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
     _name           = 'sred_system.claim_project'
+    _description    = 'sred claim project'
 
-
-    _period_number  = 5
-
-    ###########################################
-    # MISSING FIELDS FROM PROJECT INHERITANCE #
-    ###########################################
-    #_alias#_models           = lambda self, *args, **kwargs: self._get_alias_models(*args, **kwargs)
-    #_visibility_selection   = lambda self, *args, **kwargs: self._get_visibility_selection(*args, **kwargs)
+    claim_id = fields.Char()
+    claim_file = fields.Char(related='alias_id.display_name')
+    name = fields.Char()
 
     active                  = fields.Boolean('Active',
                                 help ="If the active field is set to False, it will allow you to hide the project without removing it.")
 
-    sequence                = fields.Integer('Sequence',
-                                help = "Gives the sequence order when displaying a list of Projects.")
+    sequence                = fields.Integer('Sequence', help='Gives the sequence order when displaying a list of Projects.')
 
- #   analytic_account_id     = fields.Many2one('account.analytic.account', 'Contract/Analytic',
- #                               help    = "Link this project to an analytic account if you need financial management on projects. "
- #                                         "It enables you to connect projects with budgets, planning, cost and revenue analysis, timesheets on projects, etc.",
- #                               ondelete= "cascade",
- #                               required= True, auto_join=True)
-
- #   label_tasks             = fields.Char('Use Tasks as',
- #                               help    = "Gives label to tasks on project's kanban view.")
-
- #   resource_calendar_id    = fields.Many2one('resource.calendar', 'Working Time',
- #                               help    = "Timetable working hours to adjust the gantt diagram report", states={'close':[('readonly',True)]} )
-
- #   type_ids                = fields.Many2many('project.task.type', 'project_task_type_rel', 'project_id', 'type_id', 'Tasks Stages', states={'close':[('readonly',True)], 'cancelled':[('readonly',True)]})
-
- #   task_count              = fields.Integer(compute='_task_count', string  = "Tasks")
-
- #   task_needaction_count   = fields.Integer(compute='_task_needaction_count', string = "Tasks",)
-
-    task_ids                = fields.One2many('sred_system.sred_project_tasks', 'task_id', "Task Items")
+    task_ids                = fields.One2many('sred_system.sred_project_tasks', 'task_id', "Task Items", track_visibility='onchange')
 
     color                   = fields.Integer('Color Index')
 
     user_id                 = fields.Many2one('res.users', 'Project Manager', track_visibility='onchange')
     user_image              = fields.Binary(string='user image', related='user_id.image')
 
-
-
     alias_id                = fields.Many2one('mail.alias', 'Alias')
-
-    partner_id              = fields.Many2one('res.partner','rel_to_company_from_sred_projects',
+    partner_id              = fields.Many2one('res.partner', 'rel_to_company_from_sred_projects',
                                               domain=[('is_company', '=', True)])
     partner_tax_id          = fields.Char(string='Tax bn', related='partner_id.vat')
     saved_company_logo      = fields.Binary(string='company logo', related='partner_id.image')
 
 
-#                                help    = "Internal email associated with this project. Incoming emails are automatically synchronized "
-#                                                 "with Tasks (or optionally Issues if the Issue Tracker module is installed).")
-
-  #  alias_model             = fields.Selection(_alias_models, "Alias Model", select=True, required=True,
-  #                              help    = "The kind of document created when an email is received on this project's email alias")
-
-#    privacy_visibility      = fields.Selection(_visibility_selection, 'Privacy / Visibility', required=True,
-#                                help    = "Holds visibility of the tasks or issues that belong to the current project:\n"
-#                                                "- Portal : employees see everything;\n"
-#                                                "   if portal is activated, portal users see the tasks or issues followed by\n"
-#                                                "   them or by someone of their company\n"
-#                                                "- Employees Only: employees see all tasks or issues\n"
-#                                                "- Followers Only: employees see only the followed tasks or issues; if portal\n"
-#                                                "   is activated, portal users see the followed tasks or issues.")
-
-#    state                   = fields.Selection([('draft','New'), ('open','In Progress'), ('cancelled', 'Cancelled'),
-#                                             ('pending','Pending'), ('close','Closed')],
-#                                                string='Status', required=True, copy=False)
-
-#    doc_count               = fields.Integer(compute='_get_attached_docs', string="Number of documents attached")
-#
     date_start              = fields.Date('Start Date')
 
     date                    = fields.Date('Expiration Date', select=True, track_visibility='onchange')
-
-#    attachment_ids          = fields.One2many('ir.attachment', 'res_id', domain=lambda self: [('res_model', '=', self._name)], auto_join=True, string='Attachments')
-    # In the domain of displayed_image_id, we couln't use attachment_ids because a one2many is represented as a list of commands so we used res_model & res_id
-#    displayed_image_id      = fields.Many2one('ir.attachment', domain="[('res_model', '=', 'project.sred_project'), ('res_id', '=', id), ('mimetype', 'ilike', 'image')]", string='Displayed Image')
-
     attachment_ids          = fields.One2many('ir.attachment', 'res_id', string='Attachments')
+
+
+        #fields.One2many('sred_system.claim_project', 'id', string='History',
+        #                                      domain=[('partner_id', '=', partner_id), ('id', '<>', id)])
 
     #######################
     # CLAIM STATUS FIELDS #
@@ -177,7 +133,6 @@ class my_sred_projects(models.Model):
                             ondelete='set null',
                             domain=[('stage', '=', 's4')],
                             track_visibility='onchange')
-
 
     ###################################
     # TRACK CLAIM ORGANIZATION FIELDS #
@@ -222,7 +177,6 @@ class my_sred_projects(models.Model):
                                   string='Estimates',
                                   track_visibility='on_change')
 
-
     ###############################
     # ROLES AND LEADERSHIP FIELDS #
     ###############################
@@ -232,64 +186,117 @@ class my_sred_projects(models.Model):
 
     work_roles              = fields.One2many('sred_system.work_roles', 'work_role_id',
                                    string='assignment of work roles', ondelete='cascade')
-
-
-    #######################
-    # TASK RELATED FIELDS #
-    #######################
-
-
     ####################
     # ALL OTHER FIELDS #
     ####################
     notes = fields.Html('Notes')
 
     email_feed = fields.Char(compute='_calc_alias')
+    all_emails = fields.One2many(related='task_ids.message_ids')
+
+    emails = fields.Many2one('sred_system.emails', 'claim_project')
+    emails2 = fields.One2many('mail.message', 'res_id', string='Messages',
+                                domain=lambda self: [('res_id', '=', 15)], auto_join=False)
 
 
-    ############################## M E T H O D S ##################################
+    @api.model
+    def create(self, values):
+        self.say('CREATING')
+        return super(my_sred_projects,self).create(values)
 
-#    def _auto_init(self, cr, context=None):
-#        """ Installation hook: aliases, project.project """
-#        # create aliases for all projects and avoid constraint errors
-#        alias_context = dict(context, alias_model_name='sred_system.sred_project')
-#        new_alias = self.pool.get('mail.alias').migrate_to_alias(cr, self._name, self._table, super(my_sred_projects, self)._auto_init,
-#            'sred_system.sred_project', self._columns['alias_id'], 'id', alias_prefix='claim+', alias_defaults={'claim_id':'id'}, context=alias_context)#
-#
-#        self.alias_id = new_alias
-#
-#        return new_alias
+    @api.model
+    @api.depends('claim_id')
+    def get_claim_id(self):
+        self.claim_file = self.claim_id
+        return self.claim_id
 
- #   def create(self, cr, uid, vals, context=None):
- #$       if context is None:
- #           context = {}
- #       create_context = {}
-#        ir_values = self.pool.get('ir.values').get_default(cr, uid, 'project.config.settings', 'generate_project_alias')
-#        if ir_values:
-#            vals['alias_name'] = vals.get('alias_name') or vals.get('name')
+    @api.model
+    def make_claim_id(self):
+        count_rec = str(self.search_count([('active','=',True)]))
+        new_claim_id = str(randint(0, 999)) + '-' + count_rec
+        return new_claim_id
 
-  #      new_id = super(my_sred_projects, self).create(cr, uid, vals, context=create_context)
-  #      project_rec = self.browse(cr, uid, new_id, context=context)
-#        project_rec.id = new_id.id
-#        self.setup_alias(cr, uid, new_id, context=context)
+    @api.one
+    @api.model
+    def not_work_create(self, values):
+        self.say('Here i am')
+        new_claim_id = super(my_sred_projects, self).create(vals)
+        new_record={}
+        new_record['alias_name'] = 'robert'
+        new_record['alias_parent_model_name'] = self._name
+        new_record['mail_create_nosubscribe'] = True
+        claim_rec = self.browse(new_claim_id)
+        new_alias = self.env['mail.alias'].create(new_record)
+        claim_rec.alias_id = new_alias
+        return new_claim_id
 
- #       return new_id
+    @api.one
+    @api.model
+    def say(self, info):
+        print "&&&&&&&&&&&&&&&&&"
+        print info
+        print "$$$$$$$$$$$$$$$$$"
 
-   # @api.model
-   # def create(self, vals):
-   #     new_record = super(my_sred_projects, self).create(vals)
-   #    self.setup_alias
-   #     return new_record
+    @api.one
+    @api.onchange('alias_id')
+    def alias_has_changed(self):
+        self._calc_alias
 
+    @api.model
+    def make_alias(self):
+        new_record = {}
+        model1_tasks    = self.env['ir.model'].search([('model','=','sred_system.emails')]).id
+        model2_parent   = self.env['ir.model'].search([('model','=','sred_system.claim_project')]).id
+        new_record['alias_name'] = 'g'+str(randint(0, 999)) + '-' + str(self.search_count([('active','=',True)]))
+
+        alias_defaults = {}
+        new_record['alias_defaults'] = alias_defaults
+        new_record['alias_contact'] = 'everyone'
+        new_record['alias_model_id'] = model1_tasks
+        new_record['alias_parent_model_id'] = model2_parent
+        new_record['parent_record_thread_id'] = self.id
+        new_record['alias_parent_thread_id'] = self.id
+        new_alias = self.env['mail.alias'].create(new_record)
+        self.say(new_alias)
+        self.say(new_record)
+        self.alias_id = new_alias
+        return
+
+    @api.one
+    def link_button_pressed(self):
+        res = {}
+        if self.id:
+            if not self.alias_id:
+                self.make_alias()
+        return res
+
+    @api.one
+    def calendar_button_pressed(self):
+        res = {}
+        if self.id:
+            res['type'] = 'ir.actions.act_window'
+            res['res_model'] = 'calendar.event'
+            res['view_mode'] = 'form'
+            res['res_id'] = self.id
+            res['target'] = 'current'
+            res['flags'] = {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
+        return res
+
+    @api.one
+    def mail_button_pressed(self):
+        res = {}
+        if self.id:
+            res = {}
+        return res
 
     @api.one
     @api.model
     def _calc_alias(self):
-        feed_n = ""
- #       if self.alias_id:
- #           feed_n = self.alias_id.alias_name
-        self.email_feed = feed_n
-        return feed_n
+        if self.alias_id:
+            self.email_feed = self.alias_id.display_name
+        else:
+            self.email_feed = "not set"
+        return
 
     @api.one
     @api.model
@@ -337,7 +344,6 @@ class my_sred_projects(models.Model):
             new_record = this_one[0]
         return new_record
 
-
     #  [('s1', 'Work'), ('s2','Greenlight'), ('s3', 'CRA'), ('s4', 'Claim-State')
     @api.model
     def _get_claim_status_default(self):
@@ -348,8 +354,6 @@ class my_sred_projects(models.Model):
             new_record = new_list[0]
         return new_record
 
-
-
     @api.model
     def _get_work_processing_status_default(self):
         new_record = []
@@ -357,7 +361,6 @@ class my_sred_projects(models.Model):
         if new_list:
             new_record = new_list[0]
         return new_record
-
 
     @api.model
     def _get_glip_processing_status_default(self):
@@ -367,7 +370,6 @@ class my_sred_projects(models.Model):
             new_record = new_list[0]
         return new_record
 
-
     @api.model
     def _get_cra_processing_status_default(self):
         new_record = []
@@ -375,7 +377,6 @@ class my_sred_projects(models.Model):
         if new_list:
             new_record = new_list[0]
         return new_record
-
 
     @api.one
     def _get_current_fee_value(self):
@@ -392,7 +393,6 @@ class my_sred_projects(models.Model):
             for my_rec in self.estimations:
                 refund_amount = my_rec['refund']
         return refund_amount
-
 
     @api.model
     def _get_current_estimate(self):
@@ -417,18 +417,6 @@ class my_sred_projects(models.Model):
         answer.append(refund_amount)
         return answer
 
-  #  @api.one
-  #  @api.model
-  #  def _set_default_tasks(self):
-  #      this_data = self.env['sred_system.default_working_tasks'].search([('sequence','>=',0)])
-  #      for this_rec in this_data:
-  #         data_vals = {'name':this_rec.name,'project_id':self.id, 'user_id':self.user_id}
-  #          this_new_record = self.env['sred_system.sred_project_tasks'].create(data_vals)
-  #      self._say(this_data)
-  #      self._say(this_new_list)
-  #      return
-
-
     @api.one
     @api.onchange('estimations')
     def _calculate_claim(self):
@@ -437,9 +425,6 @@ class my_sred_projects(models.Model):
         self.estimated_refund = response[1]
         self._calc_fee
         self._calc_refund
-        self.say(response[0])
-        self.say(response[1])
-
         if self.folder:
            self.folder.calculate_fees()
 
@@ -453,16 +438,10 @@ class my_sred_projects(models.Model):
             'target': 'current',
         }
 
-
     @api.one
     @api.model
-    def _make_new_alias(self):
- #       new_alias_dict = {'name':'new-alias','alias_parent_thread_id': self.id, 'alias_defaults': {'project_id': self.id}}
- #       new_alias_record = self.env['mail.alias']
- #       new_id = new_alias_record.create(new_alias_dict)
- #       this_project_record = self.env['sred_system.sred_project'].browse(self.id)
-        return
-
+    def _get_new_claim_id(self):
+        return str(randint(0, 999)) + '-' + str(self.search_count([('active','=',True)]))
 
     @api.one
     @api.model
@@ -472,9 +451,7 @@ class my_sred_projects(models.Model):
             "res_model": "sred_system.claim_project",
             "view_type": "form",
             "target": "current",
-#            "domain": [('id', '=', claim_project_id)],
-#            "context":
-#            "context": context,
+
             "name": "SRED Project",
             "nodestroy": True}
         return result
@@ -482,12 +459,8 @@ class my_sred_projects(models.Model):
     _order = "sequence, name, id"
     _defaults = {
         'active': True,
-#        'type': 'contract',
-#       'label_tasks': 'Tasks',
-#       'state': 'open',
         'sequence': 10,
         'user_id': lambda self,cr,uid,ctx: uid,
-#        'alias_model': 'project.task',
         'name': "New Claim",
         'tax_years': _get_tax_year_defaults,
         'claim_type': _get_default_claim_type,
@@ -497,3 +470,47 @@ class my_sred_projects(models.Model):
         'cra_processing_status': _get_cra_processing_status_default,
 #        'alias_id': _make_new_alias,
         'folder': _set_default_folder}
+
+
+
+
+
+     #   analytic_account_id     = fields.Many2one('account.analytic.account', 'Contract/Analytic',
+ #                               help    = "Link this project to an analytic account if you need financial management on projects. "
+ #                                         "It enables you to connect projects with budgets, planning, cost and revenue analysis, timesheets on projects, etc.",
+ #                               ondelete= "cascade",
+ #                               required= True, auto_join=True)
+
+ #   label_tasks             = fields.Char('Use Tasks as',
+ #                               help    = "Gives label to tasks on project's kanban view.")
+
+ #   resource_calendar_id    = fields.Many2one('resource.calendar', 'Working Time',
+ #                               help    = "Timetable working hours to adjust the gantt diagram report", states={'close':[('readonly',True)]} )
+
+ #   type_ids                = fields.Many2many('project.task.type', 'project_task_type_rel', 'project_id', 'type_id', 'Tasks Stages', states={'close':[('readonly',True)], 'cancelled':[('readonly',True)]})
+
+ #   task_count              = fields.Integer(compute='_task_count', string  = "Tasks")
+
+ #   task_needaction_count   = fields.Integer(compute='_task_needaction_count', string = "Tasks",)
+
+    #                                help    = "Internal email associated with this project. Incoming emails are automatically synchronized "
+#                                                 "with Tasks (or optionally Issues if the Issue Tracker module is installed).")
+
+  #  alias_model             = fields.Selection(_alias_models, "Alias Model", select=True, required=True,
+  #                              help    = "The kind of document created when an email is received on this project's email alias")
+
+#    privacy_visibility      = fields.Selection(_visibility_selection, 'Privacy / Visibility', required=True,
+#                                help    = "Holds visibility of the tasks or issues that belong to the current project:\n"
+#                                                "- Portal : employees see everything;\n"
+#                                                "   if portal is activated, portal users see the tasks or issues followed by\n"
+#                                                "   them or by someone of their company\n"
+#                                                "- Employees Only: employees see all tasks or issues\n"
+#                                                "- Followers Only: employees see only the followed tasks or issues; if portal\n"
+#                                                "   is activated, portal users see the followed tasks or issues.")
+
+#    state                   = fields.Selection([('draft','New'), ('open','In Progress'), ('cancelled', 'Cancelled'),
+#                                             ('pending','Pending'), ('close','Closed')],
+#                                                string='Status', required=True, copy=False)
+
+#    doc_count               = fields.Integer(compute='_get_attached_docs', string="Number of documents attached")
+#

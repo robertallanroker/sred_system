@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from openerp import models, fields, api, osv
-from datetime import datetime, date
-import time
+
 
 #
 # MODIFICATIONS TO PROJECT ENTITIES
