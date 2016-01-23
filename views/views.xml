@@ -210,6 +210,7 @@
             <field name="model">sred_system.sred_project_tasks</field>
             <field name="arch" type="xml">
                 <tree default_order="sequence" editable="True">
+                    <field name="partner_id" string="company"/>
                     <field name="task_id" string = "claim project" />
                     <field name="stagetype" string ="stage"/>
                     <field name="processing_status" string="status"/>

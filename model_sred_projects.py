@@ -39,6 +39,20 @@ class my_sred_projects_tasks(models.Model):
     processing_status = fields.Many2one('sred_system.processing_status', 'processing-queue',
                                         domain=[('stage', '=', 's2')],
                                         ondelete='set null')
+
+    partner_id    = fields.Many2one(related='task_id.partner_id')
+
+    company = fields.Char(compute="_compute_company")
+
+    @api.one
+    def _compute_company(self):
+        if self.task_id.partner_id:
+            self.company = self.task_id.partner_id.name
+        else:
+            self.company = 'not assigned'
+        return
+
+
     @api.one
     @api.model
     def relink_stage(self):
@@ -85,6 +99,7 @@ class my_sred_projects(models.Model):
     sequence                = fields.Integer('Sequence', help='Gives the sequence order when displaying a list of Projects.')
 
     task_ids                = fields.One2many('sred_system.sred_project_tasks', 'task_id', "Task Items", track_visibility='onchange')
+
 
     color                   = fields.Integer('Color Index')
 

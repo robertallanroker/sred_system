@@ -41,7 +41,7 @@
         'web_planner',
         'calendar',],
 
-    'js': ['static/src/js/view_list.js'],
+    #'js': ['static/src/js/view_list.js'],
 
     # always loaded
     'data': [

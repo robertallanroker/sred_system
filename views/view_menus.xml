@@ -1,15 +1,19 @@
 <openerp>
 
+    <!-- TOP MENU -->
     <data>
 
-        <!-- TOP MENU -->
         <menuitem name="SRED"
                id="sred_system.main_menu_root"
                icon="fa-calendar"
                web_icon="project,static/description/icon.png"
                sequence="51"/>
 
-        <!-- MENU GROUPS -->
+    </data>
+
+    <!-- PRIMARY GROUPS IN MAIN MENU -->
+    <data>
+
         <menuitem name="Claims"
             id="sred_system.work_menu"
             parent="sred_system.main_menu_root"
@@ -30,22 +34,71 @@
               parent="sred_system.main_menu_root"
               sequence="30" />
 
-        <!-- CLAIMS -->
+
+    </data>
+
+    <!-- CLAIMS MAIN -->
+    <data>
+
+
         <menuitem id="sred_system.claims_folder2" name = "Folders" parent = "sred_system.work_menu"
-                    action="sred_system.action_project_folder"  sequence="6"/>
+                    action = "sred_system.action_project_folder" sequence="6"/>
 
 
-        <menuitem id="sred_system.claims_projects" name = "Projects" parent = "sred_system.work_menu"
-                  action="sred_system.action_sred_projects" sequence="10"/>
+        <menuitem id="sred_system.claims_projects" name = "Projects by" parent = "sred_system.work_menu"
+                   sequence="10"/>
 
         <menuitem id="sred_system.claims_tasks" name = "Tasks" parent = "sred_system.work_menu"
-                  action = "sred_system.action_tasks"
+
                   sequence="12"/>
 
+    </data>
 
-        <!-- COnfiguration Group -->
+    <!-- CLAIMS :: SEARCH OPTIONS SUB-MENU -->
+    <data>
 
+        <menuitem id="sred_system.projects_by_all"      name = "list" parent = "sred_system.claims_projects"
+                  sequence = "10" action = "sred_system.action_sred_projects"/>
+        <menuitem id="sred_system.projects_by_customer" name = "company" parent = "sred_system.claims_projects"
+                  sequence = "20" action = "sred_system.adtion_sred_projects_by_customer"/>
+        <menuitem id="sred_system.projects_by_work"     name = "work" parent = "sred_system.claims_projects"
+                  sequence = "30" action = "sred_system.adtion_sred_projects_by_work"/>
+        <menuitem id="sred_system.projects_by_cra"      name = "cra" parent = "sred_system.claims_projects"
+                  sequence = "40" action = "sred_system.adtion_sred_projects_by_cra"/>
+        <menuitem id="sred_system.projects_by_glip"     name = "processing" parent = "sred_system.claims_projects"
+                  sequence = "50" action = "sred_system.adtion_sred_projects_by_processing"/>
+        <menuitem id="sred_system.projects_by_claim_type"     name = "claim type" parent = "sred_system.claims_projects"
+                  sequence = "60" action = "sred_system.adtion_sred_projects_by_claim_type"/>
 
+    </data>
+
+    <!-- CLAIMS :: TASKS SEARCH OPTIONS SUB-MENU -->
+    <data>
+
+        <menuitem id        = "sred_system.tasks_by_all"
+                  name      = "list"
+                  parent    = "sred_system.claims_tasks"
+                  sequence  = "10"
+                  action    = "sred_system.action_tasks"/>
+
+        <menuitem id        = "sred_system.tasks_by_company"
+                  name      = "company"
+                  parent    = "sred_system.claims_tasks"
+                  sequence  = "20"
+                  action    = "sred_system.action_tasks_company"/>
+        <!--
+        <menuitem id="sred_system.tasks_by_this_week"      name = "due this week" parent = "sred_system.claims_tasks"
+                  sequence = "10"  action = "sred_system.action_tasks_by_due_this_week"/>
+        <menuitem id="sred_system.tasks_by_this_month"      name = "due this month" parent = "sred_system.claims_tasks"
+                  sequence = "10"  action = "sred_system.action_tasks_by_due_this_month"/>
+        <menuitem id="sred_system.tasks_by_overdue"      name = "over_due" parent = "sred_system.claims_tasks"
+                  sequence = "10"  action = "sred_system.action_tasks_by_overdue"/>
+        -->
+
+    </data>
+
+    <!-- CONFIGURATION MAIN -->
+    <data>
         <menuitem id="sred_system.config_organization" name = "Set organization" parent = "sred_system.config_menu" sequence="1"/>
 
         <menuitem id="sred_system.config_processing" name = "Set processing" parent = "sred_system.config_menu" sequence="2"
@@ -69,10 +122,10 @@
                 action = "sred_system.action_set_project_types_window"
                 sequence = "1005" />
 
+    </data>
 
-
-
-        <!-- ROLES -->
+    <data>
+        <!-- CONFIGURATION :: SUB-MENU -->
         <menuitem id="sred_system.config_work_scope_areas"
                 name = "scope"
                 parent = "sred_system.config_roles"
