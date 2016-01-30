@@ -37,9 +37,9 @@
         'portal',
         'resource',
         'web_kanban',
-        'web_tip',
-        'web_planner',
-        'calendar',],
+        'web_tip'],
+     #   'web_planner',
+     #   'calendar',],
 
     #'js': ['static/src/js/view_list.js'],
 

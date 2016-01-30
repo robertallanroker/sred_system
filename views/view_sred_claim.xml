@@ -120,7 +120,7 @@
                             </page>
                             <page string="Task List">
                                 <field name="task_ids" string="Task Items" widget="one2many" >
-                                    <tree decoration-danger="date_deadline and (date_deadline&lt;current_date)">
+                                    <tree editable="true" decoration-danger="date_deadline and (date_deadline&lt;current_date)">
                                         <!--field name="sequence"/-->
                                         <!--button class="oe_stat_button" name="user_login_button" type="object" string="login"/-->
                                         <field name="sequence" string="#" />
