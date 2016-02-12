@@ -36,12 +36,26 @@
                                             icon="fa-chain"
                                             string="Link">
                                         </button>
-                                        <button type="action"
-                                            class="oe_button_box oe_right oe_inline oe_stat_button"
-                                            name ="mail_button_pressed"
-                                            icon="fa-envelope-o"
-                                            string="Email">
+
+                                        <button  class = "oe_stat_button"
+                                                 name = "attachment_tree_view"
+                                                 type = "object"
+                                                 icon = "fa-files-o" >
+                                            <field string = "Documents" name = "doc_count" widget = "statinfo" />
                                         </button>
+
+                                        <button type= "action"
+                                                class= "oe_button_box oe_right oe_inline oe_stat_button"
+                                                name = "mail_button_pressed"
+                                                icon= "fa-envelope-o"
+                                                string= "Email">
+                                        </button>
+                                        <button type= "object"
+                                                name = "open_website_action"
+                                                icon = "fa-globe"
+                                                string = "website" />
+
+                                        <button name="method_name" string="Open Form" type="object"/>
                                     </div>
                                     <div>
                                         <group>
@@ -379,10 +393,13 @@
             <field name="model">sred_system.sred_project_tasks</field>
             <field name="arch" type="xml">
                 <search string="sred tasks">
-                    <field name="assigned_to"/>
+                    <field name="partner_id" string="Company"/>
+                    <field name="assigned_to" string="Assigned"/>
+                    <field name="completed" string="Completed"/>
                     <filter string="Assigned to me" name="filter-tasks-assigned-to-me" domain="[('user_id','=',assigned_to)]"/>
                     <separator/>
                     <filter string="Not Completed" name="filter-tasks-not-completed" domain="[('completed','=',False)]"/>
+                    <filter string="Completed" name="filter-tasks-completed" domain="[('completed','=',False)]"/>
                     <group expand="1" string="Group By">
                         <filter string="Company" name="group-tasks-company" context="{'group_by':'partner_id'}"/>
                         <seperator/>
@@ -401,7 +418,8 @@
             <field name="res_model">sred_system.sred_project_tasks</field>
             <field name="view_mode">tree</field>
             <field name="context">{'search_default_filter-tasks-not-completed':1,
-                                    'search_default_filter-tasks-assigned-to-me':1} </field>
+                                    'search_default_filter-tasks-assigned-to-me':1,
+                                    'search_default_group-tasks-company':1} </field>
         </record>
 
         <record model="ir.actions.act_window" id="sred_system.action_tasks_company">

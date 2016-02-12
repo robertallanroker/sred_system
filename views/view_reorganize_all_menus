@@ -1,0 +1,40 @@
+<openerp>
+
+    <!-- NEW MAIN MENU GROUPS -->
+    <data>
+
+        <menuitem name = "My Home"
+                  id = "root_my_home"
+                  sequence = "1" />
+
+        <menuitem name = "Sales"
+                  id = "root_sales"
+                  sequence = "10" />
+
+        <menuitem name = "Marketing"
+                  id = "root_marketing"
+                  sequence = "20" />
+
+        <menuitem name = "Operations"
+                  id = "root_marketing"
+                  sequence = "30" />
+
+        <menuitem name = "Human Resources"
+                  id = "root_hr"
+                  sequence = "30" />
+
+        <menuitem name = "Finance"
+                  id = "root_accounting"
+                  sequence = "30" />
+
+        <menuitem name = "System"
+                  id = "root_system"
+                  sequence = "30" />
+
+    </data>
+
+
+    <!-- RE-LINK EXISTING MODULES UNDER NEW HEIRCHAY -->
+
+
+</openerp>

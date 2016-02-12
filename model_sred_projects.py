@@ -257,6 +257,47 @@ class my_sred_projects(models.Model):
     def alias_has_changed(self):
         self._calc_alias
 
+    @api.one
+    def open_website_action(self):
+        act_window = {}
+        act_window["name"] = "open_web_from_claim"
+        act_window["type"] = "ir.actions.act_url"
+        act_window["url"] = "http://www.google.com"
+        act_window["target"] = "new"
+        self.say(act_window)
+        thisone = {
+        'type': 'ir.actions.act_window',
+        'name': 'hellow form name',
+        'res_model': 'res.partner',
+        'res_id': 10 ,
+        'view_type': 'form',
+        'view_mode': 'form',
+        'target' : 'new',
+        }
+        self.say(thisone)
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "res.partner",
+            "views": [[False, "tree"], [False, "form"]],
+            "domain": [["customer", "=", True]],
+            }
+
+    @api.one
+    def method_name(self):
+        self.say('here i am')
+        return {
+               'type': 'ir.actions.act_window',
+               'name': 'Form heading',
+               'view_mode': 'form',
+               'view_type': 'form',
+               'view_id': '1',
+               'res_model': 'module.name',
+               'nodestroy': True,
+               'res_id': '1',
+               'target':'new',
+               'context': '',}
+
+
     @api.model
     def make_alias(self):
         new_record = {}
@@ -471,6 +512,35 @@ class my_sred_projects(models.Model):
             "nodestroy": True}
         return result
 
+    @api.one
+    @api.model
+    def _get_attached_docs(self):
+        attachments = self.env['ir.attachment'].search([('res_model', '=', 'sred_system.claim_project'), ('res_id', '=', self.id)])
+        return len(attachments) or 0
+
+
+
+    def attachment_tree_view(self, cr, uid, ids, context):
+        domain = [('res_model', '=', 'sred_system.claim_project'), ('res_id', 'in', ids)]
+        res_id = ids and ids[0] or False
+        return {
+            'name': _('Attachments'),
+            'domain': domain,
+            'res_model': 'ir.attachment',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'kanban,tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                        Documents are attached to the claim files.</p><p>
+                        Send messages or log internal notes with attachments to link
+                        documents to your project.
+                    </p>'''),
+            'limit': 80,
+            'context': "{'default_res_model': '%s','default_res_id': %d}" % (self._name, res_id)
+        }
+
+
     _order = "sequence, name, id"
     _defaults = {
         'active': True,
@@ -483,6 +553,7 @@ class my_sred_projects(models.Model):
         'work_processing_status': _get_work_processing_status_default,
         'glip_processing_status': _get_glip_processing_status_default,
         'cra_processing_status': _get_cra_processing_status_default,
+        'doc_count': fields.function(_get_attached_docs, string="Number of documents attached", type='integer'),
 #        'alias_id': _make_new_alias,
         'folder': _set_default_folder}
 

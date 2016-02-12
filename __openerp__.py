@@ -46,6 +46,7 @@
     # always loaded
     'data': [
         'load_data/load_data.xml',
+        'views/view_reorganize_all_menus',
         'views/sred_system.xml',
         'views/views.xml',
         'views/view_work_folders.xml',

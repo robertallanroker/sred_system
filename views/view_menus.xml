@@ -3,36 +3,39 @@
     <!-- TOP MENU -->
     <data>
 
-        <menuitem name="SRED"
-               id="sred_system.main_menu_root"
-               icon="fa-calendar"
-               web_icon="project,static/description/icon.png"
-               sequence="51"/>
-
+        <menuitem name = "Scientific Research"
+                  id = "sred_system.main_menu_root"
+                  sequence = "12"/>
     </data>
 
     <!-- PRIMARY GROUPS IN MAIN MENU -->
     <data>
 
-        <menuitem name="Claims"
+        <menuitem name = "Claims"
             id="sred_system.work_menu"
             parent="sred_system.main_menu_root"
             sequence="10" />
 
-        <menuitem name ="Reports"
+        <menuitem name = "Customers"
+                  id="sred_system.customers_menu"
+                  parent="sred_system.main_menu_root"
+                  sequence="11"
+                  action="base.action_partner_form"/>
+
+        <menuitem name = "Reports"
                 id="sred_system.reports"
                 parent ="sred_system.main_menu_root"
                 sequence="20" />
 
-        <menuitem id="sred_system.activities"
-                name = "Activities"
-                parent = "sred_system.main_menu_root"
+        <menuitem name  = "Activities"
+                  id = "sred_system.activities"
+                  parent = "sred_system.main_menu_root"
                 sequence = "25" />
 
-        <menuitem id="sred_system.config_menu"
-              name="Configuration"
-              parent="sred_system.main_menu_root"
-              sequence="30" />
+        <menuitem name = "Configuration"
+                  id = "sred_system.config_menu"
+                  parent = "sred_system.main_menu_root"
+                  sequence = "30" />
 
 
     </data>
@@ -40,17 +43,16 @@
     <!-- CLAIMS MAIN -->
     <data>
 
+        <menuitem name = "Folders"
+                  id = "sred_system.claims_folder2"
+                  parent = "sred_system.work_menu"
+                  action = "sred_system.action_project_folder" sequence="6"/>
 
-        <menuitem id="sred_system.claims_folder2" name = "Folders" parent = "sred_system.work_menu"
-                    action = "sred_system.action_project_folder" sequence="6"/>
+        <menuitem name = "Projects by"
+                  id = "sred_system.claims_projects"
+                  parent = "sred_system.work_menu"
+                  sequence = "10"/>
 
-
-        <menuitem id="sred_system.claims_projects" name = "Projects by" parent = "sred_system.work_menu"
-                   sequence="10"/>
-
-        <menuitem id="sred_system.claims_tasks" name = "Tasks" parent = "sred_system.work_menu"
-
-                  sequence="12"/>
 
     </data>
 
