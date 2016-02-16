@@ -6,5 +6,7 @@ import model_work_roles
 import model_work_folders
 import models
 import model_sred_projects
+import crm
+
 
 

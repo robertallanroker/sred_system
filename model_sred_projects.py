@@ -1,6 +1,10 @@
 from openerp import models, fields, api, osv
 from random import randint
 import time
+from openerp import tools
+from openerp.tools.translate import _
+
+
 
 
 class my_claim_types(models.Model):
@@ -92,6 +96,8 @@ class my_sred_projects(models.Model):
     claim_id = fields.Char()
     claim_file = fields.Char(related='alias_id.display_name')
     name = fields.Char()
+
+    website = fields.Char(related='partner_id.website')
 
     active                  = fields.Boolean('Active',
                                 help ="If the active field is set to False, it will allow you to hide the project without removing it.")
@@ -192,6 +198,10 @@ class my_sred_projects(models.Model):
                                   string='Estimates',
                                   track_visibility='on_change')
 
+    doc_count               = fields.Integer(compute='_get_attached_docs', string="Number of documents attached")
+
+
+
     ###############################
     # ROLES AND LEADERSHIP FIELDS #
     ###############################
@@ -257,45 +267,8 @@ class my_sred_projects(models.Model):
     def alias_has_changed(self):
         self._calc_alias
 
-    @api.one
-    def open_website_action(self):
-        act_window = {}
-        act_window["name"] = "open_web_from_claim"
-        act_window["type"] = "ir.actions.act_url"
-        act_window["url"] = "http://www.google.com"
-        act_window["target"] = "new"
-        self.say(act_window)
-        thisone = {
-        'type': 'ir.actions.act_window',
-        'name': 'hellow form name',
-        'res_model': 'res.partner',
-        'res_id': 10 ,
-        'view_type': 'form',
-        'view_mode': 'form',
-        'target' : 'new',
-        }
-        self.say(thisone)
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": "res.partner",
-            "views": [[False, "tree"], [False, "form"]],
-            "domain": [["customer", "=", True]],
-            }
 
-    @api.one
-    def method_name(self):
-        self.say('here i am')
-        return {
-               'type': 'ir.actions.act_window',
-               'name': 'Form heading',
-               'view_mode': 'form',
-               'view_type': 'form',
-               'view_id': '1',
-               'res_model': 'module.name',
-               'nodestroy': True,
-               'res_id': '1',
-               'target':'new',
-               'context': '',}
+
 
 
     @api.model
@@ -326,24 +299,7 @@ class my_sred_projects(models.Model):
                 self.make_alias()
         return res
 
-    @api.one
-    def calendar_button_pressed(self):
-        res = {}
-        if self.id:
-            res['type'] = 'ir.actions.act_window'
-            res['res_model'] = 'calendar.event'
-            res['view_mode'] = 'form'
-            res['res_id'] = self.id
-            res['target'] = 'current'
-            res['flags'] = {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
-        return res
 
-    @api.one
-    def mail_button_pressed(self):
-        res = {}
-        if self.id:
-            res = {}
-        return res
 
     @api.one
     @api.model
@@ -519,6 +475,12 @@ class my_sred_projects(models.Model):
         return len(attachments) or 0
 
 
+    def open_website_action(self, cr, uid, ids, context, website):
+        return {
+                  'type'     : 'ir.actions.act_url',
+                  'target'   : 'new',
+                  'url'      : 'http://www.google.com'
+               }
 
     def attachment_tree_view(self, cr, uid, ids, context):
         domain = [('res_model', '=', 'sred_system.claim_project'), ('res_id', 'in', ids)]
@@ -540,6 +502,14 @@ class my_sred_projects(models.Model):
             'context': "{'default_res_model': '%s','default_res_id': %d}" % (self._name, res_id)
         }
 
+    def calendar_button_pressed(self, cr, uid, ids, context):
+        return {
+            'name': 'Meetings',
+            'res_model': 'calendar.event',
+            'type':'ir.actions.act_window',
+            'view_id':False,
+            'view_mode':'calendar,tree,form',
+            'view_type':'Calendar'}
 
     _order = "sequence, name, id"
     _defaults = {
@@ -553,7 +523,6 @@ class my_sred_projects(models.Model):
         'work_processing_status': _get_work_processing_status_default,
         'glip_processing_status': _get_glip_processing_status_default,
         'cra_processing_status': _get_cra_processing_status_default,
-        'doc_count': fields.function(_get_attached_docs, string="Number of documents attached", type='integer'),
 #        'alias_id': _make_new_alias,
         'folder': _set_default_folder}
 

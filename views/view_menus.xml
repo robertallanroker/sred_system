@@ -5,6 +5,7 @@
 
         <menuitem name = "Scientific Research"
                   id = "sred_system.main_menu_root"
+                  parent = "_menu_operations"
                   sequence = "12"/>
     </data>
 
@@ -37,7 +38,6 @@
                   parent = "sred_system.main_menu_root"
                   sequence = "30" />
 
-
     </data>
 
     <!-- CLAIMS MAIN -->
@@ -48,56 +48,20 @@
                   parent = "sred_system.work_menu"
                   action = "sred_system.action_project_folder" sequence="6"/>
 
-        <menuitem name = "Projects by"
+        <menuitem name = "Projects"
                   id = "sred_system.claims_projects"
                   parent = "sred_system.work_menu"
+                  action = "sred_system.action_claims"
                   sequence = "10"/>
 
+        <menuitem name = "Tasks"
+                  id = "sred_system.menu_claims_tasks"
+                  action="sred_system.action_claims_tasks"
+                  parent = "sred_system.work_menu"
+                  sequence = "20" />
 
     </data>
 
-    <!-- CLAIMS :: SEARCH OPTIONS SUB-MENU -->
-    <data>
-
-        <menuitem id="sred_system.projects_by_all"      name = "list" parent = "sred_system.claims_projects"
-                  sequence = "10" action = "sred_system.action_sred_projects"/>
-        <menuitem id="sred_system.projects_by_customer" name = "company" parent = "sred_system.claims_projects"
-                  sequence = "20" action = "sred_system.adtion_sred_projects_by_customer"/>
-        <menuitem id="sred_system.projects_by_work"     name = "work" parent = "sred_system.claims_projects"
-                  sequence = "30" action = "sred_system.adtion_sred_projects_by_work"/>
-        <menuitem id="sred_system.projects_by_cra"      name = "cra" parent = "sred_system.claims_projects"
-                  sequence = "40" action = "sred_system.adtion_sred_projects_by_cra"/>
-        <menuitem id="sred_system.projects_by_glip"     name = "processing" parent = "sred_system.claims_projects"
-                  sequence = "50" action = "sred_system.adtion_sred_projects_by_processing"/>
-        <menuitem id="sred_system.projects_by_claim_type"     name = "claim type" parent = "sred_system.claims_projects"
-                  sequence = "60" action = "sred_system.adtion_sred_projects_by_claim_type"/>
-
-    </data>
-
-    <!-- CLAIMS :: TASKS SEARCH OPTIONS SUB-MENU -->
-    <data>
-
-        <menuitem id        = "sred_system.tasks_by_all"
-                  name      = "list"
-                  parent    = "sred_system.claims_tasks"
-                  sequence  = "10"
-                  action    = "sred_system.action_tasks"/>
-
-        <menuitem id        = "sred_system.tasks_by_company"
-                  name      = "company"
-                  parent    = "sred_system.claims_tasks"
-                  sequence  = "20"
-                  action    = "sred_system.action_tasks_company"/>
-        <!--
-        <menuitem id="sred_system.tasks_by_this_week"      name = "due this week" parent = "sred_system.claims_tasks"
-                  sequence = "10"  action = "sred_system.action_tasks_by_due_this_week"/>
-        <menuitem id="sred_system.tasks_by_this_month"      name = "due this month" parent = "sred_system.claims_tasks"
-                  sequence = "10"  action = "sred_system.action_tasks_by_due_this_month"/>
-        <menuitem id="sred_system.tasks_by_overdue"      name = "over_due" parent = "sred_system.claims_tasks"
-                  sequence = "10"  action = "sred_system.action_tasks_by_overdue"/>
-        -->
-
-    </data>
 
     <!-- CONFIGURATION MAIN -->
     <data>
@@ -152,10 +116,6 @@
                 parent = "sred_system.config_organization"
                 action = "sred_system.action_set_tax_years_window"
                 sequence = "1080" />
-
-
-
-
 
     </data>
 

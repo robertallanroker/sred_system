@@ -24,18 +24,19 @@
                             <div class="oe_right">
                                 <div class = "oe_button_box">
                                    <div>
-                                        <button type="action"
+                                        <button type="object"
                                             name="calendar_button_pressed"
-                                            class="oe_button_box oe_right oe_inline oe_stat_button"
+                                            class="oe_stat_button"
                                             icon="fa-calendar"
                                             string="Meetings">
                                         </button>
+
                                         <button type="object"
                                                 name="link_button_pressed"
-                                            class="oe_button_box oe_right oe_inline oe_stat_button"
-                                            icon="fa-chain"
-                                            string="Link">
-                                        </button>
+                                                class= "oe_stat_button"
+                                                icon="fa-chain">
+                                            <field string="Link" name="email_feed" widget="statinfo"/>
+                                      </button>
 
                                         <button  class = "oe_stat_button"
                                                  name = "attachment_tree_view"
@@ -44,23 +45,17 @@
                                             <field string = "Documents" name = "doc_count" widget = "statinfo" />
                                         </button>
 
-                                        <button type= "action"
-                                                class= "oe_button_box oe_right oe_inline oe_stat_button"
-                                                name = "mail_button_pressed"
-                                                icon= "fa-envelope-o"
-                                                string= "Email">
-                                        </button>
-                                        <button type= "object"
+                                        <button type=  "object"
                                                 name = "open_website_action"
-                                                icon = "fa-globe"
-                                                string = "website" />
+                                                class= "oe_stat_button"
+                                                icon = "fa-globe">
+                                            <field string="website" name = "website" widget="statinfo" />
+                                        </button>
 
-                                        <button name="method_name" string="Open Form" type="object"/>
                                     </div>
                                     <div>
                                         <group>
                                             <field name="id" string="Claim id"/>
-                                            <field name="email_feed" string="Link correspondence" />
                                             <field name="refund" widget="monetary"/>
                                             <field name="fee" widget="monetary"/>
                                         </group>
@@ -207,21 +202,17 @@
 
     </data>
 
-    <!-- SEARCHES -->
+    <!-- FOLDERS -->
     <data>
 
 
     </data>
 
-    <!-- ACTIONS -->
+    <!-- CLAIMS -->
     <data>
 
 
-    </data>
-
-    <data>
-
-        <record id="sred_system.project_claim_search" model="ir.ui.view">
+        <record id="sred_system.search_claims" model="ir.ui.view">
             <field name="name">Search Claims</field>
             <field name="model">sred_system.claim_project</field>
             <field name="arch" type="xml">
@@ -241,18 +232,17 @@
             </field>
         </record>
 
-
-
-        <record model="ir.actions.act_window" id="sred_system.action_sred_projects">
+        <record model="ir.actions.act_window" id="sred_system.action_claims">
             <field name="name">SRED Claim</field>
             <field name="res_model">sred_system.claim_project</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="sred_system.project_claim_search"/>
+            <field name="search_view_id" ref="sred_system.search_claims"/>
             <field name="context">{'search_default_assigned-to-me':1}</field>
-
-
         </record>
 
+    </data>
+
+    <data>
 
         <record id="sred_system.project_folder_search" model="ir.ui.view">
             <field name="name">Search Folders</field>
@@ -293,10 +283,6 @@
         </record>
 
 
-
-
-
-
         <record model="ir.actions.act_window" id="sred_system.action_project_folder">
             <field name="name">folders search</field>
             <field name="res_model">sred_system.claim_project</field>
@@ -309,64 +295,7 @@
         </record>
 
 
-
-
-
-        <record model="ir.actions.act_window" id="sred_system.adtion_sred_projects_by_customer">
-            <field name="name">folders search</field>
-            <field name="res_model">sred_system.claim_project</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="sred_system.project_folder_search"/>
-            <field name="context">{'search_default_my-company':1,
-                                    'search_default_assigned-to-me':1}'
-                                    'search_default_active-claim':1)</field>
-        </record>
-
-
-        <record model="ir.actions.act_window" id="sred_system.adtion_sred_projects_by_cra">
-            <field name="name">cra search</field>
-            <field name="res_model">sred_system.claim_project</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="sred_system.project_folder_search"/>
-            <field name="context">{'search_default_cra':1,
-                                    'search_default_assigned-to-me':1}'
-                                    'search_default_active-claim':1)</field>
-        </record>
-
-
-        <record model="ir.actions.act_window" id="sred_system.adtion_sred_projects_by_work">
-            <field name="name">work search</field>
-            <field name="res_model">sred_system.claim_project</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="sred_system.project_folder_search"/>
-            <field name="context">{'search_default_work':1,
-                                    'search_default_assigned-to-me':1}'
-                                    'search_default_active-claim':1)</field>
-        </record>
-
-        <record model="ir.actions.act_window" id="sred_system.adtion_sred_projects_by_processing">
-            <field name="name">processing search</field>
-            <field name="res_model">sred_system.claim_project</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="sred_system.project_folder_search"/>
-            <field name="context">{'search_default_processing':1,
-                                    'search_default_assigned-to-me':1}'
-                                    'search_default_active-claim':1)</field>
-        </record>
-
-        <record model="ir.actions.act_window" id="sred_system.adtion_sred_projects_by_claim_type">
-            <field name="name">claim type search</field>
-            <field name="res_model">sred_system.claim_project</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="sred_system.project_folder_search"/>
-            <field name="context">{'search_default_claim_type':1,
-                                    'search_default_assigned-to-me':1}'
-                                    'search_default_active-claim':1)</field>
-        </record>
-
-
-
-        <record model="ir.ui.view"  id="sred_system.form_sred_project_task">
+        <record model="ir.ui.view"  id="sred_system.form_tasks">
             <field name="name">SRED Tasks Entry</field>
             <field name="model">sred_system.sred_project_tasks</field>
             <field name="arch" type="xml">
@@ -388,7 +317,7 @@
         </record>
 
 
-        <record id="sred_system.tasks_search" model="ir.ui.view">
+        <record id="sred_system.search_tasks" model="ir.ui.view">
             <field name="name">search tasks</field>
             <field name="model">sred_system.sred_project_tasks</field>
             <field name="arch" type="xml">
@@ -413,7 +342,7 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="sred_system.action_project_tasks">
+        <record model="ir.actions.act_window" id="sred_system.action_claims_tasks">
             <field name="name">search tasks by list</field>
             <field name="res_model">sred_system.sred_project_tasks</field>
             <field name="view_mode">tree</field>
@@ -422,14 +351,6 @@
                                     'search_default_group-tasks-company':1} </field>
         </record>
 
-        <record model="ir.actions.act_window" id="sred_system.action_tasks_company">
-            <field name="name">search tasks company</field>
-            <field name="res_model">sred_system.sred_project_tasks</field>
-            <field name="view_mode">tree</field>
-            <field name="context">{'search_default_filter-tasks-not-completed':1,
-                                    'search_default_filter-tasks-assigned-to-me':1,
-                                    'search_default_group-tasks-company':1} </field>
-        </record>
 
     </data>
 
