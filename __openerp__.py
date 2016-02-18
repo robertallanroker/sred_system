@@ -67,7 +67,6 @@
         'survey_crm',
         'subscription',
         'warning',
-        'web',
         'website',
         'website_quote',
         'website_blog',
@@ -96,7 +95,7 @@
         'theme_bootswatch',
         'web_diagram',
         'portal_gamification',
-        'web_planner', "l10n_ca"]
+        'web_planner', "l10n_ca"],
      #   'web_planner',
      #   'calendar',],
 
@@ -112,7 +111,10 @@
         'views/reorganize.xml',
         'views/view_menus.xml',
         'reports/templates.xml',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
+        'views/reorganize.xml',
+        'views/mail_templates.xml',
+        'views/mods_to_existing_views.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

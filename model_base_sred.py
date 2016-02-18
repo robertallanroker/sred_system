@@ -47,6 +47,7 @@ class my_base_sred_task(models.Model):
 
     # Override this to create child -- parent relationship
     task_id = fields.Integer()
+    color_index = fields.Integer()
     name    = fields.Char()
 
     sequence       = fields.Integer()

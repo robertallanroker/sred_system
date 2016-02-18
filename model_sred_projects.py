@@ -475,7 +475,7 @@ class my_sred_projects(models.Model):
         return len(attachments) or 0
 
 
-    def open_website_action(self, cr, uid, ids, context, website):
+    def open_website_action(self, cr, uid, ids, context):
         return {
                   'type'     : 'ir.actions.act_url',
                   'target'   : 'new',

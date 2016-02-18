@@ -295,18 +295,50 @@
         </record>
 
 
+
+
+    </data>
+
+
+    <!-- TASKS -->
+    <data>
+
+
+      name    = fields.Char()
+
+    sequence       = fields.Integer()
+    date_deadline  = fields.Date()
+    date_start     = fields.Date()
+    date_end       = fields.Date()
+    description    = fields.Html()
+    assigned_to    = fields.Many2one('res.users', 'assigned person', ondelete='set null')
+    completed      = fields.Boolean()
+
+
         <record model="ir.ui.view"  id="sred_system.form_tasks">
             <field name="name">SRED Tasks Entry</field>
             <field name="model">sred_system.sred_project_tasks</field>
+            <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="SRED Task">
+                <form string="SRED Claim Tasks">
+                    <Header>
+                        <field name="stagetype" string="Stage Type" widget="statusbar" clickable="True" />
+                    </Header>
                     <sheet>
-                        <field name="stagetype" />
-                        <field name="processing_status"/>
-                        <field name="date_deadline"/>
-                        <field name="assigned_to"/>
-                        <field name="completed"/>
-                        <field name="description"/>
+                       <field name="processing_status" string="Processing" widget="statusbar" clickable="True"/>
+                       <group>
+                            <field name="name" string = "Task Name"  />
+                       </group>
+                       <group>
+                           <field name="date_deadline"/>
+                           <field name="assigned_to"/>
+                           <field name="completed"/>
+                       </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" widget="html" />
+                            </page>
+                        </notebook>
                     </sheet>
                     <div class="oe_chatter">
                        <field name="message_follower_ids" widget="mail_followers"/>
@@ -315,6 +347,38 @@
                 </form>
             </field>
         </record>
+
+        <record id="sred_system.calendar_claim_tasks" model="ir.ui.view">
+            <field name="name">Calendar of Tasks</field>
+            <field name="model">sred_system.sred_project_tasks</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar color="color_index" date_start="date_deadline" string="Tasks">
+                    <field name="name"/>
+                    <field name="assigned_to"/>
+                    <field name="completed" />
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view"  id="sred_system.view_tasks">
+            <field name="name">Set claim types</field>
+            <field name="model">sred_system.sred_project_tasks</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree default_order="sequence">
+                    <field name="partner_id" string="company"/>
+                    <field name="task_id" string = "claim project" />
+                    <field name="stagetype" string ="stage"/>
+                    <field name="processing_status" string="status"/>
+                    <field name="completed" string="completed?" widget="checkbox" help="Check off when completed work"/>
+                    <field name="assigned_to" string="assigned"/>
+                    <field name="name" string="task item"/>
+                    <field name="date_deadline" string="deadline"/>
+                </tree>
+            </field>
+        </record>
+
 
 
         <record id="sred_system.search_tasks" model="ir.ui.view">
@@ -325,30 +389,26 @@
                     <field name="partner_id" string="Company"/>
                     <field name="assigned_to" string="Assigned"/>
                     <field name="completed" string="Completed"/>
-                    <filter string="Assigned to me" name="filter-tasks-assigned-to-me" domain="[('user_id','=',assigned_to)]"/>
+                    <filter string="Assigned to me" name="filter-tasks-assigned-to-me" domain="[('assigned_to','=',uid)]"/>
                     <separator/>
                     <filter string="Not Completed" name="filter-tasks-not-completed" domain="[('completed','=',False)]"/>
                     <filter string="Completed" name="filter-tasks-completed" domain="[('completed','=',False)]"/>
                     <group expand="1" string="Group By">
-                        <filter string="Company" name="group-tasks-company" context="{'group_by':'partner_id'}"/>
-                        <seperator/>
                         <filter string="Assigned Person" name="group-tasks-assigned-to-me" context="{'group_by':'assigned_to'}"/>
                         <seperator/>
-                        <filter string="Due this week" name="group-tasks-due-this-week" context="{'group_by':'assigned_to'}"/>
-                        <filter string="Due this month" name="group-tasks-due-this-month" context="{'group_by':'assigned_to'}"/>
-                        <filter string="Overdue" name="group-tasks-overdue" context="{'group_by':'assigned_to'}"/>
                     </group>
                 </search>
             </field>
         </record>
 
+
         <record model="ir.actions.act_window" id="sred_system.action_claims_tasks">
             <field name="name">search tasks by list</field>
             <field name="res_model">sred_system.sred_project_tasks</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,calendar,form</field>
+            <field name="search_view_id" ref="sred_system.search_tasks"/>
             <field name="context">{'search_default_filter-tasks-not-completed':1,
-                                    'search_default_filter-tasks-assigned-to-me':1,
-                                    'search_default_group-tasks-company':1} </field>
+                                    'search_default_filter-tasks-assigned-to-me':1} </field>
         </record>
 
 

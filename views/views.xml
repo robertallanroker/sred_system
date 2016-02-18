@@ -205,24 +205,6 @@
 
       !-- TASKS -->
 
-       <record model="ir.ui.view"  id="sred_system.view_tasks">
-            <field name="name">Set claim types</field>
-            <field name="model">sred_system.sred_project_tasks</field>
-            <field name="arch" type="xml">
-                <tree default_order="sequence" editable="True">
-                    <field name="partner_id" string="company"/>
-                    <field name="task_id" string = "claim project" />
-                    <field name="stagetype" string ="stage"/>
-                    <field name="processing_status" string="status"/>
-                    <field name="completed" string="completed?" widget="checkbox" help="Check off when completed work"/>
-                    <field name="assigned_to" string="assigned"/>
-                    <field name="name" string="task item"/>
-                    <field name="date_deadline" string="deadline"/>
-                </tree>
-            </field>
-       </record>
-
-
        <record id="sred_system.search_tasks" model="ir.ui.view">
             <field name="name">Search Tasks</field>
             <field name="model">sred_system.sred_project_tasks</field>
@@ -241,12 +223,7 @@
             </field>
        </record>
 
-       <record model="ir.actions.act_window" id="sred_system.action_tasks">
-          <field name="name">My Tasks</field>
-          <field name="res_model">sred_system.sred_project_tasks</field>
-          <field name="view_mode">tree</field>
-          <field name="context">{"search_default_not-completed":1, "search_default_assigned-to-me":1}</field>
-       </record>
+
 
 
 

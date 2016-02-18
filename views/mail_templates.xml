@@ -1,0 +1,21 @@
+<openerp>
+
+    <data>
+
+        <record model="ir.ui.view"  id="sred_system.view_new_editor_fix">
+            <field name="name">Email Templates</field>
+            <field name="model">mail.template</field>
+            <field name="inherit_id" ref="mass_mailing.email_template_form_minimal"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="body_html" position="after">
+                    <button name="copy_body_to_code" type="object" string="Copy" />
+                    <button name="save_code_to_body" type="object" string="Save" />
+                    <field name="code" widget="html" readonly="0"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+
+</openerp>

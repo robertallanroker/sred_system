@@ -7,21 +7,29 @@
           web_icon_hover="static/src/img/feeds-hover.png"
           -->
 
-          <menuitem name = "My Home" id = "_menu_home" icon="fa-calendar" sequence = "1" />
+          <menuitem name = "My Home" id = "_menu_home" sequence = "1" />
 
-          <menuitem id ="base.menu_board_root" name = "Dashboards" parent = "_menu_home" sequence="10" />
+          <menuitem id = "_menu_my_home_work_area" name = "Work Area" parent = "_menu_home" sequence = "10" />
 
-          <menuitem id ="_menu_my_home_discuss" name = "Discuss" parent = "_menu_home" sequence = "20" />
+          <menuitem id = "base.menu_reporting_dashboard" name = "Dashboards" parent = "_menu_my_home_work_area" sequence="10" />
 
-          <menuitem id ="mail.mail_channel_menu_root_chat" name = "General" parent = "_menu_my_home_discuss" sequence="10" />
+          <menuitem id = "note.menu_note_notes" name = "Notes" parent = "_menu_my_home_work_area" sequence = "20" />
 
-          <menuitem id="_menu_my_home_contacts" parent = "_menu_home" name = "Contacts" sequence = "30" />
+          <menuitem id = "_menu_my_home_discuss" name = "Discuss" parent = "_menu_home" sequence = "20" />
 
-          <menuitem id="mail.menu_contacts" name = "Customers" parent = "_menu_my_home_contacts" sequence = "30" />
+          <menuitem id = "mail.mail_channel_menu_root_chat" name = "General" parent = "_menu_my_home_discuss" sequence="10" />
 
-          <menuitem id="_menu_my_home_calendars"  name = "Calendars" parent = "_menu_home" sequence = "40" />
+          <menuitem id= "_menu_my_home_contacts" parent = "_menu_home" name = "Contacts" sequence = "30" />
 
-          <menuitem id="calendar.mail_menu_calendar" name = "Primary" parent = "_menu_my_home_calendars" sequence = "10" />
+          <menuitem id= "mail.menu_contacts" name = "Customers" parent = "_menu_my_home_contacts" sequence = "30" />
+
+          <menuitem id= "_menu_my_home_calendars"  name = "Calendars" parent = "_menu_home" sequence = "40" />
+
+          <menuitem id= "calendar.mail_menu_calendar" name = "Primary" parent = "_menu_my_home_calendars" sequence = "10" />
+
+          <menuitem id= "_menu_my_home_files" name = "Files" parent = "_menu_home" sequence = "50" />
+
+          <menuitem id= "base.menu_action_attachment" name = "Documents" parent = "_menu_my_home_files" sequence = "10" />
 
     </data>
 
@@ -56,6 +64,8 @@
 
         <menuitem id = "website.menu_website_configuration" name = "Administration" parent = "_menu_website" sequence = "30" />
 
+        <menuitem id = "mass_mailing.mass_mailing_menu_root" name = "Mass Mailings" parent = "_menu_marketing" sequence = "60" />
+
 
     </data>
 
@@ -65,7 +75,9 @@
 
         <menuitem id = "account.menu_finance" name="Accounting" parent = "_menu_finance" sequence = "10" />
 
-        <menuitem id = "hr_payroll.menu_hr_payroll_root" name="Payroll" parent = "_menu_finance" sequence = "20" />
+        <menuitem id = "base.menu_purchase_root" name = "Purchases" parent = "_menu_finance" sequence = "20" />
+
+        <menuitem id = "hr_payroll.menu_hr_payroll_root" name="Payroll" parent = "_menu_finance" sequence = "30" />
 
     </data>
 
@@ -75,10 +87,13 @@
 
         <menuitem id = "hr.menu_hr_root" name = "Employees" sequence = "10" parent="_menu_hr" />
 
-        <menuitem id = "hr_holidays.menu_hr_holidays_root" name = "Leaves" sequence = "20" parent = "_menu_hr" />
+        <menuitem id = "hr_attendance.menu_hr_attendance_root"  name = "Attendance" sequence = "20" parent = "_menu_hr" />
 
-       <menuitem id = "hr_recruitment.menu_hr_recruitment_root" name = "Recruitment" sequence = "30" parent = "_menu_hr" />
+        <menuitem id = "hr_holidays.menu_hr_holidays_root" name = "Leaves" sequence = "30" parent = "_menu_hr" />
 
+        <menuitem id = "hr_recruitment.menu_hr_recruitment_root" name = "Recruitment" sequence = "40" parent = "_menu_hr" />
+
+        <menuitem id = "hr_attendance.timesheet_menu_root" name = "Timesheets" sequence = "50" parent = "_menu_hr" />
 
     </data>
 
@@ -93,9 +108,8 @@
 
         <menuitem id = "base.menu_custom" name = "Technical" sequence = "100" parent = "_menu_system" />
 
-
     </data>
 
 </openerp>
-          <!-- ORGANIZE HOME -->
+
 
