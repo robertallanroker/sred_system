@@ -10,14 +10,49 @@
             <field name="arch" type="xml">
 
                 <!-- ADD Wesite Link -->
-                <field name="country_id" position="after">
-                    <label for="web_url"/>
-                    <field name = "web_url" widget="website" string="url/website"/>
+                <field name="name" position = 'before' >
+                    <div class="oe_right">
                     <button type=  "object"
-                        string = "Manta Search"
-                        name = "perform_manta_search"
-                        class= "oe_stat_button">
+                        icon = "fa-globe"
+                        name = "perform_open_website"
+                        class= "oe_stat_info"
+                        string = "Website">
                     </button>
+                    <button type=  "object"
+                        icon = "fa-stack-overflow"
+                        string = "Manta"
+                        name = "perform_manta_search"
+                        class= "oe_stat_info">
+                    </button>
+                    <button type = "object"
+                            icon = "fa-google-plus"
+                            string = "Google"
+                            name = "perform_google_search"
+                            class= "oe_stat_info">
+                    </button>
+                    <button type = "object"
+                            icon = "fa-linkedin-square"
+                            string = "Linkedin"
+                            name = "perform_linkedin_search"
+                            class= "oe_stat_info">
+                    </button>
+                    <button type = "object"
+                            icon = "fa-facebook"
+                            string = "People"
+                            name = "perform_facebook_person_search"
+                            class= "oe_stat_info">
+                    </button>  <button type = "object"
+                            icon = "fa-facebook-square"
+                            string = "Company"
+                            name = "perform_facebook_business_search"
+                            class= "oe_stat_info">
+                    </button>
+
+                    </div>
+                </field>
+
+                <field name="country_id" position="after">
+                    <field name = "web_url" widget="website" string="url/website" placeholder="http://wwww.mywebsite.com"/>
                 </field>
 
                 <!-- ADD Next Steps -->
@@ -57,6 +92,51 @@
             </field>
         </record>
 
+
+    </data>
+
+
+    <data>
+
+         <record model="ir.ui.view" id="sred_system.form_crm_opportunity" >
+            <field name = "name">Lead/Opportunity</field>
+            <field name = "model">crm.lead</field>
+            <field name = "inherit_id" ref = "crm.crm_case_form_view_oppor" />
+            <field name = "sequence">1</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+
+                <!-- ADD Wesite Link -->
+                <field name="country_id" position="after">
+                    <label for="web_url"/>
+                    <field name = "web_url" widget="website" string="url/website"/>
+
+                    <button type=  "object"
+                        string = "Web"
+                        name = "perform_manta_search"
+                        class= "oe_stat_button oe_inline">
+                    </button>
+                    <button type=  "object"
+                        string = "Manta"
+                        name = "perform_manta_search"
+                        class= "oe_stat_button oe_inline">
+                    </button>
+                    <button type = "object"
+                            string = "Google"
+                            name = "perform_google_search"
+                            class= "oe_stat_button">
+                    </button>
+                    <button type = "object"
+                            string = "Linkedin"
+                            name = "perform_linkedin_search"
+                            class= "oe_stat_button">
+                    </button>
+
+                </field>
+
+            </field>
+
+        </record>
 
     </data>
 

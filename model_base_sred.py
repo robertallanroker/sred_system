@@ -1,17 +1,78 @@
 from openerp import models, fields, api, osv
+from random import randint
 from datetime import datetime, date
 import time
 
 # To-do get method to return a list of defaulted id's using base method
 class my_base_sred_object(models.Model):
-    _name       = 'sred_system.base_sred_object'
-    name        = fields.Char()
+    _name        = 'sred_system.base_sred_object'
+    _file_prefix = 'X'
+
+    name         = fields.Char()
+    file_no      = fields.Char()
+    active       = fields.Boolean()
+
+    @api.model
+    def create(self, values):
+        this_id = super(my_base_sred_object, self).create(values)
+        self.cleanup
+        return this_id
+
+    @api.model
+    def cleanup(self):
+        data_rec = self.env[self._name].search([('file_no','=', None)])
+        if data_rec:
+            for my_rec in data_rec:
+                self.file_no = self.make_file_no
+        return
+
 
     @api.one
     def say(self, info):
         print "#######################"
         print info
         print "+++++++++++++++++++++++"
+
+    @api.model
+    def code_generator(self, num):
+        code_get = ''
+        current_num = num
+        flipval = True
+        while (current_num > 0):
+            f_int = (current_num / 10) * 10
+            r_int = (current_num - f_int)
+
+            if randint(0,999) > 700:
+                r_int = randint(1,9)
+
+            if randint(0,500) > 300:
+                offset_val = randint(0, 27)
+                r_int = (r_int + offset_val)
+
+            current_num = (current_num / 10)
+            flipval = not flipval
+
+            if (r_int > 90) or (r_int < 65):
+                r_int = randint(65, 90)
+
+            if flipval and (randint(1, 100) > 25):
+                code_get = code_get + str(r_int)
+            else:
+                code_get = code_get + chr(r_int)
+
+        return code_get
+
+
+    @api.model
+    def make_file_no(self):
+        count_rec = self.env[self._name].search_count([('active', '=', True)])
+        rand_no   = randint(0, 999)
+        ms        = int(time.time() * 1000)
+        this_file_no = self._file_prefix + '.' + self.code_generator(count_rec) + '.' + self.code_generator(rand_no) + '.'+ self.code_generator(ms)
+        self.say(this_file_no)
+        return this_file_no
+
+    _defaults = {'file_no': make_file_no, 'active': True}
 
 
 class my_base_sred_picklist(models.Model):

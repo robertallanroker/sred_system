@@ -78,20 +78,15 @@ class my_sred_emails(models.Model):
     claim_project = fields.One2many('sred_system.claim_project', 'emails', string='Claim Project')
     date_received = fields.Datetime()
 
-    @api.onchange
-    def on_message_changed(self):
-        print "SOMETHING CHANGED"
-
-
-
 
 #
 # MY_SRED_PROJECTS
 #
 class my_sred_projects(models.Model):
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _inherit = ['sred_system.base_sred_object','mail.thread', 'ir.needaction_mixin']
     _name           = 'sred_system.claim_project'
     _description    = 'sred claim project'
+    _file_prefix    = 'C'
 
     claim_id = fields.Char()
     claim_file = fields.Char(related='alias_id.display_name')
@@ -275,7 +270,7 @@ class my_sred_projects(models.Model):
     def make_alias(self):
         new_record = {}
         model1_tasks    = self.env['ir.model'].search([('model','=','sred_system.emails')]).id
-        model2_parent   = self.env['ir.model'].search([('model','=','sred_system.claim_project')]).id
+        model2_parent   = self.env['ir.model'].search([('model','=','sred_system.emailst')]).id
         new_record['alias_name'] = 'g'+str(randint(0, 999)) + '-' + str(self.search_count([('active','=',True)]))
 
         alias_defaults = {}
@@ -475,12 +470,16 @@ class my_sred_projects(models.Model):
         return len(attachments) or 0
 
 
-    def open_website_action(self, cr, uid, ids, context):
-        return {
-                  'type'     : 'ir.actions.act_url',
-                  'target'   : 'new',
-                  'url'      : 'http://www.google.com'
-               }
+    def open_website_action(self, cr, uid, id, default=None, context=None):
+        rec = self.browse(cr, uid, id, context=context)
+        this_web = rec.website
+        if this_web:
+            response = {
+                 'type'     : 'ir.actions.act_url',
+                 'target'   : 'new',
+                 'url'      : this_web
+                       }
+        return response
 
     def attachment_tree_view(self, cr, uid, ids, context):
         domain = [('res_model', '=', 'sred_system.claim_project'), ('res_id', 'in', ids)]

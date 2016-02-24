@@ -64,6 +64,7 @@
         'link_tracker',
         'membership',
         'note',
+        'portal',
         'survey',
         'survey_crm',
         'subscription',
@@ -92,7 +93,7 @@
         'web_diagram',
         'portal_gamification',
         'web_planner',
-        "l10n_ca",
+        'l10n_ca',
         'web_planner'],
     #'js': ['static/src/js/view_list.js'],
 
@@ -105,8 +106,8 @@
         'views/view_work_folders.xml',
         'views/view_sred_claim.xml',
         'views/view_menus.xml',
-        'reports/templates.xml'
-        'views/mail_templates.xml'
+        'reports/templates.xml',
+  #      'views/mail_templates.xml'
         'views/reorganize.xml',
         'views/mods_to_existing_views.xml'
     ],

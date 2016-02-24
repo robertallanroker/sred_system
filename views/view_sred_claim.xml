@@ -55,7 +55,7 @@
                                     </div>
                                     <div>
                                         <group>
-                                            <field name="id" string="Claim id"/>
+                                            <field name="file_no" string="File No"/>
                                             <field name="refund" widget="monetary"/>
                                             <field name="fee" widget="monetary"/>
                                         </group>
@@ -302,17 +302,6 @@
 
     <!-- TASKS -->
     <data>
-
-
-      name    = fields.Char()
-
-    sequence       = fields.Integer()
-    date_deadline  = fields.Date()
-    date_start     = fields.Date()
-    date_end       = fields.Date()
-    description    = fields.Html()
-    assigned_to    = fields.Many2one('res.users', 'assigned person', ondelete='set null')
-    completed      = fields.Boolean()
 
 
         <record model="ir.ui.view"  id="sred_system.form_tasks">
