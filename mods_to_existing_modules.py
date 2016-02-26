@@ -42,6 +42,14 @@ class my_changes_to_crm_leads_step1(models.Model):
             join_new_url = url2
         return join_new_url
 
+    def _fix_web_http(self, url):
+        new_url = url
+        if not 'www.' in new_url:
+            new_url = 'www.'+new_url
+        if not 'http://' in new_url:
+            new_url = 'http://' + new_url
+        return new_url
+
 
     def perform_open_website(self, cr, uid, id, default=None, context=None):
         rec = self.browse(cr, uid, id, context=context)
@@ -51,30 +59,20 @@ class my_changes_to_crm_leads_step1(models.Model):
         else:
             this_web = 'google.com'
 
-        return self._invoke_new_window(this_web)
+        return self._invoke_new_window(self._fix_web_http(this_web))
 
 
     #http://www.manta.com/search?search_source=nav&pt=49.17%2C-123.136795&search_location=Richmond+BC&search=accent+steal
     def perform_manta_search(self, cr, uid, id, default=None, context=None):
         rec = self.browse(cr, uid, id, context=context)
-        make_search = 'http://www.manta.com/search?'
-        make_search = self._join_search(make_search,'search_source=nav&pt=49.17%2C-123.136795','')
-
-        # http://www.manta.com/?search_source=nav&pt=49.17%2C-123.136795&search_location=Canada&search=Monaro%20Marine
-        # http://www.manta.com/search?search_source=nav&pt=49.17%2C-123.136795&search_location=Richmond+BC&search=Monaro+Marine
-
-        # http://www.manta.com/?search?=search_source=nav&pt=49.17%2C-123.136795&search_location=Canada&search=Monaro%20Marine
-
-        if rec:
-            make_search = self._join_search(make_search, 'search_location=Canada','&')
-            if (len(rec.partner_name)>0):
-                make_search = self._join_search(make_search, 'search=' + rec.partner_name, '&')
-        return self._invoke_new_window(make_search)
+        this_web = self._join_search('https://www.google.ca?gws_rd=ssl#q=', 'MANTA','')
+        this_web = self._join_search(this_web,self._clean_parameter(rec.partner_name) ,'+')
+        return self._invoke_new_window(this_web)
 
 
     def perform_google_search(self, cr, uid, id, default=None, context=None):
         rec = self.browse(cr, uid, id, context=context)
-        this_web = self._clean_paremeter(rec.partner_name)
+        this_web = self._clean_parameter(rec.partner_name)
         # https://www.google.ca/search?q=google+search+bar
         #https://www.google.ca/?gws_rd=ssl#q=accent+steal
         this_invoke = 'https://www.google.ca?gws_rd=ssl#q=' + this_web
@@ -109,6 +107,32 @@ class my_changes_to_crm_leads_step1(models.Model):
 
     # https://www.facebook.com/public?query=robert+roker&type=people
     # https://www.facebook.com/public?query=greenlightip&type=pages&init=dir&nomc=0
+
+
+
+class my_changes_to_customers(models.Model):
+     _inherit = 'res.partner'
+
+     cra_bin = fields.Char()
+     cra_year_end = fields.Datetime()
+
+     service_contracts = fields.One2many('sred_system.sred_contracts', 'contracted_service', string='service_contracts')
+
+     # You should make the default partner record automatically a customer. Especially when you are using CRM and
+     # loading lots of non-customer accounts.
+     _defaults = {'is_customer': False}
+
+
+class my_fix_to_silly_im_chat_bug(models.Model):
+    _inherit = 'im_livechat.channel'
+
+    # RAR - Quick Fix Bug Work Around, completly missing this method from code.
+    # I have no idea what this function is supposed to do and why its being called while trying to upgrade module.
+    def match_rules(self, channel_id, url, country_id=False):
+        if self.rule_id:
+            for my_rule in self.rule_ids:
+                my_rule.match_rule(channel_id, url, country_id=False)
+        return False
 
 
 

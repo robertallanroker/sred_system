@@ -98,46 +98,41 @@
 
     <data>
 
-         <record model="ir.ui.view" id="sred_system.form_crm_opportunity" >
-            <field name = "name">Lead/Opportunity</field>
-            <field name = "model">crm.lead</field>
-            <field name = "inherit_id" ref = "crm.crm_case_form_view_oppor" />
-            <field name = "sequence">1</field>
+        <record model="ir.ui.view" id="sred_system.form_revised_partner" >
+            <field name = "name">res.partner.form</field>
+            <field name = "model">res.partner</field>
+            <field name = "inherit_id" ref = "base.view_partner_form" />
             <field name="type">form</field>
             <field name="arch" type="xml">
 
-                <!-- ADD Wesite Link -->
-                <field name="country_id" position="after">
-                    <label for="web_url"/>
-                    <field name = "web_url" widget="website" string="url/website"/>
-
-                    <button type=  "object"
-                        string = "Web"
-                        name = "perform_manta_search"
-                        class= "oe_stat_button oe_inline">
-                    </button>
-                    <button type=  "object"
-                        string = "Manta"
-                        name = "perform_manta_search"
-                        class= "oe_stat_button oe_inline">
-                    </button>
-                    <button type = "object"
-                            string = "Google"
-                            name = "perform_google_search"
-                            class= "oe_stat_button">
-                    </button>
-                    <button type = "object"
-                            string = "Linkedin"
-                            name = "perform_linkedin_search"
-                            class= "oe_stat_button">
-                    </button>
-
-                </field>
+                <page name="internal_notes" position="before">
+                    <page name="sred" string="SRED">
+                        <notebook>
+                            <page name = "financial" string = "Financial">
+                                <group>
+                                    <field name = "cra_bin" string = "CRA Business Number" />
+                                    <field name = "cra_year_end" string = "CRA Financial Year End" />
+                                </group>
+                            </page>
+                            <page name ="contracts" string = "Contracts" >
+                                <field name = "service_contracts" string="Service Contracts">
+                                    <tree editable="True" default_order="date_expires">
+                                        <field name = 'file_no' string = 'contract no' readonly="1" />
+                                        <field name = 'contracted_service' string = 'contracted service' />
+                                        <field name = 'yearly_term' string = 'term' placeholder="years"/>
+                                        <field name = 'date_signed' string = 'signed'/>
+                                        <field name = 'date_expires' string = 'expires' />
+                                    </tree>
+                                </field>
+                            </page>
+                         </notebook>
+                    </page>
+                </page>
 
             </field>
-
         </record>
 
     </data>
+
 
 </openerp>

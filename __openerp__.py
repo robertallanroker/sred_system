@@ -39,7 +39,6 @@
         'website_google_map',
         'google_calendar',
         'google_drive',
-        'product',
         'mail',
         'analytic',
         'portal',
@@ -57,7 +56,6 @@
         'hr_recruitment',
         'hr_payroll',
         'hr_timesheet_sheet',
-        'im_livechat',
         'marketing',
         'marketing_campaign',
         'mass_mailing',
@@ -68,8 +66,6 @@
         'survey',
         'survey_crm',
         'subscription',
-        'warning',
-        'website_quote',
         'website_blog',
         'web_analytics',
         'web_editor',
@@ -93,23 +89,26 @@
         'web_diagram',
         'portal_gamification',
         'web_planner',
-        'l10n_ca',
         'web_planner'],
     #'js': ['static/src/js/view_list.js'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'fixes/fix_im_chat_bug.xml',
+        'views/reorganize.xml',
         'load_data/load_data.xml',
         'views/sred_system.xml',
         'views/views.xml',
         'views/view_work_folders.xml',
+        'views/view_contracts.xml',
         'views/view_sred_claim.xml',
         'views/view_menus.xml',
         'reports/templates.xml',
-  #      'views/mail_templates.xml'
-        'views/reorganize.xml',
+   #      'views/mail_templates.xml'
         'views/mods_to_existing_views.xml'
+
+
     ],
     # only loaded in demonstration mode
     'demo': [

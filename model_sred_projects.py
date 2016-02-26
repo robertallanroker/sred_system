@@ -88,9 +88,7 @@ class my_sred_projects(models.Model):
     _description    = 'sred claim project'
     _file_prefix    = 'C'
 
-    claim_id = fields.Char()
-    claim_file = fields.Char(related='alias_id.display_name')
-    name = fields.Char()
+    name            = fields.Char()
 
     website = fields.Char(related='partner_id.website')
 
@@ -101,7 +99,6 @@ class my_sred_projects(models.Model):
 
     task_ids                = fields.One2many('sred_system.sred_project_tasks', 'task_id', "Task Items", track_visibility='onchange')
 
-
     color                   = fields.Integer('Color Index')
 
     user_id                 = fields.Many2one('res.users', 'Project Manager', track_visibility='onchange')
@@ -110,7 +107,9 @@ class my_sred_projects(models.Model):
     alias_id                = fields.Many2one('mail.alias', 'Alias')
     partner_id              = fields.Many2one('res.partner', 'rel_to_company_from_sred_projects',
                                               domain=[('is_company', '=', True)])
-    partner_tax_id          = fields.Char(string='Tax bn', related='partner_id.vat')
+
+    contracted_service = fields.Many2one('sred_system.sred_contracts', string='contract')
+
     saved_company_logo      = fields.Binary(string='company logo', related='partner_id.image')
 
 
@@ -118,6 +117,13 @@ class my_sred_projects(models.Model):
 
     date                    = fields.Date('Expiration Date', select=True, track_visibility='onchange')
     attachment_ids          = fields.One2many('ir.attachment', 'res_id', string='Attachments')
+
+    claim_file      = fields.Char(related='alias_id.display_name')
+    cra_year_end    = fields.Datetime(related='partner_id.cra_year_end')
+    cra_bin         = fields.Char(related='partner_id.cra_bin')
+
+    is_readonly     = fields.Boolean(compute='calc_read_only_status', stored=True)
+    work_status     = fields.Char(related='work_processing_status.name')
 
 
         #fields.One2many('sred_system.claim_project', 'id', string='History',
@@ -509,6 +515,11 @@ class my_sred_projects(models.Model):
             'view_id':False,
             'view_mode':'calendar,tree,form',
             'view_type':'Calendar'}
+
+    @api.one
+    def calc_read_only_status(self):
+        self.is_readonly = (self.work_processing_status.name != 'Open')
+        return self.is_readonly
 
     _order = "sequence, name, id"
     _defaults = {

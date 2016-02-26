@@ -1,0 +1,103 @@
+<openerp>
+
+    <!-- SRED CONTRACTS -->
+    <data>
+
+        <!-- THIS IS NOW FORM, WE EDIT ALL IN THE TREE VIEW -->
+        <record model="ir.ui.view"  id="sred_system.tree_sred_contracts">
+            <field name="name">SRED Contracts and Services</field>
+            <field name="model">sred_system.sred_contracts</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree editable="true" default_order= "partner_id,  contracted_service, date_expires" >
+                    <field name = 'file_no' string = 'contract no' readonly="1" />
+                    <field name = 'contracted_service' string = 'contracted service' />
+                    <field name = 'partner_id' string = 'customer' />
+                    <field name = 'yearly_term' string = 'term' placeholder="years"/>
+                    <field name = 'date_signed' string = 'signed'/>
+                    <field name = 'date_expires' string = 'expires' />
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="sred_system.action_sred_contracts">
+            <field name="name">SRED Contracts and Services</field>
+            <field name="res_model">sred_system.sred_contracts</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+
+    <!-- SRED SERVICES -->
+    <data>
+
+         <record model="ir.ui.view"  id="sred_system.form_sred_contracts">
+            <field name="name">SRED Work</field>
+            <field name="model">sred_system.sred_services</field>
+            <field name="arch" type="xml">
+                <form string="Services">
+                    <Header>
+                    <!-- Nothing Yet -->
+                    </Header>
+                    <sheet>
+
+                        <group>
+
+                            <group>
+                                <field name = 'name' string = 'service name' />
+                            </group>
+
+                            <group>
+
+                                <notebook>
+                                    <page string = 'Service Rates'>
+
+                                        <field name = 'service_rates' >
+                                            <tree editable="true" create="true">
+
+                                                <field name = 'amount_from' string = 'from' />
+                                                <field name = 'amount_to'   string = 'to' />
+                                                <field name = 'commission_rate' string = 'commission'/>
+
+                                            </tree>
+
+                                        </field>
+
+                                    </page>
+
+                                </notebook>
+
+                            </group>
+
+                        </group>
+
+                    </sheet>
+
+                </form>
+            </field>
+
+        </record>
+
+         <record model="ir.ui.view"  id="sred_system.tree_sred_services">
+            <field name="name">SRED Services</field>
+            <field name="model">sred_system.sred_services</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree default_order= "name" >
+                    <field name = 'name' />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sred_system.action_sred_services">
+            <field name="name">SRED Services</field>
+            <field name="res_model">sred_system.sred_services</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+
+</openerp>
+

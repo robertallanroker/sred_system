@@ -13,14 +13,15 @@
                         <field name="claim_status" string="Claim Status" widget="statusbar" clickable="True" />
                     </Header>
                     <sheet string="SRED Work">
+                            <div>
+                                <field name="saved_company_logo" widget="image" class="oe_avatar"
+                                       attrs="{'invisible': [('partner_id', '=', False)]}" />
+                            </div>
+                            <div>
+                                 <field name="user_image" widget="image" class="oe_avatar"
+                                        attrs="{'invisible': [('user_id', '=', False)]}"/>
+                            </div>
 
-                        <div>
-                            <div>
-                                <field name="saved_company_logo" widget="image" class="oe_avatar"/>
-                            </div>
-                            <div>
-                                 <field name="user_image" widget="image" class="oe_avatar"/>
-                            </div>
                             <div class="oe_right">
                                 <div class = "oe_button_box">
                                    <div>
@@ -53,16 +54,33 @@
                                         </button>
 
                                     </div>
-                                    <div>
-                                        <group>
-                                            <field name="file_no" string="File No"/>
-                                            <field name="refund" widget="monetary"/>
-                                            <field name="fee" widget="monetary"/>
-                                        </group>
-                                    </div>
+
                                 </div>
+
+
+
+
                             </div>
-                        </div>
+
+                        <group>
+
+                           <group attrs="{'invisible': [('partner_id', '=', False)]}">
+                               <field name ="cra_year_end" string="CRA Year End"
+                                      attrs="{'required': [('cra_year_end','=', False)]}"/>
+                               <field name ="cra_bin" string="CRA BIN"
+                                      attrs="{'required': [('cra_bin','=', False)]}"/>
+                               <field name="contracted_service" string = "Contract"
+                                      attrs="{'required': [('contracted_service','=', False)]}" />
+                           </group>
+
+                           <group attrs="{'invisible': [('partner_id', '=', False)]}" >
+                               <field name="file_no" string="File No" readonly="1"/>
+                               <field name="refund" widget="monetary"/>
+                               <field name="fee" widget="monetary"/>
+                           </group>
+
+                        </group>
+
                         <group>
                             <group string="Claim">
                                 <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
@@ -70,40 +88,19 @@
                                 <field name="tax_years" widget="many2many_tags"/>
                             </group>
                             <group string="Assigned">
-                                    <field name="partner_id" string="Customer" widget="many2one"/>
-                                    <field name="user_id"/>
+                                    <field name="partner_id" string="customer" />
+                                    <field name="user_id" />
                                     <field name="folder_group" string="Folder group" />
                                     <field name="folder" string="Folder"/>
                             </group>
                         </group>
-                        <notebook>
-                            <page string = "History">
-                                <!--field name="history">
-                                    <tree editable="false" create="false">
-                                        <field name="glip_processing_status" string="Greenlight" widget="statusbar" clickable="True"/>
-                                        <field name="cra_processing_status"  string="CRA" widget="statusbar" clickable="True"/>
-                                        <field name="work_processing_status" string="Work" widget="statusbar" clickable="True"/>
-                                        <field name="refund" widget="monetary"/>
-                                        <field name="fee" widget="monetary"/>
-                                    </tree>
-                                </field-->
-                            </page>
+
+                        <notebook attrs="{'invisible': [('partner_id', '=', False)]}" >
                             <page string = "Processing">
                                 <group>
                                     <field name="glip_processing_status" string="Greenlight" widget="statusbar" clickable="True"/>
                                     <field name="cra_processing_status"  string="CRA" widget="statusbar" clickable="True"/>
                                     <field name="work_processing_status" string="Work" widget="statusbar" clickable="True"/>
-                                </group>
-                            </page>
-                            <page string = "Financial">
-                                <group string="Submission">
-                                    <!-- to-do, this should be a calculated field -->
-                                    <field name="work_started_on" />
-                                    <field name="work_cra_deadline" string="CRA Deadline"/>
-                                </group>
-                                <group string = "Corporate">
-                                    <field name="partner_tax_id" string="BN" />
-                                    <field name="financial_year_end" string="Year End"/>
                                 </group>
                             </page>
                             <page string="Estimations">
@@ -150,17 +147,6 @@
                                         </tree>
                                     </field>
                                 </group>
-                            </page>
-                            <page string="Documents">
-                                <field name="attachment_ids" string="attached documents" widget="one2many" >
-                                    <tree editable="true" >
-                                        <!--field name="sequence"/-->
-                                        <field name="name" string="document" />
-                                        <!--field name="mimetype" string="file type"/-->
-                                        <field name="create_uid" string="userx"/>
-                                        <field name="datas"/>
-                                    </tree>
-                                </field>
                             </page>
                             <page string="Note Pad">
                                 <field name="notes" type="html"/>

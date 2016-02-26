@@ -5,7 +5,8 @@
 
         <menuitem name = "Scientific Research"
                   id = "sred_system.main_menu_root"
-                  sequence = "12"/>
+                  parent = '_menu_operations'
+                  sequence = "5"/>
     </data>
 
     <!-- PRIMARY GROUPS IN MAIN MENU -->
@@ -58,6 +59,18 @@
                   action="sred_system.action_claims_tasks"
                   parent = "sred_system.work_menu"
                   sequence = "20" />
+
+        <menuitem name = "Services"
+                  id = "sred_system.menu_sred_services"
+                  action="sred_system.action_sred_services"
+                  parent = "sred_system.work_menu"
+                  sequence = "30" />
+
+        <menuitem name = "Contracts"
+                  id = "sred_system.menu_sred_contracts"
+                  action="sred_system.action_sred_contracts"
+                  parent = "sred_system.work_menu"
+                  sequence = "40" />
 
     </data>
 
