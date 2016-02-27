@@ -12,6 +12,7 @@ class my_base_sred_object(models.Model):
     file_no      = fields.Char()
     active       = fields.Boolean()
 
+
     @api.model
     def create(self, values):
         this_id = super(my_base_sred_object, self).create(values)
@@ -26,12 +27,6 @@ class my_base_sred_object(models.Model):
                 self.file_no = self.make_file_no
         return
 
-
-    @api.one
-    def say(self, info):
-        print "#######################"
-        print info
-        print "+++++++++++++++++++++++"
 
     @api.model
     def code_generator(self, num):

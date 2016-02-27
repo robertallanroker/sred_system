@@ -454,5 +454,23 @@
 
     </data>
 
+    <!-- LOAD SERVICE CONTRACTS -->
+    <data>
+
+        <record id = "_sservice_standard_new" model = "sred_system.sred_services" >
+            <field name = "New to SRED" />
+        </record>
+
+        <record id = "_sservice_standard_competitive" model = "sred_system.sred_services" >
+            <field name = "Competitive SRED" />
+        </record>
+
+    </data>
+
+    <!-- LOAD SERVICE CONTRACT RATES -->
+    <data>
+
+    </data>
+
 
 </openerp>

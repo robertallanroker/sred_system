@@ -1,0 +1,2 @@
+import mods_to_res_partner
+import mods_to_crm_leads

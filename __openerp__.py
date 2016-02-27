@@ -28,76 +28,92 @@
 
     # any module necessary for this one to work correctly
     'depends': ['web',
-        'base',
-        'base_setup',
-        'l10n_multilang',
+        'base',                     ## Primary Base Libraries
+        'base_setup',               ## Primary Base Setup
+
+
+
+        'calendar',                 ## Everyone needs a calendar
+        'project',                  ## Basic Project Management and Tasks
         'crm',
-        'calendar',
-        'project',
-        'crm',
-        'website',
-        'website_google_map',
-        'google_calendar',
+        'account',                  ## Accounting Core
+        'account_accountant',
+        'analytic',                 ## CRM wont work without Analytics
+        'board',                    ## Dashboards
+        'gamification',             ## Have fun with goals
+        'google_calendar',          ## Google Calendar Integration - Very Buggy
         'google_drive',
         'mail',
-        'analytic',
-        'portal',
         'resource',
         'document',
-        'analytic',
-        'account',
-        'account_accountant',
-        'board',
-        'event_sale',
-        'bus',
+
+
+
         'association',
-        'gamification',
+
+
+
         'hr',
         'hr_recruitment',
         'hr_payroll',
         'hr_timesheet_sheet',
-        'marketing',
+
         'marketing_campaign',
         'mass_mailing',
         'link_tracker',
         'membership',
-        'note',
-        'portal',
         'survey',
         'survey_crm',
-        'subscription',
-        'website_blog',
+
+
+        'note',
+        'portal',
+#       'subscription',
+
+
         'web_analytics',
         'web_editor',
         'web_kanban',
-        'web_view_editor',
         'web_settings_dashboard',
         'web_kanban_gauge',
         'web_diagram',
+        'web_diagram',
+        'portal_gamification',
+        'web_planner',
+
+
+
+        'website',
+        'website_google_map',
         'website_event',
         'website_hr',
         'website_livechat',
         'website_mail',
         'website_mail_channel',
         'website_slides',
+        'website_blog',
         'website_form',
         'website_forum',
         'website_blog',
         'website_portal',
         'website_twitter',
         'website_forum_doc',
-        'web_diagram',
-        'portal_gamification',
-        'web_planner',
-        'web_planner'],
+
+
+        'bus',                          ## Instant Messaging, send messages to other users
+        'im_livechat',
+#
+
+        'l10n_multilang'],
     #'js': ['static/src/js/view_list.js'],
+
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'fixes/fix_im_chat_bug.xml',
-        'views/reorganize.xml',
-        'load_data/load_data.xml',
+  #      'fixes/fix_im_chat_bug.xml',
+        'data/load_data/load_data.xml',
+        'modifications/to_views/view_reorganize.xml',
         'views/sred_system.xml',
         'views/views.xml',
         'views/view_work_folders.xml',
@@ -106,8 +122,8 @@
         'views/view_menus.xml',
         'reports/templates.xml',
    #      'views/mail_templates.xml'
-        'views/mods_to_existing_views.xml'
-
+        'modifications/to_views/mods_to_crm_leads.xml',
+        'modifications/to_views/mods_to_res_partner.xml'
 
     ],
     # only loaded in demonstration mode
