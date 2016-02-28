@@ -30,59 +30,40 @@
     'depends': ['web',
         'base',                     ## Primary Base Libraries
         'base_setup',               ## Primary Base Setup
-
-
-
         'calendar',                 ## Everyone needs a calendar
         'project',                  ## Basic Project Management and Tasks
         'crm',
         'account',                  ## Accounting Core
         'account_accountant',
         'analytic',                 ## CRM wont work without Analytics
-        'board',                    ## Dashboards
         'gamification',             ## Have fun with goals
         'google_calendar',          ## Google Calendar Integration - Very Buggy
         'google_drive',
         'mail',
         'resource',
         'document',
-
-
-
         'association',
-
-
-
         'hr',
         'hr_recruitment',
         'hr_payroll',
         'hr_timesheet_sheet',
-
         'marketing_campaign',
         'mass_mailing',
         'link_tracker',
         'membership',
         'survey',
         'survey_crm',
-
-
         'note',
         'portal',
 #       'subscription',
-
-
         'web_analytics',
         'web_editor',
         'web_kanban',
         'web_settings_dashboard',
         'web_kanban_gauge',
         'web_diagram',
-        'web_diagram',
         'portal_gamification',
         'web_planner',
-
-
-
         'website',
         'website_google_map',
         'website_event',
@@ -98,12 +79,8 @@
         'website_portal',
         'website_twitter',
         'website_forum_doc',
-
-
         'bus',                          ## Instant Messaging, send messages to other users
         'im_livechat',
-#
-
         'l10n_multilang'],
     #'js': ['static/src/js/view_list.js'],
 
@@ -113,7 +90,7 @@
         'security/ir.model.access.csv',
   #      'fixes/fix_im_chat_bug.xml',
         'data/load_data/load_data.xml',
-        'modifications/to_views/view_reorganize.xml',
+        'views/reorganize.xml',
         'views/sred_system.xml',
         'views/views.xml',
         'views/view_work_folders.xml',
@@ -122,8 +99,8 @@
         'views/view_menus.xml',
         'reports/templates.xml',
    #      'views/mail_templates.xml'
-        'modifications/to_views/mods_to_crm_leads.xml',
-        'modifications/to_views/mods_to_res_partner.xml'
+        'views/mods_crm_leads.xml',
+        'views/mods_res_partner.xml'
 
     ],
     # only loaded in demonstration mode

@@ -23,7 +23,6 @@ class my_milestones(models.Model):
     name = fields.Char()
 
 
-
 ## No need? Have Documentation Types now?
 class my_ObjectiveEvidence_types(models.Model):
     _name = 'sred_system.objective_evidence_types'

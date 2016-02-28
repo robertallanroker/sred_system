@@ -86,11 +86,11 @@
             <field name="name">Set Folders</field>
             <field name="model">sred_system.work_folders</field>
             <field name="arch" type="xml">
-                <tree default_order="sequence" editable="True" colors="red:is_active==False and not is_default,green:is_default==True">
+                <tree default_order="sequence" editable="True" colors="red:active==False and not is_default,green:is_default==True">
                      <field name="sequence" string = "sequence"></field>
                      <field name="name" string="folder"/>
                      <field name="is_default" string = "set as default" widget="checkbox"/>
-                     <field name="is_active" string = "set as active" widget="checkbox"/>
+                     <field name="active" string = "set as active" widget="checkbox"/>
                  </tree>
             </field>
         </record>

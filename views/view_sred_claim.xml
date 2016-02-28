@@ -14,12 +14,10 @@
                     </Header>
                     <sheet string="SRED Work">
                             <div>
-                                <field name="saved_company_logo" widget="image" class="oe_avatar"
-                                       attrs="{'invisible': [('partner_id', '=', False)]}" />
+                                <field name="saved_company_logo" widget="image" class="oe_avatar" attrs="{'invisible':[('partner_id','=',False)]}"/>
                             </div>
                             <div>
-                                 <field name="user_image" widget="image" class="oe_avatar"
-                                        attrs="{'invisible': [('user_id', '=', False)]}"/>
+                                 <field name="user_image" widget="image" class="oe_avatar" attrs="{'invisible':[('user_id','=',False)]}"/>
                             </div>
 
                             <div class="oe_right">
@@ -29,15 +27,16 @@
                                             name="calendar_button_pressed"
                                             class="oe_stat_button"
                                             icon="fa-calendar"
-                                            string="Meetings">
+                                            string="Meetings"
+                                            attrs="{'invisible':[('user_id','=',False)]}">
                                         </button>
 
                                         <button type="object"
                                                 name="link_button_pressed"
                                                 class= "oe_stat_button"
-                                                icon="fa-chain">
-                                            <field string="Link" name="email_feed" widget="statinfo"/>
-                                      </button>
+                                                icon="fa-chain"
+                                                attrs="{'invisible':[('user_id','=',False)]}">
+                                        </button>
 
                                         <button  class = "oe_stat_button"
                                                  name = "attachment_tree_view"
@@ -49,53 +48,50 @@
                                         <button type=  "object"
                                                 name = "open_website_action"
                                                 class= "oe_stat_button"
-                                                icon = "fa-globe">
-                                            <field string="website" name = "website" widget="statinfo" />
+                                                icon = "fa-globe"
+                                                attrs= "{'invisible':[('user_id','=',False)]}">
+                                            <field string="website" name = "website" widget="statinfo"/>
                                         </button>
 
                                     </div>
 
                                 </div>
 
-
-
-
                             </div>
 
                         <group>
 
-                           <group attrs="{'invisible': [('partner_id', '=', False)]}">
-                               <field name ="cra_year_end" string="CRA Year End"
-                                      attrs="{'required': [('cra_year_end','=', False)]}"/>
-                               <field name ="cra_bin" string="CRA BIN"
-                                      attrs="{'required': [('cra_bin','=', False)]}"/>
-                               <field name="contracted_service" string = "Contract"
-                                      attrs="{'required': [('contracted_service','=', False)]}" />
+                           <group attrs = "{'invisible':[('partner_id','=',False)]}">
+                               <field name = "cra_year_end" string="CRA Year End" attrs="{'required': [('partner_id','!=',False)]}"/>
+                               <field name = "cra_bin" string="CRA BIN" attrs="{'required': [('partner_id','!=',False)]}"/>
+                               <field name = "contracted_service" string = "Contract" />
                            </group>
 
-                           <group attrs="{'invisible': [('partner_id', '=', False)]}" >
-                               <field name="file_no" string="File No" readonly="1"/>
-                               <field name="refund" widget="monetary"/>
-                               <field name="fee" widget="monetary"/>
+                           <group>
+                               <field name = "file_no" string="File No" readonly="1"/>
+                               <field name = "refund" widget="monetary"/>
+                               <field name = "fee" widget="monetary"/>
                            </group>
 
                         </group>
 
                         <group>
                             <group string="Claim">
-                                <field name="name" placeholder="Title of the work" string="Claim Work Title"/>
+                                <field name="name" placeholder="Title of the work" string="Claim Work Title" />
                                 <field name="claim_type" string="claim type" />
                                 <field name="tax_years" widget="many2many_tags"/>
+                                <field name="website" widget="url" attrs="{'invisible':[('partner_id','=',False)]}" />
                             </group>
                             <group string="Assigned">
                                     <field name="partner_id" string="customer" />
                                     <field name="user_id" />
                                     <field name="folder_group" string="Folder group" />
                                     <field name="folder" string="Folder"/>
+                                    <field name="link_email" string = "correspondence" />
                             </group>
                         </group>
 
-                        <notebook attrs="{'invisible': [('partner_id', '=', False)]}" >
+                        <notebook>
                             <page string = "Processing">
                                 <group>
                                     <field name="glip_processing_status" string="Greenlight" widget="statusbar" clickable="True"/>
@@ -188,17 +184,11 @@
 
     </data>
 
-    <!-- FOLDERS -->
-    <data>
-
-
-    </data>
 
     <!-- CLAIMS -->
     <data>
 
-
-        <record id="sred_system.search_claims" model="ir.ui.view">
+         <record id="sred_system.search_claims" model="ir.ui.view">
             <field name="name">Search Claims</field>
             <field name="model">sred_system.claim_project</field>
             <field name="arch" type="xml">
@@ -206,8 +196,6 @@
 
                     <field name="user_id"/>
                     <field name="partner_id"/>
-
-                    <!--filter string="Assigned to me" name="assigned-to-me" domain="[('user','=',uid)]"/-->
 
                     <group expand="1" string="Group By">
                         <filter string="assigned person" name="assigned-to-me-group" context="{'group_by':'user_id'}"/>

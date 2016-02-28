@@ -1,10 +1,11 @@
 from openerp import models, fields, api, osv
 from random import randint
 import time
-from openerp import tools
+import logging
 from openerp.tools.translate import _
 
 
+_logger = logging.getLogger('sred_system.claim_projects')
 
 
 class my_claim_types(models.Model):
@@ -79,6 +80,9 @@ class my_sred_emails(models.Model):
     date_received = fields.Datetime()
 
 
+
+
+
 #
 # MY_SRED_PROJECTS
 #
@@ -88,50 +92,38 @@ class my_sred_projects(models.Model):
     _description    = 'sred claim project'
     _file_prefix    = 'C'
 
-    name            = fields.Char()
+
+    name            = fields.Char(required=True)
+    sequence        = fields.Integer()
 
     website = fields.Char(related='partner_id.website')
 
-    active                  = fields.Boolean('Active',
-                                help ="If the active field is set to False, it will allow you to hide the project without removing it.")
-
-    sequence                = fields.Integer('Sequence', help='Gives the sequence order when displaying a list of Projects.')
-
     task_ids                = fields.One2many('sred_system.sred_project_tasks', 'task_id', "Task Items", track_visibility='onchange')
-
-    color                   = fields.Integer('Color Index')
 
     user_id                 = fields.Many2one('res.users', 'Project Manager', track_visibility='onchange')
     user_image              = fields.Binary(string='user image', related='user_id.image')
 
     alias_id                = fields.Many2one('mail.alias', 'Alias')
-    partner_id              = fields.Many2one('res.partner', 'rel_to_company_from_sred_projects',
+    partner_id              = fields.Many2one('res.partner', 'rel_to_company_from_sred_projects', required=True,
                                               domain=[('is_company', '=', True)])
 
-    contracted_service = fields.Many2one('sred_system.sred_contracts', string='contract')
+    contracted_service = fields.Many2one('sred_system.sred_contracts', string='contract', required=True)
 
     saved_company_logo      = fields.Binary(string='company logo', related='partner_id.image')
-
 
     date_start              = fields.Date('Start Date')
 
     date                    = fields.Date('Expiration Date', select=True, track_visibility='onchange')
+
     attachment_ids          = fields.One2many('ir.attachment', 'res_id', string='Attachments')
 
-    claim_file      = fields.Char(related='alias_id.display_name')
+    claim_file      = fields.Char(related='alias_id.display_name', readonly=True)
     cra_year_end    = fields.Datetime(related='partner_id.cra_year_end')
     cra_bin         = fields.Char(related='partner_id.cra_bin')
-
-    is_readonly     = fields.Boolean(compute='calc_read_only_status', stored=True)
-    work_status     = fields.Char(related='work_processing_status.name')
+    link_email = fields.Char(related='alias_id.alias_name')
 
 
-        #fields.One2many('sred_system.claim_project', 'id', string='History',
-        #                                      domain=[('partner_id', '=', partner_id), ('id', '<>', id)])
-
-    #######################
-    # CLAIM STATUS FIELDS #
-    #######################
+    # VARIOUS WORK PROCESSING STATUS #
     work_processing_status   = fields.Many2one('sred_system.processing_status',
                              string="work in progress",
                              ondelete='set null',
@@ -159,45 +151,36 @@ class my_sred_projects(models.Model):
     ###################################
     # TRACK CLAIM ORGANIZATION FIELDS #
     ###################################
-    folder_group            = fields.Many2one('sred_system.folder_groups', string='relation to folder group', ondelete='set null')
+    folder_group            = fields.Many2one('sred_system.folder_groups', string='relation to folder group',
+                                              ondelete='set null', required=True)
     folder                  = fields.Many2one('sred_system.work_folders',
                                   string="assigned folder",
                                   ondelete='cascade',
-                                  track_visibility='on_change')
+                                  track_visibility='on_change', required=True)
 
     claim_type               = fields.Many2one('sred_system.claim_types',
                                   string='claim type',
                                   ondelete='set null',
                                   track_visibility='on_change')
 
-    tax_years               = fields.Many2many('sred_system.tax_years','taxyear_id','tax_years')
-
-    work_started_on         = fields.Date()
-
-    work_cra_deadline       = fields.Date()
+    tax_years               = fields.Many2many('sred_system.tax_years','taxyear_id','tax_years', required=True)
 
 
     ####################
     # FINANCIAL FIELDS #
     ####################
-    bin_number              = fields.Char()
-
-    financial_year_end      = fields.Date()
 
     # Read only computed copies of the Estimated values
     # glitch in setting fields that requiring updating using views that are read-only turn fields into non-updatable
     # use the calculated fields instead on view forms to avoid the crazy glitch
     refund                  = fields.Float(compute='_calc_refund')
-
     fee                     = fields.Float(compute='_calc_fee')
 
     estimated_refund        = fields.Float()
 
     estimated_fee           = fields.Float()
 
-    estimations             = fields.One2many('sred_system.work_estimations', 'estimate_id',
-                                  string='Estimates',
-                                  track_visibility='on_change')
+    estimations             = fields.One2many('sred_system.work_estimations', 'estimate_id', string='Estimates')
 
     doc_count               = fields.Integer(compute='_get_attached_docs', string="Number of documents attached")
 
@@ -206,10 +189,6 @@ class my_sred_projects(models.Model):
     ###############################
     # ROLES AND LEADERSHIP FIELDS #
     ###############################
-    technical_lead          = fields.Char()
-
-    financial_lead          = fields.Char()
-
     work_roles              = fields.One2many('sred_system.work_roles', 'work_role_id',
                                    string='assignment of work roles', ondelete='cascade')
     ####################
@@ -217,7 +196,6 @@ class my_sred_projects(models.Model):
     ####################
     notes = fields.Html('Notes')
 
-    email_feed = fields.Char(compute='_calc_alias')
     all_emails = fields.One2many(related='task_ids.message_ids')
 
     emails = fields.Many2one('sred_system.emails', 'claim_project')
@@ -226,24 +204,14 @@ class my_sred_projects(models.Model):
 
 
 
-    @api.model
-    @api.depends('claim_id')
-    def get_claim_id(self):
-        self.claim_file = self.claim_id
-        return self.claim_id
-
 
     @api.model
-    def make_claim_id(self):
-        count_rec = str(self.search_count([('active','=',True)]))
-        new_claim_id = str(randint(0, 999)) + '-' + count_rec
-        return new_claim_id
-
-
-    @api.one
-    @api.onchange('alias_id')
-    def alias_has_changed(self):
-        self._calc_alias
+    @api.onchange('estimations')
+    def test_change(self):
+        print 'hello world'
+        response = self._get_current_estimate()
+        self.estimated_fee = response[0]
+        self.estimated_refund = response[1]
 
 
     @api.model
@@ -330,65 +298,45 @@ class my_sred_projects(models.Model):
             new_record = this_one[0]
         return new_record
 
-    #  [('s1', 'Work'), ('s2','Greenlight'), ('s3', 'CRA'), ('s4', 'Claim-State')
+
     @api.model
-    def _get_claim_status_default(self):
+    #  [('s1', 'Work'), ('s2','Greenlight'), ('s3', 'CRA'), ('s4', 'Claim-State')
+    def _get_default_status(self, stage_id):
+        _logger.debug('get default status ' + stage_id)
         new_record = []
-        new_list = self.env['sred_system.processing_status'].search([('stage', '=', 's4'),
-                                                                     ('is_default', '=', True)])
+        new_list = self.env['sred_system.processing_status'].search([('stage', '=', stage_id), ('is_default', '=', True)])
         if new_list:
             new_record = new_list[0]
         return new_record
+
 
     @api.model
     def _get_work_processing_status_default(self):
-        new_record = []
-        new_list   = self.env['sred_system.processing_status'].search([('stage', '=', 's1'), ('is_default', '=', True)])
-        if new_list:
-            new_record = new_list[0]
-        return new_record
+        return self._get_default_status('s1')
 
     @api.model
     def _get_glip_processing_status_default(self):
-        new_record = []
-        new_list   = self.env['sred_system.processing_status'].search([('stage', '=', 's2'), ('is_default', '=', True)])
-        if new_list:
-            new_record = new_list[0]
-        return new_record
+        return self._get_default_status('s2')
 
     @api.model
     def _get_cra_processing_status_default(self):
-        new_record = []
-        new_list   = self.env['sred_system.processing_status'].search([('stage', '=', 's3'), ('is_default', '=', True)])
-        if new_list:
-            new_record = new_list[0]
-        return new_record
+        return self._get_default_status('s3')
 
-    @api.one
-    def _get_current_fee_value(self):
-        fee_amount  = 0.00
-        if self.estimations:
-            for my_rec in self.estimations:
-                fee_amount = my_rec['fee']
-        return fee_amount
-
-    @api.one
-    def _get_current_refund_value(self):
-        refund_amount  = 0.00
-        if self.estimations:
-            for my_rec in self.estimations:
-                refund_amount = my_rec['refund']
-        return refund_amount
+    @api.model
+    def _get_claim_status_default(self):
+        return self._get_default_status('s4')
 
 
     @api.model
     def _get_current_estimate(self):
+        _logger.debug('calculating current estimate (START)')
         answer = []
         fee_amount = 0.00
         refund_amount = 0.00
         found_one = False
         if self.estimations:
             for my_rec in self.estimations:
+                _logger.debug('......')
                 if (my_rec['fee'] + my_rec['refund']) > 0:
                     if found_one == False:
                         fee_amount = my_rec['fee']
@@ -402,61 +350,30 @@ class my_sred_projects(models.Model):
                             last_entry = my_rec['e_date']
         answer.append(fee_amount)
         answer.append(refund_amount)
+        _logger.debug('calculating current estimate (END)')
         return answer
 
 
 
-    @api.one
-    @api.onchange('estimations')
-    def _calculate_claim(self):
-        response = self._get_current_estimate()
-        self.estimated_fee = response[0]
-        self.estimated_refund = response[1]
-        self._calc_fee
-        self._calc_refund
-        if self.folder:
-           self.folder.calculate_fees()
-
-
-
-    @api.one
-    def open_claim(self):
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'sred_system.claim_project',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'target': 'current',
-        }
-
-
-
-    @api.one
-    @api.model
-    def _get_new_claim_id(self):
-        return str(randint(0, 999)) + '-' + str(self.search_count([('active','=',True)]))
-
-
-
-    @api.one
-    @api.model
-    def open_project_claim(self):
-        result = {
-            "type": "ir.actions.act_window",
-            "res_model": "sred_system.claim_project",
-            "view_type": "form",
-            "target": "current",
-
-            "name": "SRED Project",
-            "nodestroy": True}
-        return result
-
+    def calc_estimation_on_claim(self):
+        _logger.debug('estimations changed')
+  #      response = self._get_current_estimate()
+  #      self.estimated_fee = response[0]
+  #      self.estimated_refund = response[1]
+  #      self._calc_fee
+  #      self._calc_refund
+        _logger.debug('estimates changed end')
+        return True
 
 
     @api.one
     @api.model
     def _get_attached_docs(self):
         attachments = self.env['ir.attachment'].search([('res_model', '=', 'sred_system.claim_project'), ('res_id', '=', self.id)])
+        if attachments:
+            self.doc_count = len(attachments)
+        else:
+            self.doc_count = 0
         return len(attachments) or 0
 
 
@@ -521,5 +438,4 @@ class my_sred_projects(models.Model):
         'claim_status': _get_claim_status_default,
         'work_processing_status': _get_work_processing_status_default,
         'glip_processing_status': _get_glip_processing_status_default,
-        'cra_processing_status': _get_cra_processing_status_default,
-        'folder': _set_default_folder}
+        'cra_processing_status': _get_cra_processing_status_default}

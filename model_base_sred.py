@@ -64,7 +64,6 @@ class my_base_sred_object(models.Model):
         rand_no   = randint(0, 999)
         ms        = int(time.time() * 1000)
         this_file_no = self._file_prefix + '.' + self.code_generator(count_rec) + '.' + self.code_generator(rand_no) + '.'+ self.code_generator(ms)
-        self.say(this_file_no)
         return this_file_no
 
     _defaults = {'file_no': make_file_no, 'active': True}

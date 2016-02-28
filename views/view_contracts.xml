@@ -13,6 +13,7 @@
                     <field name = 'file_no' string = 'contract no' readonly="1" />
                     <field name = 'contracted_service' string = 'contracted service' />
                     <field name = 'partner_id' string = 'customer' />
+                    <field name = 'active_mode' string = 'active schedule' />
                     <field name = 'yearly_term' string = 'term' placeholder="years"/>
                     <field name = 'date_signed' string = 'signed'/>
                     <field name = 'date_expires' string = 'expires' />
@@ -43,10 +44,9 @@
                     </Header>
                     <sheet>
 
-                        <group>
-
                             <group>
                                 <field name = 'name' string = 'service name' />
+                                <field name = 'service_modes' string = 'service modes' widget="many2many_tags" />
                             </group>
 
                             <group>
@@ -55,8 +55,9 @@
                                     <page string = 'Service Rates'>
 
                                         <field name = 'service_rates' >
-                                            <tree editable="true" create="true">
+                                            <tree editable="true" create="true" default_order="rate_mode, amount_from, amount_to">
 
+                                                <field name = 'rate_mode' string = 'mode' />
                                                 <field name = 'amount_from' string = 'from' />
                                                 <field name = 'amount_to'   string = 'to' />
                                                 <field name = 'commission_rate' string = 'commission'/>
@@ -70,8 +71,6 @@
                                 </notebook>
 
                             </group>
-
-                        </group>
 
                     </sheet>
 

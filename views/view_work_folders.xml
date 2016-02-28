@@ -18,17 +18,10 @@
                         </group>
                         <group>
                             <div color='green'>
-                                <group class= "oe_subtotal_footer">
-                                    <field name="f_new" widget="monetary" string="New Fees" />
-                                    <field name="f_processed" widget="monetary" string="Processed Fees" />
-                                    <field name="f_booked" widget="monetary" string="Booked Fees" />
-                                    <field name="f_total" widget="monetary" string="Total Value" class="oe_subtotal_footer_separator"/>
-                                </group>
-                            </div>
+                               </div>
                             <div>
                                 <group>
-                                    <field name="f_progress" widget="progressbar" string="progress made" />
-                                    <field name="is_active" string="active folder?" widget="checkbox"/>
+                                    <field name="active" string="active folder?" widget="checkbox"/>
                                     <button class="oe_inline oe_stat_button" type="object" name="calculate_fees"
                                        string="Re-Calculate Folder">
                                     </button>
@@ -38,14 +31,7 @@
                             <field name="folder_id" string="Claims">
                                 <tree >
                                     <button class="oe_stat_button" name="open_project_claim" type="object" icon="fa-files-o"/>
-                                    <field name="claim_type" string="claim type" />
                                     <field name="name" string="Claim"/>
-                                    <field name="tax_years" string="Tax" widget="many2many"/>
-                                    <field name="estimated_fee" widget="monetary" string="Fee"/>
-                                    <field name="estimated_refund" widget="monetary" string="Refund"/>
-                                    <field name="work_processing_status" string="Work"/>
-                                    <field name="glip_processing_status" string="Processing"/>
-                                    <field name="cra_processing_status" string="CRA"/>
                                 </tree>
                             </field>
                     </sheet>
@@ -62,11 +48,6 @@
             <field name="arch" type="xml">
                 <tree create="false" delete = "false">
                     <field name="name" string="Folders" />
-                    <field name="num_sred_projects" string = "# Claims"/>
-                    <field name="folder_fee_new" widget="monetary" string="New Fees" />
-                    <field name="folder_fee_processed" widget="monetary" string="Processed Fees" />
-                    <field name="folder_fee_booked" widget="monetary" string="Booked Fees" />
-                    <field name="folder_fee_total" widget="monetary" string="Total Value"/>
                 </tree>
             </field>
         </record>
@@ -78,8 +59,8 @@
             <field name="model">sred_system.work_folders</field>
             <field name="arch" type="xml">
                 <search string="active folders">
-                    <field name="is_active"/>
-                    <filter string="Only Active Folders" name="only-active" domain="[('is_active','=','name')]"/>
+                    <field name="active"/>
+                    <filter string="Only Active Folders" name="only-active" domain="[('active','=','name')]"/>
                 </search>
             </field>
         </record>

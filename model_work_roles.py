@@ -49,8 +49,6 @@ class my_work_resource_roles(models.Model):
         filter['work_person'] = [('is_company', '=', False)]
 
         if self.work_scope:
-            self.say(self.work_scope)
-            self.say(self.work_scope.scope_type)
             # Green light / Internal
             if self.work_scope.scope_type == '1':
                 filter['work_person'] = [('is_company', '=', False), ('parent_id', '=', 1)]
