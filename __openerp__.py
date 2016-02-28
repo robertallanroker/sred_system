@@ -87,7 +87,6 @@
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
   #      'fixes/fix_im_chat_bug.xml',
         'data/load_data/load_data.xml',
         'views/reorganize.xml',
@@ -100,7 +99,8 @@
         'reports/templates.xml',
    #      'views/mail_templates.xml'
         'views/mods_crm_leads.xml',
-        'views/mods_res_partner.xml'
+        'views/mods_res_partner.xml',
+        'security/ir.model.access.csv'
 
     ],
     # only loaded in demonstration mode
