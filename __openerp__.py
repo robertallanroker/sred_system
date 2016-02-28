@@ -30,6 +30,7 @@
     'depends': ['web',
         'base',                     ## Primary Base Libraries
         'base_setup',               ## Primary Base Setup
+        'base_action_rule',
         'calendar',                 ## Everyone needs a calendar
         'project',                  ## Basic Project Management and Tasks
         'crm',
@@ -82,12 +83,7 @@
         'bus',                          ## Instant Messaging, send messages to other users
         'im_livechat',
         'l10n_multilang'],
-    #'js': ['static/src/js/view_list.js'],
-
-
-    # always loaded
     'data': [
-  #      'fixes/fix_im_chat_bug.xml',
         'views/reorganize.xml',
         'views/sred_system.xml',
         'views/views.xml',
@@ -96,18 +92,14 @@
         'views/view_sred_claim.xml',
         'views/view_menus.xml',
         'reports/templates.xml',
-   #      'views/mail_templates.xml'
         'views/mods_crm_leads.xml',
         'views/mods_res_partner.xml',
         'security/ir.model.access.csv',
-        'data/load_data/load_data.xml',
-
+        'data/load_data/load_data.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
         'load_demo_data/demo.xml',
-
-
     ],
     'installable': True,
     'auto_install': False,
