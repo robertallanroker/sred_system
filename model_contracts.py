@@ -3,16 +3,16 @@ from openerp import models, fields, api, osv
 
 # Contingency, Fixed, Etc.
 class my_sred_services_modes(models.Model):
-    _inherit = 'sred_system.base_sred_picklist'
     _name    = 'sred_system.sred_service_modes'
+    _inherit = 'sred_system.base_sred_picklist'
 
     name = fields.Char()
     mode = fields.Many2many('sred_system.sred_services', 'service_modes', 'mode')
 
 
 class my_sred_services_rates(models.Model):
-    _inherit        = "sred_system.base_sred_object"
     _name           = "sred_system.sred_services_rates"
+    _inherit        = "sred_system.base_sred_object"
     _file_prefix    = 'SR'
 
     service_id      = fields.Many2one('sred_system.sred_services', string='contract service')
@@ -23,8 +23,8 @@ class my_sred_services_rates(models.Model):
 
 
 class my_sred_services(models.Model):
-    _inherit        = "sred_system.base_sred_object"
     _name           = 'sred_system.sred_services'
+    _inherit        = "sred_system.base_sred_object"
     _file_prefix    = "SS"
 
     service_modes   = fields.Many2many('sred_system.sred_service_modes', 'mode', 'service_modes')
@@ -33,8 +33,8 @@ class my_sred_services(models.Model):
 
 
 class my_sred_contracts(models.Model):
-    _inherit        = "sred_system.base_sred_object"
     _name           = 'sred_system.sred_contracts'
+    _inherit        = "sred_system.base_sred_object"
     _file_prefix    = "CA"
 
     name               = fields.Char(readonly=True)
