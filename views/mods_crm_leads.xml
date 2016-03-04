@@ -56,7 +56,6 @@
                 </field>
 
                 <!-- ADD Next Steps -->
-                <!--
                 <field name="fax" position="after">
                         <field name="last_activity_id" invisible="1"/>
                         <label for="next_activity_id"/>
@@ -88,9 +87,32 @@
                             </div>
                         </div>
                 </field>
-                -->
 
 
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="sred_system.tree_crm" >
+            <field name = "name">Lead/Opportunity</field>
+            <field name = "model">crm.lead</field>
+            <field name = "inherit_id" ref = "crm.crm_case_tree_view_leads" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="create_date" position="before">
+                    <button type=  "object"
+                        icon = "fa-globe"
+                        name = "perform_open_website"
+                        class= "oe_stat_info"
+                        string = "Website">
+                    </button>
+                    <button type=  "object"
+                        icon = "fa-stack-overflow"
+                        string = "Manta"
+                        name = "perform_manta_search"
+                        class= "oe_stat_info">
+                    </button>
+                 </field>
             </field>
         </record>
 

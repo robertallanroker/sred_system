@@ -1,6 +1,5 @@
 from openerp import models, fields, api, osv
 
-
 class my_changes_to_crm_leads_step1(models.Model):
     _inherit = 'crm.lead'
 
@@ -12,6 +11,7 @@ class my_changes_to_crm_leads_step1(models.Model):
     web_url = fields.Char()
     # This would be useful to display related website data onto the primary form.
     # website = fields.Char(related="res.partner.website")
+
 
  #  target_profile = fields.One2Many('sred_system.crm_targeting', 'targets', "targeting_profile_dna")
 
@@ -63,8 +63,8 @@ class my_changes_to_crm_leads_step1(models.Model):
     #http://www.manta.com/search?search_source=nav&pt=49.17%2C-123.136795&search_location=Richmond+BC&search=accent+steal
     def perform_manta_search(self, cr, uid, id, default=None, context=None):
         rec = self.browse(cr, uid, id, context=context)
-        this_web = self._join_search('https://www.google.ca?gws_rd=ssl#q=', 'MANTA','')
-        this_web = self._join_search(this_web,self._clean_parameter(rec.partner_name) ,'+')
+        this_web = self._join_search('https://www.google.ca?gws_rd=ssl#q=',self._clean_parameter(rec.partner_name) ,'+')
+        this_web = self._join_search(this_web,'MANTA',' ')
         return self._invoke_new_window(this_web)
 
 

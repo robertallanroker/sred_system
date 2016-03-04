@@ -29,6 +29,7 @@ class my_estimations(models.Model):
       'person': lambda s, cr, uid, c: uid
     }
 
+
 class my_sred_projects_tasks(models.Model):
     _name       = 'sred_system.sred_project_tasks'
     _inherit    = ['sred_system.base_sred_tasks', 'mail.thread', 'ir.needaction_mixin']
@@ -46,6 +47,7 @@ class my_sred_projects_tasks(models.Model):
                                         ondelete='set null')
 
     partner_id    = fields.Many2one(related='task_id.partner_id')
+
 
     company = fields.Char(compute="_compute_company")
 
@@ -76,12 +78,39 @@ class my_sred_emails(models.Model):
     _name = 'sred_system.emails'
     _description = 'Track SRED related Emails'
 
-    claim_project = fields.One2many('sred_system.claim_project', 'emails', string='Claim Project')
-    date_received = fields.Datetime()
+    claim_project  = fields.Many2one('sred_system.claim_project', string='Claim Project')
+    date_received  = fields.Datetime()
+    trigger_update = fields.Boolean()
+    last_email_id  = fields.Integer()
+
+    @api.model
+    @api.onchange('trigger_update')
+    def on_change_from_new_email(self):
+        print '*** TRIGGER UPDATE ****'
+        return
+
+    @api.model
+    def run_fix_emails(self):
+        _logger.info('Fixing Email Correspondence ...')
+        mail_subtype    = self.env['mail.message.subtype'].search([('name','=','Note')])
+        emails_to_fix = self.env['mail.message'].search([('model','=','sred_system.emails')])
+        if emails_to_fix:
+            for fix_this_one in emails_to_fix:
+                _logger.info('Fix ')
+                fix_this_one.model  = 'sred_system.claim_project'
+                old_res_id = fix_this_one.res_id
+                sred_email = self.env['sred_system.emails'].browse(old_res_id)[0]
+                if sred_email:
+                    fix_this_one.res_id = sred_email.claim_project.id
+                if mail_subtype:
+                    fix_this_one.subtype_id = mail_subtype
+        else:
+           _logger.info('Nothing to fix ...')
+
+        return
 
 
-
-
+    _defaults = {'trigger_update':False}
 
 #
 # MY_SRED_PROJECTS
@@ -105,9 +134,10 @@ class my_sred_projects(models.Model):
 
     alias_id                = fields.Many2one('mail.alias', 'Alias')
     partner_id              = fields.Many2one('res.partner', 'rel_to_company_from_sred_projects', required=True,
-                                              domain=[('is_company', '=', True)])
+                                              domain=[('customer', '=', True)])
 
-    contracted_service = fields.Many2one('sred_system.sred_contracts', string='contract', required=True)
+    contracted_service = fields.Many2one('sred_system.sred_contracts', string='contract label', required=True)
+    contract_no        = fields.Char(related='contracted_service.file_no', string = 'Contract#')
 
     saved_company_logo      = fields.Binary(string='company logo', related='partner_id.image')
 
@@ -198,9 +228,7 @@ class my_sred_projects(models.Model):
 
     all_emails = fields.One2many(related='task_ids.message_ids')
 
-    emails = fields.Many2one('sred_system.emails', 'claim_project')
-    emails2 = fields.One2many('mail.message', 'res_id', string='Messages',
-                                domain=lambda self: [('res_id', '=', 15)], auto_join=False)
+    emails = fields.One2many('sred_system.emails', 'claim_project')
 
 
 
@@ -218,15 +246,14 @@ class my_sred_projects(models.Model):
     def make_alias(self):
         new_record = {}
         model1_tasks    = self.env['ir.model'].search([('model','=','sred_system.emails')]).id
-        model2_parent   = self.env['ir.model'].search([('model','=','sred_system.emailst')]).id
+        model2_parent   = self.env['ir.model'].search([('model','=','sred_system.claim_project')]).id
         new_record['alias_name'] = 'g'+str(randint(0, 999)) + '-' + str(self.search_count([('active','=',True)]))
 
         alias_defaults = {}
-        new_record['alias_defaults'] = alias_defaults
+        new_record['alias_defaults'] = {'claim_project': self.id}
         new_record['alias_contact'] = 'everyone'
         new_record['alias_model_id'] = model1_tasks
         new_record['alias_parent_model_id'] = model2_parent
-        new_record['parent_record_thread_id'] = self.id
         new_record['alias_parent_thread_id'] = self.id
         new_alias = self.env['mail.alias'].create(new_record)
         self.alias_id = new_alias
@@ -421,10 +448,16 @@ class my_sred_projects(models.Model):
             'view_type':'Calendar'}
 
 
-    @api.one
-    def calc_read_only_status(self):
-        self.is_readonly = (self.work_processing_status.name != 'Open')
-        return self.is_readonly
+    # When the partner id changes, change the list of contracts also.  Contracts are associates with only specific partners
+    @api.onchange('partner_id')
+    def on_change_work_scope(self):
+        res = {}
+        filter = {}
+        filter['contracted_service'] = [('partner_id', '=', self.partner_id.id)]
+        res['domain'] = filter
+        return res
+
+
 
 
     _order = "sequence, name, id"
@@ -441,54 +474,4 @@ class my_sred_projects(models.Model):
         'cra_processing_status': _get_cra_processing_status_default}
 
 
-# Contingency, Fixed, Etc.
-class my_sred_services_modes(models.Model):
-    _name    = 'sred_system.sred_service_modes'
-    _inherit = 'sred_system.base_sred_picklist'
 
-    name = fields.Char()
-    mode = fields.Many2many('sred_system.sred_services', 'service_modes', 'mode')
-
-
-class my_sred_services_rates(models.Model):
-    _name           = "sred_system.sred_services_rates"
-    _inherit        = "sred_system.base_sred_object"
-    _file_prefix    = 'SR'
-
-    service_id      = fields.Many2one('sred_system.sred_services', string='contract service')
-    rate_mode       = fields.Many2one('sred_system.sred_service_modes', string='type of service')
-    amount_from     = fields.Float(digits=(10, 2))
-    amount_to       = fields.Float(digits=(10, 2))
-    commission_rate = fields.Float(digits=(2, 2))
-
-
-class my_sred_services(models.Model):
-    _name           = 'sred_system.sred_services'
-    _inherit        = "sred_system.base_sred_object"
-    _file_prefix    = "SS"
-
-    service_modes   = fields.Many2many('sred_system.sred_service_modes', 'mode', 'service_modes')
-    contracts       = fields.One2many('sred_system.sred_contracts', 'contracted_service', string='contracts')
-    service_rates   = fields.One2many('sred_system.sred_services_rates', 'service_id', string='service rates')
-
-
-class my_sred_contracts(models.Model):
-    _name           = 'sred_system.sred_contracts'
-    _inherit        = "sred_system.base_sred_object"
-    _file_prefix    = "CA"
-
-    name               = fields.Char(readonly=True)
-    active_mode        = fields.Many2one('sred_system.sred_service_modes', string='currently active service mode')
-    contracted_service = fields.Many2one('sred_system.sred_services', string='contracted service')
-    partner_id         = fields.Many2one('res.partner', string='partner')
-    sales_person       = fields.Many2one('res.users', string='sales_person')
-    claim_projects     = fields.One2many('sred_system.claim_project', 'id', string='claim_projects')
-    yearly_term        = fields.Integer()
-    date_signed        = fields.Datetime()
-    date_expires       = fields.Datetime()
-
-    @api.model
-    @api.onchange('file_no')
-    def on_changed_file_no(self):
-        self.name = self.file_no
-        return

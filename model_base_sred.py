@@ -118,3 +118,6 @@ class my_base_sred_task(models.Model):
       'assigned_to': lambda s, cr, uid, c: uid
     }
 
+
+
+

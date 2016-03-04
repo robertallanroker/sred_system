@@ -98,9 +98,8 @@
         'data/load_data/load_data.xml'
     ],
     # only loaded in demonstration mode
-    'demo': [
-        'load_demo_data/demo.xml',
-    ],
+    'qweb': ['views/view_sred_claim.xml'],
+    'demo': ['load_demo_data/demo.xml'],
     'installable': True,
     'auto_install': False,
     'application': True,

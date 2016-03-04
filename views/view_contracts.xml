@@ -9,15 +9,49 @@
             <field name="model">sred_system.sred_contracts</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree editable="true" default_order= "partner_id,  contracted_service, date_expires" >
-                    <field name = 'file_no' string = 'contract no' readonly="1" />
-                    <field name = 'contracted_service' string = 'contracted service' />
-                    <field name = 'partner_id' string = 'customer' />
-                    <field name = 'active_mode' string = 'active schedule' />
-                    <field name = 'yearly_term' string = 'term' placeholder="years"/>
-                    <field name = 'date_signed' string = 'signed'/>
-                    <field name = 'date_expires' string = 'expires' />
+                <tree default_order = "partner_id,  contracted_service, date_expires" >
+                    <field name = 'file_no' string  = 'Contract No' readonly = "1" />
+                    <field name = 'partner_id'   string  = 'Customer' />
+                    <field name = 'year_end' string = 'Year End' />
+                    <field name = 'contracted_service' string = 'Contracted Service'  />
+                    <field name = 'active_mode'  string  = 'Active Schedule'  />
+                    <field name = 'yearly_term'  string  = 'Term' />
+                    <field name = 'date_signed'  string  = 'Signed'  />
+                    <field name = 'date_expires' string  = 'Expires'/>
                 </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id = "sred_system.form_sred_contract" >
+            <field name="name">SRED Contracts</field>
+            <field name="model">sred_system.sred_contracts</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string = "Signed Contracts" >
+                    <sheet>
+                        <button  class="oe_stat_button" name="attachment_tree_view"  type="object" icon="fa-files-o">
+                            <field string="Contracts" name="doc_count" widget="statinfo"/>
+                        </button>
+                        <group>
+                            <field name="name" string = "Contract Label" />
+                        </group>
+                        <group>
+                            <group>
+                                <field name = "file_no" string="Contract#" readonly="1" />
+                                <field name = "contracted_service" string="Service" />
+                                <field name = "partner_id" string="Customer" />
+                                <field name = "year_end" string = "Financial Year End" readonly="1" />
+                                <field name = "sales_person" string = "Sales Person" />
+                                <field name = 'active_mode'  string  = 'active schedule' attrs="{'invisible':[('partner_id','=',False)]}" />
+                            </group>
+                            <group>
+                                <field name = "date_signed" string = "Date Signed" attrs="{'invisible':[('partner_id','=',False)]}" />
+                                <field name = "date_expires" string = "Date Expires" attrs="{'invisible':[('partner_id','=',False)]}" />
+                                <field name = "yearly_term" string = "Term" attrs="{'invisible':[('partner_id','=',False)]}" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
             </field>
         </record>
 

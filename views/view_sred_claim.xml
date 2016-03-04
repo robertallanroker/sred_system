@@ -3,6 +3,8 @@
     <!-- UI VIEWS -->
     <data>
 
+
+
         <record model="ir.ui.view"  id="sred_system.my_sred_form">
             <field name="name">SRED Work</field>
             <field name="model">sred_system.claim_project</field>
@@ -64,7 +66,8 @@
                            <group attrs = "{'invisible':[('partner_id','=',False)]}">
                                <field name = "cra_year_end" string="CRA Year End" attrs="{'required': [('partner_id','!=',False)]}"/>
                                <field name = "cra_bin" string="CRA BIN" attrs="{'required': [('partner_id','!=',False)]}"/>
-                               <field name = "contracted_service" string = "Contract" />
+                               <field name = "contracted_service" string = "Contract Label" />
+                               <field name = "contract_no" string = "Contract#" attrs="{'readonly': True, 'invisible': [('contracted_service','=',False)]}" />
                            </group>
 
                            <group>
@@ -132,17 +135,6 @@
                                         <field name="date_deadline" string="deadline"/>
                                     </tree>
                                 </field>
-                            </page>
-                            <page string="Emails">
-                                <group>
-                                    <!--field name="alias_id" string="Manual setup of email:"/-->
-                                    <field name="alias_id" string = "correspondence" />
-                                    <field name="emails2"  string="Hello World">
-                                        <tree>
-                                            <field name = "subject" />
-                                        </tree>
-                                    </field>
-                                </group>
                             </page>
                             <page string="Note Pad">
                                 <field name="notes" type="html"/>

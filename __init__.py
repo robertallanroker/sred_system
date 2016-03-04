@@ -7,6 +7,7 @@ import model_work_roles
 import model_work_folders
 import model_sred_projects
 import model_contracts
+import model_tags
 import mods_to_crm_leads
 import mods_to_res_partner
 
