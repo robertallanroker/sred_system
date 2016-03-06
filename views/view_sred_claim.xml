@@ -159,7 +159,7 @@
             <field name="model">sred_system.claim_project</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree editable="0">
                     <field name="claim_type" string="claim type" />
                     <field name="partner_id" string="client" />
                     <field name="name" string="Claim" />

@@ -1,11 +1,13 @@
-from openerp import models, fields, api, osv
+from openerp import models, fields, api
 from random import randint
 import time
 import logging
 from openerp.tools.translate import _
 
 
+
 _logger = logging.getLogger('sred_system.claim_projects')
+
 
 
 class my_claim_types(models.Model):
@@ -14,8 +16,9 @@ class my_claim_types(models.Model):
     sred_id  = fields.One2many('sred_system.claim_project', 'claim_type', ondelete='cascade')
 
 
-
-
+# sred_system.work_estimations
+# Each claim project has a running list of estimations made since the beginning of the claim,
+# and soon this will be part of this will also include since the beginning of a sales opportunity
 class my_estimations(models.Model):
     _name       = 'sred_system.work_estimations'
     estimate_id = fields.Many2one('sred_system.claim_project', string='Estimation', ondelete='cascade')
@@ -30,6 +33,11 @@ class my_estimations(models.Model):
     }
 
 
+
+# sred_system.sred_project_tasks
+# We should change this to use the system's tasks. This version is used to track tasks, 
+# CUrrently if we inherit from project.tasks, we need to disable functionality which currently ties
+# the data to a project table. We want tasks in this case to tie directly to the claim_project
 class my_sred_projects_tasks(models.Model):
     _name       = 'sred_system.sred_project_tasks'
     _inherit    = ['sred_system.base_sred_tasks', 'mail.thread', 'ir.needaction_mixin']
@@ -69,14 +77,18 @@ class my_sred_projects_tasks(models.Model):
     @api.model
     def get_stage(self):
         self.stageme='s2'
-        return ret
+        return
 
 
-
+# sred_system.emails.
+# This is crazy work-around. An alias email has to create a new record.  Hence if we want to see in the discussion thread,
+# email's sent in, the alias will create the email thread. I've then added a CRON event that polls the email queue, and 
+# changes the message attributes so that it can be seen inside the claim project.
+# this works, however, there is about a 15 minute CRON polling delay
 class my_sred_emails(models.Model):
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     _name = 'sred_system.emails'
-    _description = 'Track SRED related Emails'
+    _description = 'Track SRED related email'
 
     claim_project  = fields.Many2one('sred_system.claim_project', string='Claim Project')
     date_received  = fields.Datetime()
@@ -105,12 +117,14 @@ class my_sred_emails(models.Model):
                 if mail_subtype:
                     fix_this_one.subtype_id = mail_subtype
         else:
-           _logger.info('Nothing to fix ...')
+            _logger.info('Nothing to fix ...')
 
         return
 
 
     _defaults = {'trigger_update':False}
+
+
 
 #
 # MY_SRED_PROJECTS
@@ -119,7 +133,7 @@ class my_sred_projects(models.Model):
     _inherit = ['sred_system.base_sred_object','mail.thread', 'ir.needaction_mixin']
     _name           = 'sred_system.claim_project'
     _description    = 'sred claim project'
-    _file_prefix    = 'C'
+    _file_prefix    = 'CP'
 
 
     name            = fields.Char(required=True)

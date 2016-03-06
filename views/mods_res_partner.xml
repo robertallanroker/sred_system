@@ -9,29 +9,52 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
 
-                <page name="internal_notes" position="before">
-                    <page name="sred" string="SRED">
-                        <notebook>
-                            <page name = "financial" string = "Financial">
-                                <group>
-                                    <field name = "cra_bin" string = "CRA Business Number" />
-                                    <field name = "cra_year_end" string = "CRA Financial Year End" />
-                                </group>
-                            </page>
-                            <page name ="contracts" string = "Contracts" >
-                                <field name = "service_contracts" string="Service Contracts">
-                                    <tree editable="True" default_order="date_expires">
-                                        <field name = 'file_no' string = 'contract no' readonly="1" />
-                                        <field name = 'contracted_service' string = 'contracted service' />
-                                        <field name = 'yearly_term' string = 'term' placeholder="years"/>
-                                        <field name = 'date_signed' string = 'signed'/>
-                                        <field name = 'date_expires' string = 'expires' />
-                                    </tree>
+				<div name="button_box" position="before">
+					<field name="res_group" class="oe_right" clickable="True" widget="statusbar" />
+				</div>
+
+				<xpath expr="//field[@name='website']" position='after' >
+				    <field name='user_id' string = 'sales person' />
+				    <field name="account_manager" string = 'account manager' />
+				</xpath>
+                
+                <xpath expr="//notebook" position="before">
+                    <notebook>
+                       <page string="Sales">
+                       		<field name = "service_contracts" string="Service Contracts">
+                          		<tree editable="True" default_order="date_expires">
+                                	<field name = 'file_no' string = 'contract no' readonly="1" />
+                                    <field name = 'contracted_service' string = 'contracted service' />
+                                    <field name = 'yearly_term' string = 'term' placeholder="years"/>
+                                    <field name = 'date_signed' string = 'signed'/>
+                                    <field name = 'date_expires' string = 'expires' />
+                                </tree>
                                 </field>
-                            </page>
-                         </notebook>
-                    </page>
-                </page>
+                       </page>
+                       <page string="Operations">
+                       		<field name="sred_claims" >
+                				<tree>
+				                    <field name="claim_type" string="claim type" />
+				                    <field name="name" string="Claim" />
+                					<field name="tax_years" string="Tax" widget="many2many"/>
+					                <field name="estimated_fee" widget="monetary" string="Fee"/>
+                    				<field name="estimated_refund" widget="monetary" string="Refund"/>
+				                    <field name="claim_status" string="Claim"/>
+                    				<field name="work_processing_status" string="Work"/>
+				                    <field name="glip_processing_status" string="Processing"/>
+                					<field name="cra_processing_status" string="CRA"/>
+                				</tree>
+                			</field>
+                       </page>
+                       <page string="Finance">
+                       		<group>
+                            	<field name = "cra_bin" string = "CRA Business Number" />
+                                <field name = "cra_year_end" string = "CRA Financial Year End" />
+                            </group>
+                       </page>
+                    </notebook>
+                </xpath>
+                
 
             </field>
         </record>
