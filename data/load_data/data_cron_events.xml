@@ -1,0 +1,19 @@
+<openerp>
+
+
+  	<!-- LOAD PROCESSING STATUS
+    Combines all 4 together -->
+    <data>
+        <record id="_sred_email_cron" model = "ir.cron" >
+            <field name="active">eval(True)</field>
+            <field name="display_name">Fix SRED Correspondance Emails</field>
+            <field name="name">Fix SRED Correspondance Emails</field>
+            <field name="model">sred_system.emails</field>
+            <field name="function">run_fix_emails</field>
+            <field name="interval_type">minutes</field>
+            <field name="interval_number">15</field>
+        </record>
+    </data>
+    
+
+</openerp>

@@ -1,0 +1,55 @@
+<openerp>
+	<!-- Main Manifest Form -->
+	<data>
+	
+		<!--
+		<record model="ir.ui.view" id="sred_system.form_manifest">
+		    <field name="name">Information Manifest</field>
+            <field name="model">sred_system.manifest</field>
+            <field name="arch" type="xml">
+                <form string="Information Manifest">
+					<sheet>
+						<div>
+							<group>
+								<field name='name' string='Manifest Label' />
+								<field name='information_count' string='Information Count'/>
+							</group>
+							<group>
+								<field name='description' widget='html' string='describe'/>
+							</group>
+						</div>
+						<div>
+							<group>
+								<field name='user_scope_switch' widget='statusbar' string='Scope/Area' />
+							</group>
+							<notebook>
+								<page string='Information'>
+								</page>
+							</notebook>
+						</div>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		-->
+		
+		<!-- 
+		<record model='ir.ui.view' id='sred_system.tree_manifest'>
+			<field name='name'>Manifests</field>
+			<field name='model'>sred_system.manifest</field>
+			<field name='arch' type='xml'>
+			</field>
+		</record>
+		
+		-->
+		
+		<!-- 
+		<record model="ir.actions.act_window" id="sred_system.action_sred_manifests">
+            <field name="name">Information Manifest</field>
+            <field name="res_model">sred_system.manifest</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		-->
+	</data>
+
+</openerp>

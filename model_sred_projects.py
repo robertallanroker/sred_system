@@ -461,6 +461,15 @@ class my_sred_projects(models.Model):
             'view_mode':'calendar,tree,form',
             'view_type':'Calendar'}
 
+    
+    def email_button_pressed(self, cr, uid, ids, context):
+        return {
+                'name': 'Email',
+                'res_model': 'mail.mail',
+                'type':'ir.actions.act_window',
+                'view_id':'view_mail_form',
+                'view_mode':'form',
+                'view_type':'form'}
 
     # When the partner id changes, change the list of contracts also.  Contracts are associates with only specific partners
     @api.onchange('partner_id')

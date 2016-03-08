@@ -1,0 +1,47 @@
+<openerp>
+    <data>
+    
+    	<record id="_res_partner_groups1" model = "sred_system.res_partner_groups">
+    		<field name="name">Customer</field>
+    		<field name="is_customer" eval="True" />
+    	</record>
+    
+      	<record id="_res_partner_groups2" model = "sred_system.res_partner_groups">
+    		<field name="name">Prospect</field>
+    		<field name="is_customer" eval="False" />
+    	</record>
+    
+      	<record id="_res_partner_groups3" model = "sred_system.res_partner_groups">
+    		<field name="name">Contact</field>
+    		<field name="is_customer" eval="False" />
+    		<field name="is_company" eval="False" /> 
+    	</record>
+    
+      	<record id="_res_partner_groups4" model = "sred_system.res_partner_groups">
+    		<field name="name">Vendor</field>
+    		<field name="is_customer" eval="False" />
+    		<field name="is_company" eval="True" />
+    	</record>
+    
+    	<record id="_res_partner_groups5" model = "sred_system.res_partner_groups">
+    		<field name="name">Accountant</field>
+    		<field name="is_customer" eval="False" />
+    		<field name="is_company" eval="True" />
+    	</record>
+    
+    	<record id="_res_partner_groups6" model = "sred_system.res_partner_groups">
+    		<field name="name">Partner</field>
+    		<field name="is_customer" eval="False" />
+    		<field name="is_company" eval="True" />
+    	</record>
+    
+    	<record id="_res_partner_groups7" model = "sred_system.res_partner_groups">
+    		<field name="name">Other</field>
+    		<field name="is_customer" eval="False" />
+    		<field name="is_company" eval="False" />
+    		<field name="is_default" eval="True" />
+    	</record>
+    
+    </data>
+
+</openerp>

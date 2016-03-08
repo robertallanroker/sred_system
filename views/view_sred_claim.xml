@@ -32,6 +32,14 @@
                                             string="Meetings"
                                             attrs="{'invisible':[('user_id','=',False)]}">
                                         </button>
+                                        
+                                        <button type="object"
+                                            name="email_button_pressed"
+                                            class="oe_stat_button"
+                                            icon="btn btn-default btn-sm o_mail_chat_button_new_message"
+                                            string="Send eMail"
+                                            attrs="{'invisible':[('user_id','=',False)]}">
+                                        </button>
 
                                         <button type="object"
                                                 name="link_button_pressed"

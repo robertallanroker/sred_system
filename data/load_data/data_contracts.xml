@@ -1,0 +1,54 @@
+<openerp>
+<data>
+
+     <!-- LOAD CONTRACT SERVICE MODES -->
+    <data>
+
+        <record id = "_sm_contingency" model = "sred_system.sred_service_modes" >
+           <field name="name">Contingency</field>
+        </record>
+
+        <record id = "_sm_upfront" model = "sred_system.sred_service_modes" >
+           <field name="name">Up-front</field>
+        </record>
+
+        <record id = "_sm_fixed" model = "sred_system.sred_service_modes" >
+           <field name="name">Fixed</field>
+        </record>
+
+    </data>
+
+    <!-- LOAD SERVICE CONTRACTS -->
+    <data>
+
+        <record id = "_sservice_standard_new" model = "sred_system.sred_services" >
+            <field name="name">New to SRED</field>
+            <field name="service_modes">[_sm_contingency, _sm_upfront]</field>
+        </record>
+
+        <record id = "_sservice_standard_competitive" model = "sred_system.sred_services" >
+            <field name="name">Competitive SRED</field>
+            <field name="service_modes">[_sm_contingency, _sm_upfront]</field>
+        </record>
+
+        <record id = "_sservice_review_only" model = "sred_system.sred_services" >
+            <field name="name">Review Only SRED</field>
+            <field name="service_modes">[_sm_fixed]</field>
+        </record>
+
+        <record id = "_sservice_tw_only" model = "sred_system.sred_services" >
+            <field name="name">Technical Writting Only SRED</field>
+            <field name="service_modes">[_sm_fixed]</field>
+        </record>
+
+    </data>
+
+    <!-- LOAD SERVICE CONTRACT RATES -->
+    <data>
+
+    </data>
+
+
+
+</data>
+</openerp>

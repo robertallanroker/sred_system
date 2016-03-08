@@ -1,0 +1,49 @@
+<openerp>
+
+			<data>
+
+				<record id="_manifest_format_image"
+					model="sred_system.manifest_info_formats">
+					<field name='name'>Image</field>
+				</record>
+
+				<record id="_manifest_format_picture"
+					model="sred_system.manifest_info_formats">
+					<field name='name'>Picture</field>
+				</record>
+
+				<record id="_manifest_format_video"
+					model="sred_system.manifest_info_formats">
+					<field name='name'>Video</field>
+				</record>
+
+				<record id="_manifest_format_cad"
+					model="sred_system.manifest_info_formats">
+					<field name='name'>Autocad/Drawings</field>
+				</record>
+
+				<record id="_manifest_format_ms_word"
+					model="sred_system.manifest_info_formats">
+					<field name='name'>MS Word</field>
+				</record>
+
+				<record id="_manifest_format_ms_excel"
+					model="sred_system.manifest_info_formats">
+					<field name='name'>MS Excel</field>
+				</record>
+
+				<record id="_manifest_format_google_word"
+					model="sred_system.manifest_info_formats">
+					<field name='name'>Google Word</field>
+				</record>
+
+				<record id="_manifest_format_google_excel"
+					model="sred_system.manifest_info_formats">
+					<field name='name'>Google Excel</field>
+				</record>
+
+			</data>
+
+
+
+		</openerp>
