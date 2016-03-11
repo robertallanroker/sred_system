@@ -72,14 +72,18 @@
                   parent = "sred_system.work_menu"
                   sequence = "40" />
         
-        <!--           
         <menuitem name = "Manifests"
         		  id = "sred_system.menu_sred_manifests"
         		  action = "sred_system.action_sred_manifests"
         		  parent = "sred_system.work_menu"
         		  sequence = "50" />
-		-->
-		
+        		  
+       	<menuitem name = "Information Types"
+       				id = "sred_system.menu_manifest_info_types"
+       				action = 'sred_system.action_manifest_info_types'
+       				parent = 'sred_system.work_menu'
+       				sequence = '60' />
+	
     </data>
 
 

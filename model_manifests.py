@@ -17,8 +17,7 @@ class my_document_manifest(models.Model):
     res_id    = fields.Integer()
     
     # The list of documents that are organized with each manifest
-    information = fields.One2many('sred_system.manifest_information','manifest', string='Information',
-                                  domain= lambda self: [('scope',self.user_scope_switch)])
+    information = fields.One2many('sred_system.manifest_information','manifest', string='Information')
     description = fields.Html()
     
     # For convenience we can track the count of documents
@@ -32,7 +31,14 @@ class my_document_manifest(models.Model):
             self.information_count = 0
         return 
         
-        
+    @api.onchange('user_scope_switch')
+    def _on_user_scope_switched(self):
+        afilter = {}
+        res     = {}
+        afilter['information'] = [('scope.id','=',self.user_scope_switch.id)]
+        res['domain'] = afilter
+        return res
+            
     @api.model
     @api.onchange('information')
     def _on_doc_changes(self):
@@ -47,20 +53,40 @@ class my_document_manifest(models.Model):
         self.res_model = this_model
         self.res_id    = this_model_id
     
+    
+    
+# Information is in either the following forms:
+#   1. New
+#        Someone needs to supply the details 
+#   2. Existing
+#        Some needs to supply existing information
+class my_reference_to_information(models.Model):
+    _name = "sred_system.manifest_info_reference"
+    
+    _selection_request = [('_info_request_new','New'),('_info_request_existing','Existing')]
+    _selection_sources = [('_info_upload','upload'),('_info_internal_form','form'),('_info_google_drive','google'),('_info_survey','survey/ask')]
+    source  = fields.Selection(selection=_selection_sources)
+    request = fields.Selection(selection=_selection_request)
+        
+    # Attachment
+    request_attachment = fields.Many2one('ir.attachment', 'Request Template')
+    
+    # Something found by locating it in another model
+    # We can create a new record if needed
+    # To-do: figure out how to use this to push out a specific survey
+    res_model   = fields.Char()
+    res_id      = fields.Integer()
+    
+
 
 
 # sred_system.manifest_docs
 # Documents are organized and encapsulated to provide added functionality.
-# Information may have the following:
-#     a) uploaded 
-#     b) referenced to a specific form driving data entry from some other part of the system
-#     c) referenced to GDRIVE template
-#     d) referenced to cloud source
-# Information may also be assigned to person with a deadline to complete it. 
 class my_manifest_information(models.Model):
     _name = 'sred_system.manifest_information'
     _description = 'Encapsulate documents with new functionality within a Manifest'
-    
+    _inherit     = 'sred_system.manifest_info_reference'
+      
     name            = fields.Char(string='Documentation Label')
     manifest        = fields.Many2one('sred_system.manifest', string='Information Manifest')
     info_type       = fields.Many2one('sred_system.manifest_info_types', string='Information Type')
@@ -69,16 +95,12 @@ class my_manifest_information(models.Model):
     
     # For convenience we can pull the related scope, since its based the currently selected 
     # manifest type
-    scope           = fields.Many2one(related='info_type.scope')
+    scope   = fields.Many2one('sred_system.manifest', string='scope')
     
     # We can assign a single task if we like, if needed to get requested information
     task            = fields.Many2one('sred_system.sred_project_tasks', string='Task')
-    
-    # The next few fields are dynamic depending on if the information is attached, referenced to by form, or cloud
-    # This is determined by 'manifest_types'
-    request         = fields.Selection(related='info_type.request')
-    source          = fields.Selection(related='info_type.source')
 
+    
 
 
 #  sred_system.manifest_types
@@ -95,28 +117,18 @@ class my_manifest_information(models.Model):
 #  Examples of types:
 #    emails, Specifications, T2, RC59, Pictures, Videos, fax, notices, etc.
 #    * predefined types are load_data
-#
+# THESE ARE MY TEMPLATES
 class my_manifest_types(models.Model):
     _name        = 'sred_system.manifest_info_types'
     _description = 'Specify what type of information is referenced'
-    
-    _selection_request = [('template','_info_template'),('reference','_info_reference')]
-    _selection_sources = [('upload','_info_upload'),('form','_info_internal_form'),('google','_info_google_drive'),('survey/ask','_info_survey')]
+    _inherit     = 'sred_system.manifest_info_reference'
+ 
+    # Info Reference inheritance is used to only contain the default values used in information
     
     name    = fields.Char(string='information type')
     scope   = fields.Many2one('sred_system.manifest', string='scope')    ## To determine what types are available to what scope areas
-    source  = fields.Selection(selection=_selection_sources)
-    request = fields.Selection(selection=_selection_request)
+
     information = fields.One2many('sred_system.manifest_information','info_type', string='Documents')
-    
-    # Something found inside the system already attached
-    request_attachment = fields.Many2one('ir.attachment', 'Request Template')
-    
-    # Something found by locating it in another model
-    # We can create a new record if needed
-    # To-do: figure out how to use this to push out a specific survey
-    res_model   = fields.Char()
-    res_id      = fields.Integer()
 
 
 
@@ -127,12 +139,12 @@ class my_sred_information_formats(models.Model):
     _name = 'sred_system.manifest_info_formats'
     _description = 'specify the format of either the referenced information or the attachment file'
    
-    _file_extensions = [('xls','_ext_xls'),('doc','_ext_doc'),('unknown','_ext_unknown')]
+    _file_extensions = [('_ext_xls','xls'),('_ext_doc','doc'),('_ext_unknown','unknown')]
     
     name      = fields.Char(string='format type')
     manifest  = fields.One2many('sred_system.manifest_information','info_format', string='Manifest Information')
     
-    
+ 
     
     
     

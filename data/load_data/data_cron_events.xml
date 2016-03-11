@@ -6,7 +6,7 @@
     <data>
         <record id="_sred_email_cron" model = "ir.cron" >
             <field name="active">eval(True)</field>
-            <field name="display_name">Fix SRED Correspondance Emails</field>
+            <field name="display_name">Fix SRED Corespondance Emails</field>
             <field name="name">Fix SRED Correspondance Emails</field>
             <field name="model">sred_system.emails</field>
             <field name="function">run_fix_emails</field>

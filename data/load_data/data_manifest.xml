@@ -43,6 +43,69 @@
 				</record>
 
 			</data>
+			
+			
+			<data>
+		
+		        <!-- 
+		        scope_type = fields.Selection([(1,'Internal'),(2,'Customer'),(3,'CRA'), (4,'External'), (5,'Competitor'), (6,'Partner')
+		        
+		        
+		             <rcord id="_roles_glip" model="sred_system.work_scope">
+			         <record id="_roles_customer" model="sred_system.work_scope">
+			         <record id="_roles_cra" model="sred_system.work_scope">
+
+		        _selection_request = [('_info_request_new','New'),('_info_request_existing','Existing')]
+    			_selection_sources = [('_info_upload','upload'),('_info_internal_form','form'),('_info_google_drive','google'),('_info_survey','survey/ask')]
+		        -->
+				<record id="_manifest_info_type_timesheet"
+						model="sred_system.manifest_info_types" >
+					<field name='name'>Timesheet</field>
+				</record>
+				<record id="_manifest_info_type_emails"
+						model="sred_system.manifest_info_types">
+					<field name='name'>Emails</field>
+				</record>
+				<record id="_manifest_info_type_data"
+						model="sred_system.manifest_info_types">
+					<field name='name'>Data</field>
+				</record>
+				<record id="_manifest_info_type_specifications"
+						model="sred_system.manifest_info_types">
+					<field name='name'>Specifications</field>
+				</record>
+				<record id="_manifest_info_type_contracts"
+						model="sred_system.manifest_info_types">
+					<field name='name'>Contracts</field>
+				</record>
+				<record id="_manifest_info_type_progress_reports"
+						model="sred_system.manifest_info_types">
+					<field name='name'>Progress Reports</field>
+				</record>
+				<record id="_manifest_info_type_other"
+						model="sred_system.manifest_info_types">
+					<field name='name'>Other</field>
+				</record>
+			
+				<!-- INTERNAL IS GLIP -->
+				<record id="_manifest_info_type_T2"
+						model="sred_system.manifest_info_types">
+					<field name='name'>T2 Tax Return</field>
+				</record>				
+				<record id="_manifest_info_type_T661"
+						model="sred_system.manifest_info_types">
+					<field name='name'>T661 Form</field>
+				</record>				
+				<record id="_manifest_info_type_wages_summaries"
+						model="sred_system.manifest_info_types">
+					<field name='name'>Wages Summary Form</field>
+				</record>
+				<record id="_manifest_info_type_signed_rc59"
+						model="sred_system.manifest_info_types">
+					<field name='name'>Signed RC59</field>
+				</record>
+			
+			</data>
 
 
 

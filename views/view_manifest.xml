@@ -2,7 +2,6 @@
 	<!-- Main Manifest Form -->
 	<data>
 	
-		<!--
 		<record model="ir.ui.view" id="sred_system.form_manifest">
 		    <field name="name">Information Manifest</field>
             <field name="model">sred_system.manifest</field>
@@ -11,45 +10,100 @@
 					<sheet>
 						<div>
 							<group>
-								<field name='name' string='Manifest Label' />
-								<field name='information_count' string='Information Count'/>
-							</group>
-							<group>
-								<field name='description' widget='html' string='describe'/>
+								<group>
+									<field name='name' string='Manifest Label' />
+									<field name='information_count' string='Information Count'/>
+								</group>
+								<group>
+									<field name='description' widget='html' string='describe'/>
+								</group>
 							</group>
 						</div>
 						<div>
 							<group>
-								<field name='user_scope_switch' widget='statusbar' string='Scope/Area' />
+								<field name='user_scope_switch' widget='statusbar' clickable="True" string='Scope/Area' />
+								<field name='information' >
+									<tree>
+										<field name='name' />
+										<field name='info_type' />
+										<field name='info_format' />
+									</tree>
+								</field>
 							</group>
-							<notebook>
-								<page string='Information'>
-								</page>
-							</notebook>
 						</div>
 					</sheet>
 				</form>
 			</field>
 		</record>
-		-->
-		
-		<!-- 
+
 		<record model='ir.ui.view' id='sred_system.tree_manifest'>
 			<field name='name'>Manifests</field>
 			<field name='model'>sred_system.manifest</field>
 			<field name='arch' type='xml'>
+				<tree>
+					<field name='name' />
+				</tree>
 			</field>
 		</record>
 		
-		-->
-		
-		<!-- 
 		<record model="ir.actions.act_window" id="sred_system.action_sred_manifests">
             <field name="name">Information Manifest</field>
             <field name="res_model">sred_system.manifest</field>
             <field name="view_mode">tree,form</field>
         </record>
-		-->
+		
+	</data>
+	
+	<!-- INFORMATION TYPES -->
+	<data>
+	
+		<record model="ir.ui.view" id="sred_system.form_manifest_info_types">
+		    <field name="name">Information Type</field>
+            <field name="model">sred_system.manifest_info_types</field>
+            <field name="arch" type="xml">
+                <form string="Information Manifest">
+                	<header>
+                	</header>
+                	<sheet>
+                		<group>
+                		
+						   <field name='name' />
+						   <field name='scope' />
+        	        	   <field name='source' />
+            	    	   <field name='request' />
+                		   <field name='request_attachment' />
+                		   <field name='res_model' />
+                	   	   <field name='res_id' />
+                		
+                		</group>
+               	
+                	</sheet>
+				</form>	
+			</field>
+		</record>
+	
+		<record model='ir.ui.view' id='sred_system.tree_manifest_info_types'>
+			<field name='name'>Information Types</field>
+			<field name='model'>sred_system.manifest_info_types</field>
+			<field name='arch' type='xml'>
+				<tree>
+      			 	   <field name='name' />
+      			 	   <field name='scope' />
+      			 	   <field name='source' />
+                	   <field name='request' />
+                	   
+				</tree>
+			</field>
+		</record>
+	
+		<record model="ir.actions.act_window" id="sred_system.action_manifest_info_types">
+            <field name="name">Information Types</field>
+            <field name="res_model">sred_system.manifest_info_types</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		
+	
+	
 	</data>
 
 </openerp>

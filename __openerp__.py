@@ -102,7 +102,7 @@
         'data/load_data/load_data.xml',
         'data/load_data/data_contracts.xml',
         'data/load_data/data_manifest.xml',
-        'data/load_data/load_data/data_cron_events.xml'
+        'data/load_data/data_cron_events.xml'
     ],
     # only loaded in demonstration mode
     'qweb': ['views/view_sred_claim.xml'],
