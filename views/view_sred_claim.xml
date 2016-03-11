@@ -12,6 +12,15 @@
                 <form string="SRED Work">
 
                     <Header>
+                                           
+                              			<button type="object"
+                                            name="manifest_button_pressed"
+                                            class="oe_stat_button"
+                                            icon="fa-briefcase"
+                                            attrs="{'invisible':[('user_id','=',False)]}">
+                                        </button>
+                    
+                    
                         <field name="claim_status" string="Claim Status" widget="statusbar" clickable="True" />
                     </Header>
                     <sheet string="SRED Work">
@@ -25,6 +34,8 @@
                             <div class="oe_right">
                                 <div class = "oe_button_box">
                                    <div>
+            
+                                        
                                         <button type="object"
                                             name="calendar_button_pressed"
                                             class="oe_stat_button"
@@ -33,14 +44,7 @@
                                             attrs="{'invisible':[('user_id','=',False)]}">
                                         </button>
                                         
-                                        <button type="object"
-                                            name="email_button_pressed"
-                                            class="oe_stat_button"
-                                            icon="btn btn-default btn-sm o_mail_chat_button_new_message"
-                                            string="Send eMail"
-                                            attrs="{'invisible':[('user_id','=',False)]}">
-                                        </button>
-
+                       
                                         <button type="object"
                                                 name="link_button_pressed"
                                                 class= "oe_stat_button"

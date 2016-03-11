@@ -208,8 +208,7 @@ class my_sred_projects(models.Model):
                                   track_visibility='on_change')
 
     tax_years               = fields.Many2many('sred_system.tax_years','taxyear_id','tax_years', required=True)
-
-
+    
     ####################
     # FINANCIAL FIELDS #
     ####################
@@ -227,6 +226,8 @@ class my_sred_projects(models.Model):
     estimations             = fields.One2many('sred_system.work_estimations', 'estimate_id', string='Estimates')
 
     doc_count               = fields.Integer(compute='_get_attached_docs', string="Number of documents attached")
+    
+    manifest                = fields.Many2one('sred_system.manifest', string='manifest')
 
 
 
@@ -244,16 +245,6 @@ class my_sred_projects(models.Model):
 
     emails = fields.One2many('sred_system.emails', 'claim_project')
 
-
-
-
-    @api.model
-    @api.onchange('estimations')
-    def test_change(self):
-        print 'hello world'
-        response = self._get_current_estimate()
-        self.estimated_fee = response[0]
-        self.estimated_refund = response[1]
 
 
     @api.model
@@ -452,6 +443,36 @@ class my_sred_projects(models.Model):
         }
 
 
+    
+    def manifest_button_pressed(self, cr, uid, id, context):
+        rec = self.browse(cr, uid, id, context=context)
+        obj = self.pool.get('ir.model')
+        this_obj = obj.search(cr, uid, [('model','=','sred_system.claim_project')])
+        if not rec.manifest:
+            dvals = {}
+#            dvals['res_model'] = this_obj['id']
+#            dvals['res_id'] = rec.id
+            new_manifest = self.pool.get('sred_system.manifest')
+            new_manifest.create(cr, uid, dvals, context=context)
+        
+        this_domain = [('res_model','=',self._name),('res_id','=',rec.id)]
+        response = {
+            'name': _('Manifest'),
+            'domain': this_domain,
+            'res_model': 'sred_system.manifest',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                        Each claim may have a single manifest to add role specific documents into.</p><p>
+                        </p>'''),
+            }
+        return response
+        
+        
+        
+        
     def calendar_button_pressed(self, cr, uid, ids, context):
         return {
             'name': 'Meetings',

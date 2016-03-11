@@ -61,48 +61,59 @@
 				<record id="_manifest_info_type_timesheet"
 						model="sred_system.manifest_info_types" >
 					<field name='name'>Timesheet</field>
+					<field name='scope' ref='_roles_customer' />
 				</record>
 				<record id="_manifest_info_type_emails"
 						model="sred_system.manifest_info_types">
 					<field name='name'>Emails</field>
+					<field name='scope' ref='_roles_customer' />
 				</record>
 				<record id="_manifest_info_type_data"
 						model="sred_system.manifest_info_types">
 					<field name='name'>Data</field>
+					<field name='scope' ref='_roles_customer' />
 				</record>
 				<record id="_manifest_info_type_specifications"
 						model="sred_system.manifest_info_types">
 					<field name='name'>Specifications</field>
+					<field name='scope' ref='_roles_customer' />
 				</record>
 				<record id="_manifest_info_type_contracts"
 						model="sred_system.manifest_info_types">
 					<field name='name'>Contracts</field>
+					<field name='scope' ref='_roles_customer' />
 				</record>
 				<record id="_manifest_info_type_progress_reports"
 						model="sred_system.manifest_info_types">
 					<field name='name'>Progress Reports</field>
+					<field name='scope' ref='_roles_customer' />
 				</record>
 				<record id="_manifest_info_type_other"
 						model="sred_system.manifest_info_types">
 					<field name='name'>Other</field>
-				</record>
+						<field name='scope' ref='_roles_customer' />
+			</record>
 			
 				<!-- INTERNAL IS GLIP -->
 				<record id="_manifest_info_type_T2"
 						model="sred_system.manifest_info_types">
 					<field name='name'>T2 Tax Return</field>
+					<field name='scope' ref='_roles_glip' />
 				</record>				
 				<record id="_manifest_info_type_T661"
 						model="sred_system.manifest_info_types">
 					<field name='name'>T661 Form</field>
+					<field name='scope' ref='_roles_glip' />
 				</record>				
 				<record id="_manifest_info_type_wages_summaries"
 						model="sred_system.manifest_info_types">
 					<field name='name'>Wages Summary Form</field>
+					<field name='scope' ref='_roles_glip' />
 				</record>
 				<record id="_manifest_info_type_signed_rc59"
 						model="sred_system.manifest_info_types">
 					<field name='name'>Signed RC59</field>
+					<field name='scope' ref='_roles_glip' />
 				</record>
 			
 			</data>

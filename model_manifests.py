@@ -13,8 +13,8 @@ class my_document_manifest(models.Model):
     
     # Manifests can be used for any model we assign to it or there may be multiple models that 
     # reference it.
-    res_model = fields.Integer()
-    res_id    = fields.Integer()
+    res_model = fields.Many2one('ir.model', string='belongs to model')
+    res_id    = fields.Integer(string='associated to model id')
     
     # The list of documents that are organized with each manifest
     information = fields.One2many('sred_system.manifest_information','manifest', string='Information')
@@ -25,8 +25,8 @@ class my_document_manifest(models.Model):
     
     @api.model
     def _get_information_count(self):
-        if self.docs:
-            self.information_count = len(self.docs)
+        if self.information:
+            self.information_count = len(self.information)
         else:
             self.information_count = 0
         return 
@@ -74,11 +74,17 @@ class my_reference_to_information(models.Model):
     # Something found by locating it in another model
     # We can create a new record if needed
     # To-do: figure out how to use this to push out a specific survey
-    res_model   = fields.Char()
+    res_model   = fields.Many2one('ir.model', string='model')
     res_id      = fields.Integer()
     
-
-
+    
+    @api.one
+    def assign_to(self, this_model, this_id):
+        if this_model:
+            self.res_model = this_model
+            self.res_id    = this_id
+        return
+    
 
 # sred_system.manifest_docs
 # Documents are organized and encapsulated to provide added functionality.
@@ -126,7 +132,7 @@ class my_manifest_types(models.Model):
     # Info Reference inheritance is used to only contain the default values used in information
     
     name    = fields.Char(string='information type')
-    scope   = fields.Many2one('sred_system.manifest', string='scope')    ## To determine what types are available to what scope areas
+    scope   = fields.Many2one('sred_system.work_scope', string='belongs to scope')    ## To determine what types are available to what scope areas
 
     information = fields.One2many('sred_system.manifest_information','info_type', string='Documents')
 

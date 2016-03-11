@@ -8,34 +8,14 @@
             <field name="arch" type="xml">
                 <form string="Information Manifest">
 					<sheet>
-						<div>
-							<group>
-								<group>
-									<field name='name' string='Manifest Label' />
-									<field name='information_count' string='Information Count'/>
-								</group>
-								<group>
-									<field name='description' widget='html' string='describe'/>
-								</group>
-							</group>
-						</div>
-						<div>
-							<group>
-								<field name='user_scope_switch' widget='statusbar' clickable="True" string='Scope/Area' />
-								<field name='information' >
-									<tree>
-										<field name='name' />
-										<field name='info_type' />
-										<field name='info_format' />
-									</tree>
-								</field>
-							</group>
-						</div>
+					
+						<field name='name' />
+
 					</sheet>
 				</form>
 			</field>
 		</record>
-
+	
 		<record model='ir.ui.view' id='sred_system.tree_manifest'>
 			<field name='name'>Manifests</field>
 			<field name='model'>sred_system.manifest</field>

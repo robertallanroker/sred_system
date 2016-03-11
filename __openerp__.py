@@ -92,7 +92,6 @@
         'views/view_sred_claim.xml',
         'views/view_manifest.xml',
         'views/view_menus.xml',
-        'reports/templates.xml',
         'views/mods_crm_leads.xml',
         'views/mods_res_partner.xml',
         'security/ir.model.access.csv',
@@ -105,7 +104,7 @@
         'data/load_data/data_cron_events.xml'
     ],
     # only loaded in demonstration mode
-    'qweb': ['views/view_sred_claim.xml'],
+    'qweb': ['views/view_sred_claim.xml','reports/templates.xml', 'template/template_manifest.xml'],
     'demo': ['data/load_demo_data/demo.xml'],
     'installable': True,
     'auto_install': False,
