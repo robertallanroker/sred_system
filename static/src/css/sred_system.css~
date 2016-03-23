@@ -1,0 +1,16 @@
+sheet {
+	  background-color: #FF0000
+	}
+
+h1 {
+		color: #ff0000;
+	}
+
+body {
+	  background-color: #FF0000;
+	}
+
+.openerp .oe_about .user-details .user-info-block .navigation li.active a {
+  background: green;
+  color: white;
+}

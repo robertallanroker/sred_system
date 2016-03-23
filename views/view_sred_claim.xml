@@ -12,14 +12,7 @@
                 <form string="SRED Work">
 
                     <Header>
-                                           
-                              			<button type="object"
-                                            name="manifest_button_pressed"
-                                            class="oe_stat_button"
-                                            icon="fa-briefcase"
-                                            attrs="{'invisible':[('user_id','=',False)]}">
-                                        </button>
-                    
+    
                     
                         <field name="claim_status" string="Claim Status" widget="statusbar" clickable="True" />
                     </Header>
@@ -35,7 +28,6 @@
                                 <div class = "oe_button_box">
                                    <div>
             
-                                        
                                         <button type="object"
                                             name="calendar_button_pressed"
                                             class="oe_stat_button"
@@ -43,22 +35,24 @@
                                             string="Meetings"
                                             attrs="{'invisible':[('user_id','=',False)]}">
                                         </button>
-                                        
-                       
                                         <button type="object"
                                                 name="link_button_pressed"
                                                 class= "oe_stat_button"
                                                 icon="fa-chain"
                                                 attrs="{'invisible':[('user_id','=',False)]}">
                                         </button>
-
+     									<button type="object"
+                                            name="manifest_button_pressed"
+                                            icon="fa-briefcase"
+                                            string = "Manifest"
+                                            class="oe_stat_button" >
+                                        </button>
                                         <button  class = "oe_stat_button"
                                                  name = "attachment_tree_view"
                                                  type = "object"
                                                  icon = "fa-files-o" >
                                             <field string = "Documents" name = "doc_count" widget = "statinfo" />
                                         </button>
-
                                         <button type=  "object"
                                                 name = "open_website_action"
                                                 class= "oe_stat_button"
@@ -171,7 +165,7 @@
             <field name="model">sred_system.claim_project</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree editable="0">
+                <tree>
                     <field name="claim_type" string="claim type" />
                     <field name="partner_id" string="client" />
                     <field name="name" string="Claim" />

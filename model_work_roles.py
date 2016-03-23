@@ -1,6 +1,9 @@
 from openerp import models, fields, api, osv
 from datetime import datetime, date
 import time
+import logging
+
+_logger = logging.getLogger('sred_system.work_roles')
 
 #
 #                          /---| WORK_TYPES
@@ -77,6 +80,8 @@ class my_work_resource_roles(models.Model):
                 filter['work_person'] = [('parent_id', '<>', cra_id), ('parent_id','<>', 1), ('parent_id','<>', p_id)]
 
         res['domain'] = filter
+        _logger.info('on work roles changed')
+        _logger.info(res)
         return res
 
 

@@ -37,6 +37,11 @@ class my_changes_to_customers(models.Model):
                                 
     # There should be both a sales person and an account manager, even if they are the same person 
     account_manager = fields.Many2one('res.users', string = 'Account Manager')
+    
+    # Link Contacts to CRM for leads
+    crm_id = fields.Many2many('crm.lead', 'more_contacts', 'crm_id', 'leads from contact')
+    
+    crm_opportunities = fields.One2many('crm.lead','partner_id',string='opportunities')
 
     @api.model
     @api.onchange('res_group')

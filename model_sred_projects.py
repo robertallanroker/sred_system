@@ -246,6 +246,16 @@ class my_sred_projects(models.Model):
     emails = fields.One2many('sred_system.emails', 'claim_project')
 
 
+    @api.model
+    def create(self,values):
+        _logger.info('create sred project')
+        new_id = super(my_sred_projects, self).create(values)
+        if not self.manifest:
+            self.manifest.create({'name':self.name, 'res_model':'sred_system.claim_project'})
+            _logger.info('new sred id')
+            _logger.info(new_id)
+        return new_id  
+
 
     @api.model
     def make_alias(self):
@@ -446,15 +456,6 @@ class my_sred_projects(models.Model):
     
     def manifest_button_pressed(self, cr, uid, id, context):
         rec = self.browse(cr, uid, id, context=context)
-        obj = self.pool.get('ir.model')
-        this_obj = obj.search(cr, uid, [('model','=','sred_system.claim_project')])
-        if not rec.manifest:
-            dvals = {}
-#            dvals['res_model'] = this_obj['id']
-#            dvals['res_id'] = rec.id
-            new_manifest = self.pool.get('sred_system.manifest')
-            new_manifest.create(cr, uid, dvals, context=context)
-        
         this_domain = [('res_model','=',self._name),('res_id','=',rec.id)]
         response = {
             'name': _('Manifest'),

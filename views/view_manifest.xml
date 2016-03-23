@@ -2,15 +2,66 @@
 	<!-- Main Manifest Form -->
 	<data>
 	
-		<record model="ir.ui.view" id="sred_system.form_manifest">
+	<record model="ir.ui.view" id="sred_system.form_manifest">
 		    <field name="name">Information Manifest</field>
             <field name="model">sred_system.manifest</field>
-            <field name="arch" type="xml">
-                <form string="Information Manifest">
-					<sheet>
-					
-						<field name='name' />
-
+            <field name="arch" type="xml" >
+            	<form>
+                	<sheet>
+				     	<group>
+							<group>
+								<field name='name' string='Information Manifest'/>
+							</group>
+							<group>
+								<field name='user_scope_switch' widget='radio'
+								string = 'Responsible Area'/>
+							</group>
+						</group>
+                
+						<field name='information' >
+							<tree editable="True" default_order = 'scope, who_requested, who_date'>
+							<field name='scope' />
+							<button  class = "oe_stat_button"
+                                     name = "button_pressed_open_task"
+                                     type = "object"
+                                     icon = "fa-user" >
+								<p>Task</p>                                     
+                            </button>
+                    		<field name='is_completed' string='done' widget='checkbox' />
+      						<field name='format_wholine_in_tree' string="requested" readonly="1" />
+							<field name='request' />
+							<field name='source' />
+							<field name='info_type' string = 'type' 
+									attrs="{'invisible':[('source','=',False), ('request','=',False)]}" />
+							<field name='info_format' string = 'format' readonly="1"
+									attrs="{'invisible':[('source','=',False), ('request','=',False)]}" />
+								<field name='name' 
+									attrs="{'invisible':[('source','=',False), ('request','=',False)]}" />
+					       
+					       <button  
+                                     name = "button_pressed_create_task"
+                                     type = "object"
+                                     icon = "fa-cloud-upload" 
+                                     attrs="{'invisible':[('source','!=','_info_upload'), ('source','=',False), ('request','=',False)]}" >
+								<p>Upload</p>                                     
+                           </button>
+                           <button   
+                                     name = "button_pressed_create_task"
+                                     type = "object"
+                                     icon = "fa-pencil-square" 
+ 		               		   		 attrs="{'invisible':[('source','!=','_info_internal_form'),('source','=',False), ('request','=',False)]}" > 
+								<p>Form</p>                                     
+                            </button>                            
+                           <button  class = "oe_stat_button" 
+                                     name = "button_pressed_create_task"
+                                     type = "object"
+                                     icon = "fa-google-plys" 
+ 		               		   		 attrs="{'invisible':[('source','!=','_info_google_drive'), ('source','=',False), ('request','=',False)]}" >
+								<p>GDrive</p>                                     
+                           </button>                            
+            
+						</tree>
+						</field>
 					</sheet>
 				</form>
 			</field>
@@ -29,7 +80,7 @@
 		<record model="ir.actions.act_window" id="sred_system.action_sred_manifests">
             <field name="name">Information Manifest</field>
             <field name="res_model">sred_system.manifest</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">form, tree</field>
         </record>
 		
 	</data>
@@ -46,17 +97,33 @@
                 	</header>
                 	<sheet>
                 		<group>
-                		
-						   <field name='name' />
-						   <field name='scope' />
-        	        	   <field name='source' />
-            	    	   <field name='request' />
-                		   <field name='request_attachment' />
-                		   <field name='res_model' />
-                	   	   <field name='res_id' />
-                		
+                		   <field name='name' string = 'Type Label' />
+						   <field name='scope' widget='statusbar' string='Role Area'/>
+						</group>
+						<group>
+							<group string='Define Action'>
+		        	    		<field name='request' />
+	          	        	    <field name='source' />
+							</group>
+							<group string='Define Reference To'>
+
+		               		   <field name='request_attachment' string='Attachment'
+		               		   		attrs="{'invisible':[('source','!=','_info_upload')]}"/>
+
+				    		   <field name='res_model' string = 'Internal Model' 
+		               		   		attrs="{'invisible':[('source','!=','_info_internal_form')]}"/>
+
+                	   	   	   <field name='res_id' string = 'Internal Model ID'
+                	   	   	   		attrs="{'invisible':[('source','!=','_info_internal_form')]}"/>
+
+                	   	   	   <field name='request_gdrive_template' 
+		               		   		attrs="{'invisible':[('source','!=','_info_google_drive')]}"/>    
+
+		             		   <field name='request_survey' 
+		               		   		attrs="{'invisible':[('source','!=','_info_survey')]}"/>    
+
+							</group>
                 		</group>
-               	
                 	</sheet>
 				</form>	
 			</field>
@@ -66,7 +133,7 @@
 			<field name='name'>Information Types</field>
 			<field name='model'>sred_system.manifest_info_types</field>
 			<field name='arch' type='xml'>
-				<tree>
+				<tree default_order = "scope, name" >
       			 	   <field name='name' />
       			 	   <field name='scope' />
       			 	   <field name='source' />

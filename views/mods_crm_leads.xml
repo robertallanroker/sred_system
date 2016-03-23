@@ -1,17 +1,19 @@
 <openerp>
 
+	<!-- CRM LEADS CHANGES -->
     <data>
 
-            <record model="ir.ui.view" id="sred_system.form_crm" >
-            <field name = "name">Lead/Opportunity</field>
-            <field name = "model">crm.lead</field>
-            <field name = "inherit_id" ref = "crm.crm_case_form_view_leads" />
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-
-                <!-- ADD Wesite Link -->
-                <field name="name" position = 'before' >
-                    <div class="oe_right">
+	    <record model="ir.ui.view" id="sred_system.form_crm_leads" >
+        <field name = "name">Lead/Opportunity</field>
+        <field name = "model">crm.lead</field>
+        <field name = "inherit_id" ref = "crm.crm_case_form_view_leads" />
+        <field name ="type">form</field>
+        <field name ="arch" type="xml">
+    
+        <!-- INHERIT ADD NEW BUTTONS -->
+	    <xpath expr="//div[@name='button_box']" position="before" >   
+		
+			<div class="oe_right">
                     <button type=  "object"
                         icon = "fa-globe"
                         name = "perform_open_website"
@@ -47,14 +49,15 @@
                             name = "perform_facebook_business_search"
                             class= "oe_stat_info">
                     </button>
-
                     </div>
-                </field>
+                 
+               </xpath>
 
                 <field name="country_id" position="after">
                     <field name = "web_url" widget="website" string="url/website" placeholder="http://wwww.mywebsite.com"/>
                 </field>
 
+	
                 <!-- ADD Next Steps -->
                 <field name="fax" position="after">
                         <field name="last_activity_id" invisible="1"/>
@@ -88,10 +91,106 @@
                         </div>
                 </field>
 
-
+				<!-- ADD MULTIPLE CONTACTS -->
+				<xpath expr="//notebook//page" position="before">
+                	<page string="Contacts" autofocus="autofocus">
+                		<field name="more_contacts">
+                			<tree editable="true">
+            	                <field name="name"/>
+	                            <field name="function"/>
+    	                        <field name="email"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                			</tree>
+                		</field>              
+                    </page>
+				</xpath>
+				
             </field>
         </record>
 
+
+
+	  <!-- CRM NEXT ACTIVITIES CHANGES -->	
+	  <record model="ir.ui.view" id="sred_system.form_crm_opportunities" >
+            <field name = "name">Lead/Opportunity</field>
+            <field name = "model">crm.lead</field>
+            <field name = "inherit_id" ref = "crm.crm_case_form_view_oppor" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            
+				<!-- ADD Associate to a work file on won -->
+				<xpath expr="//field[@name='partner_id']" position="before" >
+	  	         	<field name="claim_file" string='Assign to Claim File' 
+	  	         		attrs="{'invisible':[('probability','!=',100.00),('partner_id','!=',False)]}" />
+	            </xpath>
+       
+   				<xpath expr="//div[@name='button_box']" position="before" >  
+					<group>
+						<field name="crm_group" 
+								string="Selling Group" widget="statusbar" clickable="True" />                    	
+				
+                		<!-- INHERIT ADD NEW BUTTONS -->
+                	</group>
+	                <div class="oe_right">
+    	                <button type=  "object"
+        	                icon = "fa-globe"
+            	            name = "perform_open_website"
+                	        class= "oe_stat_info"
+                    	    string = "Website_">
+                    	</button>
+	                    <button type=  "object"
+    	                    icon = "fa-stack-overflow"
+        	                string = "Manta"
+            	            name = "perform_manta_search"
+                	        class= "oe_stat_info">
+	                    </button>
+    	                <button type = "object"
+        	                    icon = "fa-google-plus"
+            	                string = "Google"
+                	            name = "perform_google_search"
+                    	        class= "oe_stat_info">
+                    	</button>
+	                    <button type = "object"
+    	                        icon = "fa-linkedin-square"
+        	                    string = "Linkedin"
+            	                name = "perform_linkedin_search"
+                	            class= "oe_stat_info">
+	                    </button>
+    	                <button type = "object"
+        	                    icon = "fa-facebook"
+            	                string = "People"
+                	            name = "perform_facebook_person_search"
+                    	        class= "oe_stat_info">
+	                    </button>
+	                    <button type = "object"
+                            icon = "fa-facebook-square"
+                            string = "Company"
+                            name = "perform_facebook_business_search"
+                            class= "oe_stat_info">
+                    	</button>
+	                 </div>
+	             </xpath>
+                 
+				<!-- ADD MULTIPLE CONTACTS -->
+				<xpath expr="//notebook//page" position="before">
+                	<page string="Contacts" >
+                		<field name="more_contacts">
+                			<tree editable="true" >
+            	                <field name="name"/>
+	                            <field name="function"/>
+    	                        <field name="email"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                			</tree>
+                		</field>              
+                    </page>
+				</xpath>
+				
+        	</field>
+        
+        </record>
+        
 
         <record model="ir.ui.view" id="sred_system.tree_crm" >
             <field name = "name">Lead/Opportunity</field>
@@ -118,4 +217,30 @@
 
 
     </data>
+    
+    
+    
+    <data>
+    
+        <record model="ir.ui.view" id="sred_system.kanban_crm_opportunities" >
+	        <field name = "name">Leads Kanban</field>
+    	    <field name = "model">crm.lead</field>
+        	<field name = "inherit_id" ref = "crm.crm_case_kanban_view_leads" />
+        	<field name ="type">kanban</field>
+        	<field name ="arch" type="xml">
+
+			    <xpath expr="//field[@name='name']" position="before" >
+		    		Group:<field name='selling_group' class='oe_stat_info'/><br></br>
+			    </xpath>
+	
+			</field>
+		</record>   
+
+    </data>
+    
+    
+    
+    
+    
+    
 </openerp>

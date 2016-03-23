@@ -1,6 +1,19 @@
 from openerp import models, fields, api, osv
+import logging
+_logger = logging.getLogger('sred_system')
 
-class my_changes_to_crm_leads_step1(models.Model):
+class my_crm_groups(models.Model):
+    _name = 'sred_system.crm_groups'
+    
+    name = fields.Char()
+    color = fields.Integer()
+    
+    crm_records = fields.One2many('crm.lead','id', string='crm records')
+    
+    _defaults={'color':0}
+    
+
+class my_changes_to_crm_leads(models.Model):
     _inherit = 'crm.lead'
 
     # All new records should be opt-out by default per regulatory conditions today
@@ -12,9 +25,21 @@ class my_changes_to_crm_leads_step1(models.Model):
     # This would be useful to display related website data onto the primary form.
     # website = fields.Char(related="res.partner.website")
 
+    more_contacts = fields.Many2many('res.partner', 'crm_id','more_contacts', string='contacts')
+    
+    crm_group = fields.Many2one('sred_system.crm_groups', string='Selling Group')
+    selling_group = fields.Char(related='crm_group.name')
+    
+    claim_file = fields.Many2one('sred_system.claim_project', string='assigned claim file')
 
- #  target_profile = fields.One2Many('sred_system.crm_targeting', 'targets', "targeting_profile_dna")
+    #  target_profile = fields.One2Many('sred_system.crm_targeting', 'targets', "targeting_profile_dna")
 
+    @api.model
+    @api.onchange("crm_group")
+    def _on_crm_group_changes(self):
+        if self.crm_group:
+            self.color = self.crm_group.color
+  
     def _invoke_new_window(self, new_url):
         resp = {}
         if new_url:
