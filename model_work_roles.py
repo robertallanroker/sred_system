@@ -18,7 +18,7 @@ _logger = logging.getLogger('sred_system.work_roles')
 
 
 
-
+#
 # Journals all the roles assigned to a claim project
 class my_work_resource_roles(models.Model):
     _inherit = 'sred_system.base_sred_object'

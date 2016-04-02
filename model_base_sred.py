@@ -3,6 +3,7 @@ from random import randint
 from datetime import datetime, date
 import time
 
+# TEST
 # To-do get method to return a list of defaulted id's using base method
 class my_base_sred_object(models.Model):
     _name        = 'sred_system.base_sred_object'
