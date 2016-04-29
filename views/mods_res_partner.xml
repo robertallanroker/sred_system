@@ -9,69 +9,84 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
 
-				<div name="button_box" position="before">
-					<field name="res_group" class="oe_right" clickable="True" widget="statusbar" />
+				<div name="button_box" position="inside">
+					<button name = "open_contracts" 
+							type = "object" 
+							class= "oe_stat_button" 
+							icon = "fa-pencil-square">
+						<field name="contracts_count" string="Contracts" widget="statinfo" />
+					</button>
+					<button name  = "open_claims" 
+							type  = "object" 
+							class = "oe_stat_button" 
+							icon  = "fa-spinner">
+						<field name="claims_count" string="Claims" widget='statinfo' />
+					</button>
 				</div>
-
+	
 				<xpath expr="//field[@name='website']" position='after' >
-				    <field name='user_id' string = 'sales person' />
-				    <field name="account_manager" string = 'account manager' />
+                   	<field name = "cra_bin" string = "CRA Business Number" />
+                    <field name = "cra_year_end" string = "CRA Financial Year End" />
 				</xpath>
                 
-                <xpath expr="//notebook" position="before">
-                    <notebook>
-                       <page string="Sales">
-                       		<group>
-                       				<field name= "crm_opportunities" string = "Opportunities" >
-                       					<tree editable="True">
-                       						<field name="crm_group" string="Group" />
-                       						<field name="stage_id" string = "Stage"/>
-                       						<field name="name" string="Opportunity"/>
-                       						<field name="planned_revenue" string="Revenue" />
-                       						<field name="probability" string="Probability" />
-                       					</tree>
-                       				</field>
-                               		<field name = "service_contracts" string="Service Contracts">
-                          				<tree editable="True" default_order="date_expires">
-			                               	<field name = 'file_no' string = 'contract no' readonly="1" />
-            		                        <field name = 'contracted_service' string = 'contracted service' />
-                                    		<field name = 'yearly_term' string = 'term' placeholder="years"/>
-		                                    <field name = 'date_signed' string = 'signed'/>
-                                    		<field name = 'date_expires' string = 'expires' />
-		                                </tree>
-                                	</field>
-                       		</group>
-                       
-                       </page>
-                       <page string="Operations">
-                       		<field name="sred_claims" >
-                				<tree>
-				                    <field name="claim_type" string="claim type" />
-				                    <field name="name" string="Claim" />
-                					<field name="tax_years" string="Tax" widget="many2many"/>
-					                <field name="estimated_fee" widget="monetary" string="Fee"/>
-                    				<field name="estimated_refund" widget="monetary" string="Refund"/>
-				                    <field name="claim_status" string="Claim"/>
-                    				<field name="work_processing_status" string="Work"/>
-				                    <field name="glip_processing_status" string="Processing"/>
-                					<field name="cra_processing_status" string="CRA"/>
-                				</tree>
-                			</field>
-                       </page>
-                       <page string="Finance">
-                       		<group>
-                            	<field name = "cra_bin" string = "CRA Business Number" />
-                                <field name = "cra_year_end" string = "CRA Financial Year End" />
-                            </group>
-                       </page>
-                    </notebook>
+                <xpath expr="//field[@name='company_type']" position='attributes'>
+                	<attributes name="attrs">{'invisible':True}</attributes>
                 </xpath>
                 
-
+                <xpath expr="//field[@name='company_type']" position='after' >
+                	<h3>
+  	            		<field name="res_group" string='Group' widget="selection" />
+                	</h3>
+                </xpath>
+                
+                <xpath expr="//field[@name='user_id']" position='attributes' >
+                	<attributes name="attrs">{'invisible':True}</attributes>
+                </xpath>
+                
+                <xpath expr="//field[@name='customer']" position='attributes' >
+                	<attributes name="attrs">{'invisible':True}</attributes>
+                </xpath>
+                	
             </field>
         </record>
 
+
     </data>
+    
+         <record model="ir.ui.view" id="sred_system.kanban_revised_partner" >
+            <field name = "name">res.partner.form</field>
+            <field name = "model">res.partner</field>
+            <field name = "inherit_id" ref = "base.res_partner_kanban_view" />
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+
+				<xpath expr='//field[@name="type"]' position ="after">
+					<h2>
+						<field name = 'res_group' />
+					</h2>
+				</xpath>
+		        
+		        <xpath expr="//div[@class='oe_kanban_partner_links']" position="inside">
+					<span t-if="record.contracts_count.value&gt;0" class="badge">
+						<i class="fa fa-fw fa-pencil-square"/>
+						<field name='contracts_count'/>
+					</span>
+					<span t-if="record.claims_count.value&gt;0" class="badge">
+						<i class="fa fa-fw fa-spinner"/>
+						<field name='claims_count' />
+					</span>
+	            </xpath>
+
+			</field>
+		 </record>
+		     
+    <data>
+    	
+    
+    
+    </data>
+    
+    
 
 
 </openerp>

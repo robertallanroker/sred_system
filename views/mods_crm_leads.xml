@@ -2,18 +2,16 @@
 
 	<!-- CRM LEADS CHANGES -->
     <data>
-
 	    <record model="ir.ui.view" id="sred_system.form_crm_leads" >
-        <field name = "name">Lead/Opportunity</field>
-        <field name = "model">crm.lead</field>
-        <field name = "inherit_id" ref = "crm.crm_case_form_view_leads" />
-        <field name ="type">form</field>
-        <field name ="arch" type="xml">
+    	    <field name = "name">Lead/Opportunity</field>
+	        <field name = "model">crm.lead</field>
+    	    <field name = "inherit_id" ref = "crm.crm_case_form_view_leads" />
+  	    	<field name ="type">form</field>
+    	    <field name ="arch" type="xml">
     
-        <!-- INHERIT ADD NEW BUTTONS -->
-	    <xpath expr="//div[@name='button_box']" position="before" >   
-		
-			<div class="oe_right">
+	        	<!-- INHERIT ADD NEW BUTTONS -->
+			    <xpath expr="//div[@name='button_box']" position="before" >   
+				<div class="oe_right">
                     <button type=  "object"
                         icon = "fa-globe"
                         name = "perform_open_website"
@@ -49,17 +47,15 @@
                             name = "perform_facebook_business_search"
                             class= "oe_stat_info">
                     </button>
-                    </div>
-                 
-               </xpath>
+                </div>
+            </xpath>
 
-                <field name="country_id" position="after">
+            	<field name="country_id" position="after">
                     <field name = "web_url" widget="website" string="url/website" placeholder="http://wwww.mywebsite.com"/>
                 </field>
 
-	
-                <!-- ADD Next Steps -->
-                <field name="fax" position="after">
+	            <!-- ADD Next Steps -->
+            	<field name="fax" position="after">
                         <field name="last_activity_id" invisible="1"/>
                         <label for="next_activity_id"/>
                         <div>
@@ -93,7 +89,7 @@
 
 				<!-- ADD MULTIPLE CONTACTS -->
 				<xpath expr="//notebook//page" position="before">
-                	<page string="Contacts" autofocus="autofocus">
+            	<page string="Contacts" autofocus="autofocus">
                 		<field name="more_contacts">
                 			<tree editable="true">
             	                <field name="name"/>
@@ -106,19 +102,39 @@
                     </page>
 				</xpath>
 				
-            </field>
-        </record>
+   		    </field>
+    	</record>
+	</data>
+	
+    <!-- CRM NEXT ACTIVITIES OR OPPORTUNITIES -->	
+	<data>
 
-
-
-	  <!-- CRM NEXT ACTIVITIES CHANGES -->	
 	  <record model="ir.ui.view" id="sred_system.form_crm_opportunities" >
             <field name = "name">Lead/Opportunity</field>
             <field name = "model">crm.lead</field>
             <field name = "inherit_id" ref = "crm.crm_case_form_view_oppor" />
-            <field name="type">form</field>
-            <field name="arch" type="xml">
+            <field name = "type">form</field>
+            <field name = "arch" type="xml">
             
+				<div name="button_box" position="inside">
+                    <button class	= "oe_stat_button" 
+                    		type 	= "object" 
+                    		name 	= "open_tasks" 
+                    		icon    = "fa-tasks" >
+                        <field string="Tasks" name="task_count" widget="statinfo"/>
+                    </button>
+                </div>
+            
+        	    <xpath expr="//field[@name='stage_id']" position="before">
+    				<button type = "object"
+	    				icon   = "fa-star"
+    					name   = "perform_track_account"
+	    				string = "Track Contact/Account"
+	    				class  = "oe_highlight o_wow"
+		    			attrs  = "{'invisible':[('partner_id','!=',False)]}" >
+    				</button>
+    		   	</xpath>
+        
 				<!-- ADD Associate to a work file on won -->
 				<xpath expr="//field[@name='partner_id']" position="before" >
 	  	         	<field name="claim_file" string='Assign to Claim File' 
@@ -128,7 +144,7 @@
    				<xpath expr="//div[@name='button_box']" position="before" >  
 					<group>
 						<field name="crm_group" 
-								string="Selling Group" widget="statusbar" clickable="True" />                    	
+								string="Selling Group" widget="selection" clickable="True" />                    	
 				
                 		<!-- INHERIT ADD NEW BUTTONS -->
                 	</group>
@@ -190,7 +206,9 @@
         	</field>
         
         </record>
-        
+     </data>
+     
+     <data>
 
         <record model="ir.ui.view" id="sred_system.tree_crm" >
             <field name = "name">Lead/Opportunity</field>
@@ -217,8 +235,7 @@
 
 
     </data>
-    
-    
+      
     
     <data>
     
@@ -230,17 +247,17 @@
         	<field name ="arch" type="xml">
 
 			    <xpath expr="//field[@name='name']" position="before" >
-		    		Group:<field name='selling_group' class='oe_stat_info'/><br></br>
+			    	<div class="o_kanban_manage_button_section">
+			    		<h4>
+		        			<field name='selling_group'/>
+		        		</h4>
+			    	</div>
 			    </xpath>
 	
 			</field>
 		</record>   
 
     </data>
-    
-    
-    
-    
-    
+        
     
 </openerp>
