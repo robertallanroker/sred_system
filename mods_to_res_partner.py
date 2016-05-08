@@ -39,6 +39,9 @@ class my_changes_to_customers(models.Model):
     
     contracts_count = fields.Integer(compute='_get_contracts_count')
     claims_count    = fields.Integer(compute='_get_claims_count')
+    
+    res_model       = fields.Char(default='res.partner')
+    res_id          = fields.Integer(default=0)
 
     @api.one
     @api.model

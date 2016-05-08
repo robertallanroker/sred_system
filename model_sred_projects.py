@@ -124,8 +124,6 @@ class my_sred_emails(models.Model):
 
     _defaults = {'trigger_update':False}
 
-
-
 #
 # MY_SRED_PROJECTS
 #
@@ -149,6 +147,7 @@ class my_sred_projects(models.Model):
     alias_id                = fields.Many2one('mail.alias', 'Alias')
     partner_id              = fields.Many2one('res.partner', 'rel_to_company_from_sred_projects', required=True,
                                               domain=[('customer', '=', True)])
+    partner_name            = fields.Char(related='partner_id.name')
 
     contracted_service = fields.Many2one('sred_system.sred_contracts', string='contract label', required=True)
     contract_no        = fields.Char(related='contracted_service.file_no', string = 'Contract#')
@@ -159,7 +158,7 @@ class my_sred_projects(models.Model):
 
     date                    = fields.Date('Expiration Date', select=True, track_visibility='onchange')
 
-    attachment_ids          = fields.One2many('ir.attachment', 'res_id', string='Attachments')
+#    attachment_ids          = fields.One2many('ir.attachment', 'res_id', string='Attachments')
 
     claim_file      = fields.Char(related='alias_id.display_name', readonly=True)
     cra_year_end    = fields.Datetime(related='partner_id.cra_year_end')
@@ -191,6 +190,8 @@ class my_sred_projects(models.Model):
                             ondelete='set null',
                             domain=[('stage', '=', 's4')],
                             track_visibility='onchange')
+    
+    task_count            = fields.Integer(compute='_get_task_count')    
 
     ###################################
     # TRACK CLAIM ORGANIZATION FIELDS #
@@ -246,16 +247,6 @@ class my_sred_projects(models.Model):
     emails = fields.One2many('sred_system.emails', 'claim_project')
 
 
-    @api.model
-    def create(self,values):
-        _logger.info('create sred project')
-        new_id = super(my_sred_projects, self).create(values)
-        if not self.manifest:
-            self.manifest.create({'name':self.name, 'res_model':'sred_system.claim_project'})
-            _logger.info('new sred id')
-            _logger.info(new_id)
-        return new_id  
-
 
     @api.model
     def make_alias(self):
@@ -275,6 +266,14 @@ class my_sred_projects(models.Model):
         return
 
 
+    @api.one
+    def _get_task_count(self):
+        this_obj = self.env['project.task'].search([('res_model','=','sred_system.claim_project'),('res_id','=',self.id)])
+        if this_obj:
+            self.task_count = len(this_obj)
+        return
+    
+    
     @api.one
     def link_button_pressed(self):
         res = {}
@@ -396,14 +395,15 @@ class my_sred_projects(models.Model):
         return answer
 
 
-
+    @api.one
+    @api.onchange('estimations')
     def calc_estimation_on_claim(self):
         _logger.debug('estimations changed')
-  #      response = self._get_current_estimate()
-  #      self.estimated_fee = response[0]
-  #      self.estimated_refund = response[1]
-  #      self._calc_fee
-  #      self._calc_refund
+        response = self._get_current_estimate()
+        self.estimated_fee = response[0]
+        self.estimated_refund = response[1]
+        self._calc_fee
+        self._calc_refund
         _logger.debug('estimates changed end')
         return True
 
@@ -472,7 +472,46 @@ class my_sred_projects(models.Model):
         return response
         
         
+    @api.multi                                   
+    def open_tasks(self):
+        this_id         = self.ids
+        this_record     = self.env['sred_system.claim_project'].browse(this_id)
+        context         = {}
+        response        = {}
+        domain          = []
+     
+        context['default_res_model']    = 'sred_system.claim_project'
+        context['default_single_task_mode'] = True
         
+        response['name']                = _('Tasks')
+        response['res_model']           = 'project.task'
+        response['type']                = 'ir.actions.act_window'
+        response['view_id']             = False
+        response['view_mode']           = 'kanban,tree,calendar,form'
+        response['view_type']           = 'form'
+        response['help']                = _('Tasks assigned to claim may also appear under customer')
+        response['limit']               = 80
+        
+        if this_record:
+  
+            if this_record.partner_id:
+                context['default_partner_id'] = this_record.partner_id.id
+ 
+            domain                    = [('res_id','=', this_record.id), ('res_model','=', 'sred_system.claim_project')]
+            context['default_res_id'] = this_record.id
+ 
+        response['domain'] = domain
+        response['context'] = context
+        print response
+        
+        return response   
+    
+    
+    
+    
+    
+    
+     
         
     def calendar_button_pressed(self, cr, uid, ids, context):
         return {

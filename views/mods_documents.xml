@@ -1,0 +1,112 @@
+<openerp>
+
+      <data>
+      
+      
+      	  <record model='ir.ui.view' id="sred_system.form_documents" >
+    	    <field name = "name">Document Management</field>
+	        <field name = "model">ir.attachment</field>
+    	    <field name = "type">form</field>
+    	    <field name = "sequence">10</field>
+    	    <field name = "arch" type="xml">
+      	    	<form string = 'documents'>
+      	    		<header>
+      	    			<field name = "type" widget='statusbar' clickable = "True" />	    
+      	    		</header>
+      	    		
+      	    		<sheet>
+						<div>
+							<div name='button_box' class = "oe_button_box oe_right">
+					    										
+							</div>
+							
+							<div>
+							
+								<h2>
+									<br>
+										Reference Label:
+									</br>
+								</h2>
+								<h3>
+									<field name = 'name' placeholder = 'Reference Label For Document' />
+								</h3>
+								Use Tasks?  
+							    <field name = 'use_tasks' string = 'Use Tasks?' widget = 'checkbox' class="oe_inline" />
+								 Track SRED?  
+								<field name = 'track_sred' string = 'Track SRED?' widget = 'checkbox' class="oe_inline" />
+								 Make Publicly Available?  
+								<field name="public" widget = 'checkbox' class = 'oe_inline' />
+								
+								<group>
+								
+									<group string = 'Source'>
+										<field name="type"/>
+			                            <field name="datas" filename="datas_fname" attrs="{'invisible':[('type','=','url')]}"/>
+            			                <field name="datas_fname" invisible="1" attrs="{'invisible':[('type','=','url')]}" class="oe_inline oe_right"/>
+                            			<field name="url" widget="url" attrs="{'invisible':[('type','=','binary')]}"/>
+                            			<field name="mimetype" groups="base.group_no_one"/>
+									</group>
+									
+								</group>
+								
+								<group>
+									
+									<notebook>
+										<page  string = 'Description'>
+					                        <field name="description" nolabel="1"/>
+										</page>
+										<page string = 'Tracking' >
+											<field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+										</page>
+										<page string = 'History' groups="base.group_no_one">
+					                        <label for="create_uid" string="Creation"/>
+				                            <div name="creation_div">
+                                				<field name="create_uid" readonly="1" class="oe_inline"/> on
+				                                <field name="create_date" readonly="1" class="oe_inline"/>
+				                            </div>
+										</page>
+										<page  string = 'Linked By'>
+											<group>
+										        <field name="res_model"/>
+        	                 				   	<field name="res_field"/>
+    	                       					<field name="res_id"/>
+					                            <field name="res_name"/>
+											</group>
+										</page>
+										<page string = 'Indexed Content' groups='base.group_no_one' attrs="{'invisible':True}" >
+				                            <field name="index_content" nolabel="1"/>
+										</page>
+									
+									</notebook>
+								</group>
+							
+							</div>
+												
+						</div>
+      	    		
+      	    		</sheet>
+      	    	
+      	    		</form>
+      	    	</field>
+      	    	
+      	  </record>
+      
+          <record model="ir.ui.view" id="sred_system.form_improved_attacments" >
+    	    <field name = "name">Document Management</field>
+	        <field name = "model">ir.attachment</field>
+    	    <field name = "inherit_id" ref = "base.view_attachment_form" />
+  	    	<field name ="type">form</field>
+    	    <field name ="arch" type="xml">
+    	    	
+    	    	<xpath expr="//field[@name='name']" position = "after" >
+    	    		<field name='use_tasks' />
+    	    	</xpath>
+    	    	
+    	    </field>
+    	   </record>
+    
+      
+      
+      </data>
+      
+</openerp>

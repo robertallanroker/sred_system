@@ -1,0 +1,144 @@
+<openerp>
+
+      <data>
+
+        <record model="ir.ui.view" id="sred_system.form_enable_sred_projects" >
+            <field name = "name">Enable SRED on Projects</field>
+            <field name = "model">project.project</field>
+            <field name = "inherit_id" ref = "project.edit_project" />
+            <field name ="type">form</field>
+            <field name ="arch" type="xml">
+				
+				<xpath expr="//field[@name='name']" position= 'after' >
+					<field name = "track_sred"       widget = "checkbox" />
+					<label for  = "track_sred"       string = "Track SRED?" />
+
+				</xpath>
+				         
+        	</field>
+        </record>        
+	</data>	
+	
+	<data>
+	
+		<record model="ir.ui.view" id="sred_system.form_enable_sred_tasks" >
+            <field name = "name">Enable SRED on Tasks</field>
+            <field name = "model">project.task</field>
+            <field name = "inherit_id" ref = "project.view_task_form2" />
+            <field name = "type">form</field>
+            <field name = "arch" type="xml">
+				
+				<xpath expr="//field[@name='date_deadline']" position = "before" >
+					<field name = 'create_date'  string='Created On' readonly="1" />
+					<field name = 'date_start'	 string='Start On' />
+				</xpath>
+				
+				<xpath expr="//field[@name='user_id']" position= "after">
+					<field name = 'delegate_to' string='Delegate To' attrs="{'invisible':[('user_id','=', False)]}" />
+				</xpath>
+				
+				<!--  This must go first before next section / move control to header -->
+				<xpath expr="//field[@name='kanban_state']" position="attributes" >
+					<attributes name="attrs">{'invisible':[(true,'=',true)]}</attributes>
+				</xpath>
+				
+				<xpath expr="//header" position = "inside">
+					<field name='kanban_state' widget='statusbar' clickable='True' />
+				</xpath>
+				
+				<xpath expr="//field[@name='project_id']" position="attributes" >
+					<attributes name="attrs">{'invisible':[('single_task_mode','!=',False)]}</attributes>
+				</xpath>
+			
+				<xpath expr="//field[@name='name']" position='after' >
+					<br></br>
+					<field name = "track_sred" widget = "checkbox" />
+					<label for  = "track_sred" string="Track SRED" />
+					<field name = "single_task_mode" string = "No Project Association?" widget="checkbox" />
+					<label for  = "single_task_mode" string = "No Project Association?" />
+				</xpath> 
+				
+				<xpath expr="//div[@name='button_box']" position = 'inside' >
+				
+					<button class 	= "oe_stat_button"
+                    		name 	= "open_documents"
+                        	type 	= "object"
+                        	icon 	= "fa-files-o" >
+                   		<field string = "Documents" name = "document_count" widget = "statinfo" />
+                    </button>
+					
+				</xpath>
+				
+				<xpath expr='//sheet' position = 'before' >
+					
+					<group attrs="{'invisible':[('single_task_mode','!=',False)]}">
+
+					<div>					
+						<table style = "width:100%;border-color:#d9f2e6;border-style:dotted" cellpadding="10">
+							<tr>
+								<th>
+									<h3>Project Details:</h3>
+								</th>
+								<th>
+									<h3>Parent-Tasks:</h3>
+								</th>
+								<th>
+									<h3>Sub-Tasks:</h3>
+								</th>
+							</tr>
+							<tr>	
+								<td style = 'background-color:#d9f2e6' width="300px" height="200px" >
+									<h4>
+										Project Name:<br></br>
+									</h4>
+										<field name = 'project_id'/>
+									<h4>
+										<br>Company/Account</br>
+									</h4>
+									<field name = 'project_partner_id' string='Company/Account' />
+								</td>
+
+								<td >
+									<field name = 'parent_ids' nolabel="1" decoration-danger="date_deadline and (date_deadline&lt;current_date)">
+										<tree editable = "bottom" create="true" edit="true">
+											<field name = 'manager_id'    string = 'Proj. Mgr.' />
+											<field name = 'date_assign'   string = 'Assigned' />
+											<field name = 'date_deadline' string = 'Deadline'	/>
+											<field name = 'user_id'       string = 'Delegated To' />
+											<field name = 'name'          string = 'Task Name' />
+										</tree>
+									</field>
+								</td>
+
+								<td>
+									<field name = 'child_ids' nolabel = "1">
+										<tree decoration-danger="date_deadline and (date_deadline&lt;current_date)">
+											<field name = 'manager_id'    string = 'Proj. Mgr.' />
+											<field name = 'date_assign'   string = 'Assigned' />
+											<field name = 'date_deadline' string = 'Deadline' />
+											<field name = 'user_id'       string = 'Delegated To' />
+											<field name = 'name'          string = 'Task Name' />
+										</tree>
+									</field>
+								</td>
+							</tr>
+					
+						</table>
+					</div>
+					</group>
+										
+				</xpath>
+				
+				
+	
+								            
+        	</field>
+        	
+        </record>
+        
+     </data>
+	
+	
+</openerp>
+        
+        

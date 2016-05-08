@@ -41,7 +41,8 @@
                             string = "People"
                             name = "perform_facebook_person_search"
                             class= "oe_stat_info">
-                    </button>  <button type = "object"
+                    </button>  
+                    <button type = "object"
                             icon = "fa-facebook-square"
                             string = "Company"
                             name = "perform_facebook_business_search"
@@ -86,21 +87,6 @@
                             </div>
                         </div>
                 </field>
-
-				<!-- ADD MULTIPLE CONTACTS -->
-				<xpath expr="//notebook//page" position="before">
-            	<page string="Contacts" autofocus="autofocus">
-                		<field name="more_contacts">
-                			<tree editable="true">
-            	                <field name="name"/>
-	                            <field name="function"/>
-    	                        <field name="email"/>
-                                <field name="phone"/>
-                                <field name="mobile"/>
-                			</tree>
-                		</field>              
-                    </page>
-				</xpath>
 				
    		    </field>
     	</record>
@@ -116,93 +102,117 @@
             <field name = "type">form</field>
             <field name = "arch" type="xml">
             
-				<div name="button_box" position="inside">
-                    <button class	= "oe_stat_button" 
-                    		type 	= "object" 
-                    		name 	= "open_tasks" 
-                    		icon    = "fa-tasks" >
-                        <field string="Tasks" name="task_count" widget="statinfo"/>
-                    </button>
-                </div>
-            
-        	    <xpath expr="//field[@name='stage_id']" position="before">
-    				<button type = "object"
-	    				icon   = "fa-star"
-    					name   = "perform_track_account"
-	    				string = "Track Contact/Account"
-	    				class  = "oe_highlight o_wow"
-		    			attrs  = "{'invisible':[('partner_id','!=',False)]}" >
-    				</button>
-    		   	</xpath>
         
 				<!-- ADD Associate to a work file on won -->
-				<xpath expr="//field[@name='partner_id']" position="before" >
-	  	         	<field name="claim_file" string='Assign to Claim File' 
-	  	         		attrs="{'invisible':[('probability','!=',100.00),('partner_id','!=',False)]}" />
+				<xpath expr="//field[@name='name']" position="after" >
+	  	         	
+	  	        	<h4 class="o_row oe_green">
+	  	         		<div>
+	  	         			<group>
+				  	         	<field name    = "crm_group" 
+										string = "Selling Group" widget="selection" clickable="True" placeholder='Selling Group'/>  
+	  	         			</group>
+	  	         		</div>
+	  	         	</h4>
+	  	    		                  	
 	            </xpath>
-       
-   				<xpath expr="//div[@name='button_box']" position="before" >  
-					<group>
-						<field name="crm_group" 
-								string="Selling Group" widget="selection" clickable="True" />                    	
-				
-                		<!-- INHERIT ADD NEW BUTTONS -->
-                	</group>
-	                <div class="oe_right">
-    	                <button type=  "object"
+	            
+	            <xpath expr="//header" position = "after" >
+	            	<header>
+	            	  	<button type=  "object"
         	                icon = "fa-globe"
             	            name = "perform_open_website"
-                	        class= "oe_stat_info"
-                    	    string = "Website_">
+                	        class= "oe_green o_wow"
+                    	    string = "Website">
                     	</button>
-	                    <button type=  "object"
+                    	
+                    	<button type=  "object"
     	                    icon = "fa-stack-overflow"
         	                string = "Manta"
             	            name = "perform_manta_search"
-                	        class= "oe_stat_info">
-	                    </button>
-    	                <button type = "object"
+                	        class= "oe_green o_wow">
+	              	  	</button>
+	                    
+    	           		<button type = "object"
         	                    icon = "fa-google-plus"
             	                string = "Google"
                 	            name = "perform_google_search"
-                    	        class= "oe_stat_info">
+                    	        class= "oe_green o_wow">
                     	</button>
-	                    <button type = "object"
+                    	
+		                <button type = "object"
     	                        icon = "fa-linkedin-square"
         	                    string = "Linkedin"
             	                name = "perform_linkedin_search"
-                	            class= "oe_stat_info">
-	                    </button>
-    	                <button type = "object"
+                	            class= "oe_green o_wow">
+		                </button>
+	                    
+    		            <button type = "object"
         	                    icon = "fa-facebook"
             	                string = "People"
                 	            name = "perform_facebook_person_search"
-                    	        class= "oe_stat_info">
-	                    </button>
-	                    <button type = "object"
+                    	        class= "oe_green o_wow">
+	        	        </button>
+	                    
+	            	    <button type = "object"
                             icon = "fa-facebook-square"
                             string = "Company"
                             name = "perform_facebook_business_search"
-                            class= "oe_stat_info">
+                            class= "oe_green o_wow">
+                  	   </button>
+                    	
+	            	</header>
+	            
+	            </xpath>
+	            
+       
+   				<xpath expr="//div[@name='button_box']" position="inside" >  
+	
+                		<!-- INHERIT ADD NEW BUTTONS -->
+                		
+                   		<button class	= "oe_stat_button" 
+                    		type 	= "object" 
+                    		name 	= "open_tasks" 
+                    		icon    = "fa-tasks" >
+	                        <field string="Tasks" name="task_count" widget="statinfo"/>
                     	</button>
-	                 </div>
+                
+    	           		<button type = "object"
+                    		icon   = "fa-users"
+                    		name   = "open_contacts"
+                    		class  = "oe_stat_button" > 
+                    		<field name="contact_count" string="Contacts" widget="statinfo" />
+                    	</button>         	
+                     
 	             </xpath>
-                 
-				<!-- ADD MULTIPLE CONTACTS -->
-				<xpath expr="//notebook//page" position="before">
-                	<page string="Contacts" >
-                		<field name="more_contacts">
-                			<tree editable="true" >
-            	                <field name="name"/>
-	                            <field name="function"/>
-    	                        <field name="email"/>
-                                <field name="phone"/>
-                                <field name="mobile"/>
-                			</tree>
-                		</field>              
-                    </page>
-				</xpath>
-				
+	             
+	             <xpath expr="//field[@name='phone']" position = "after" >
+	             		<field name = "web_url" string = "Website" widget="url" />
+	             </xpath>
+
+
+	      
+				 <xpath expr="//field[@name='partner_id']" position = "before" >
+				 		<field name = "is_customer_opportunity" widget="checkbox" />
+				 		
+				 </xpath>	             
+	             
+	             <xpath expr="//field[@name='partner_id']" position = "after" >
+     	 		    	<field name="claim_file" string='Assign to Claim File' 
+		  				         		attrs="{'invisible':[('probability','!=',100.00),('is_customer_opportunity','=',False)]}" />
+		  				         		
+	             		<field name = "other_partner_id" string = "Other Contact" 
+	             						attrs="{'invisible':[('is_customer_opportunity','!=',False)]}" />
+	             </xpath>
+	        
+				 <xpath expr="//field[@name='partner_id']" position = "attributes" >
+				 	<attribute name='attrs'>{'invisible':[('is_customer_opportunity','=',False)]}</attribute>
+				 </xpath>
+				 
+				 <!-- >xpath expr="//field[@name='stage]']" position = "attributes">
+				 	<attributes name='attrs'>{'invisible':[('team_id','=',False)]}</attributes>
+				 </xpath -->
+	        
         	</field>
         
         </record>
@@ -233,7 +243,6 @@
             </field>
         </record>
 
-
     </data>
       
     
@@ -256,8 +265,10 @@
 	
 			</field>
 		</record>   
-
+		
     </data>
+
+	
         
     
 </openerp>

@@ -11,6 +11,8 @@ import model_tags
 import model_manifests
 import mods_to_crm_leads
 import mods_to_res_partner
+import mods_projects
+import model_documents
 
 
 
