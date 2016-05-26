@@ -1,114 +1,185 @@
 <openerp>
 
-    <!-- TOP MENU -->
+   <!-- CONFIGURATION MAIN -->
+    <!-- base.menu_configuration_pm -->
+    <!-- 
+    	OPERARTIONS
+    		Dashboard
+    			Projects
+    			Claims
+    			Customers
+    			Services
+    		Work Projects
+    			Projects
+    			Tasks
+    			Search
+    		SRED Processing
+    			Claims
+    			Activities
+    		Work Activities
+    			Projects Activities
+    			SRED Activities
+    			All Activities 
+    		Reports
+    		Accounts
+				SRED Clients
+				Accounting 
+				Revenue Canada
+				All Accounts
+				Contracts
+    		Services
+    		Configuration
+    		{base.menu_configuration_pm}
+    			Projects
+    				Settings
+    				Stages
+    			SRED
+    				Folders
+    				Claim Types
+    				Tax Years
+    				Processing
+    				Roles
+    				Scope
+    				Functions
+    				Responsibilities			
+     !-->
+
+    <!-- MAIN MENUS WITHIN OPERATIONS SECTION -->
     <data>
 
-        <menuitem name = "Scientific Research"
-                  id = "sred_system.main_menu_root"
-                  parent = '_menu_operations'
-                  sequence = "5"/>
-    </data>
-
-    <!-- PRIMARY GROUPS IN MAIN MENU -->
-    <data>
-
-        <menuitem name = "Claims"
-            id="sred_system.work_menu"
-            parent="sred_system.main_menu_root"
-            sequence="10" />
-
-        <menuitem name = "Customers"
-                  id="sred_system.customers_menu"
-                  parent="sred_system.main_menu_root"
-                  sequence="11"
-                  action="base.action_partner_form"/>
-
-        <menuitem name = "Reports"
-                id="sred_system.reports"
-                parent ="sred_system.main_menu_root"
-                sequence="20" />
-
-        <menuitem name  = "Activities"
-                  id = "sred_system.activities"
-                  parent = "sred_system.main_menu_root"
-                sequence = "25" />
-
-        <menuitem name = "Configuration"
-                  id = "sred_system.config_menu"
-                  parent = "sred_system.main_menu_root"
-                  sequence = "30" />
-
-    </data>
-
-    <!-- CLAIMS MAIN -->
-    <data>
-
-        <menuitem name = "Folders"
-                  id = "sred_system.claims_folder2"
-                  parent = "sred_system.work_menu"
-                  action = "sred_system.action_project_folder" sequence="6"/>
-
-        <menuitem name = "Projects"
-                  id = "sred_system.claims_projects"
-                  parent = "sred_system.work_menu"
-                  action = "sred_system.action_claims"
-                  sequence = "10"/>
-
-        <menuitem name = "Tasks"
-                  id = "sred_system.menu_claims_tasks"
-                  action="sred_system.action_claims_tasks"
-                  parent = "sred_system.work_menu"
-                  sequence = "20" />
-
-        <menuitem name = "Services"
-                  id = "sred_system.menu_sred_services"
-                  action="sred_system.action_sred_services"
-                  parent = "sred_system.work_menu"
-                  sequence = "30" />
-
-        <menuitem name = "Contracts"
-                  id = "sred_system.menu_sred_contracts"
-                  action="sred_system.action_sred_contracts"
-                  parent = "sred_system.work_menu"
-                  sequence = "40" />
+		<menuitem id = "sred_system.menu_dashboard" name="Dashboard" sequence = "1" parent = "_menu_operations" />
         
-        <menuitem name = "Manifests"
-        		  id = "sred_system.menu_sred_manifests"
-        		  action = "sred_system.action_sred_manifests"
-        		  parent = "sred_system.work_menu"
-        		  sequence = "50" />
-        		  
-       	<menuitem name = "Information Types"
-       				id = "sred_system.menu_manifest_info_types"
-       				action = 'sred_system.action_manifest_info_types'
-       				parent = 'sred_system.work_menu'
-       				sequence = '60' />
+        <menuitem id = "sred_system.menu_sred_processing" name="SRED Processing" sequence = "3" parent = "_menu_operations"/>
+
+        <menuitem id = "sred_system.menu_work_projects" name="Work Projects" sequence = "2" parent = "_menu_operations"/>
+        
+        <menuitem id = "sred_system.menu_work_activities" name="Work Activities" sequence = "5" parent = "_menu_operations" />
+        
+        <menuitem id = "sred_system.menu_accounts" name = "Accounts" sequence = "20" parent = "_menu_operations" />
+        
+        <menuitem id = "sred_system.menu_services" name = "Services" sequence = "30" parent = "_menu_operations" />
+        
+        <menuitem id = "sred_system.menu_configuration" name = "Configuration" sequence ="200" parent = "_menu_operations"/>
+               
+        <menuitem id = "base.menu_association_pm" name = "Services" sequence = "30" parent = "_menu_operations" />
+        
+        <menuitem id = "base.menu_configuration_pm" name = "Configurations" sequence = "30" parent = "_menu_operations" />      
+
+    </data>
+
+
+    <!-- SRED PROCESSING -->
+    <data>
+
+		<!-- FOLDERS -->
+		<menuitem id = "sred_system.menu_folders" name = "Folders" parent = "sred_system.menu_sred_processing" sequence = "10" />
+ 
+ 		<menuitem id = "sred_system.menu_folders_current" name = "Current Work" parent = "sred_system.menu_folders" 
+		     	action = "sred_system.action_project_folder" sequence = "10" />
+
+		<menuitem id = "sred_system.menu_folders_this_month" name = "This Month" parent = "sred_system.menu_folders" 
+		     	action = "sred_system.action_project_folder" sequence = "20" />
+		     	
+		<!-- CLAIMS -->
+		<menuitem id = "sred_system.menu_claims" name = "Claims Processing Status" parent = "sred_system.menu_sred_processing" sequence = "20"/>
+		<menuitem id = "sred_system.menu_claims_processsing" name = "Processing Status" 
+				action = "sred_system.action_claims" parent = "sred_system.menu_claims" sequence = "10" />
+		<menuitem id = "sred_system.menu_claims_cra" name = "Canada Revenue Agency Status" parent = "sred_system.menu_claims"
+				action = "sred_system.action_claims" sequence = "20" />
 	
     </data>
 
+	<!-- WORK PROJECTS -->
+	<data>
+	
+	
+	</data>
 
-    <!-- CONFIGURATION MAIN -->
+	
+	<!-- WORK ACTIVITIES -->
+	<data>
+		<menuitem id = "sred_system.menu_work_activities_assigned"  name = "Assigned to me"
+                  action="sred_system.action_claims_tasks" parent = "sred_system.menu_work_activities" sequence = "10" />
+		
+		<menuitem id = "sred_system.menu_work_activities_delegated"  name = "Delegated by me"
+                  action="sred_system.action_claims_tasks" parent = "sred_system.menu_work_activities" sequence = "20" />
+		
+		<menuitem id = "sred_system.menu_work_activities_due"  name = "Due this week"
+                  action="sred_system.action_claims_tasks" parent = "sred_system.menu_work_activities" sequence = "30" />
+                  
+		<menuitem id = "sred_system.menu_work_activities_due_this_month"  name = "Due this month"
+                  action="sred_system.action_claims_tasks" parent = "sred_system.menu_work_activities" sequence = "40" />                  
+
+		<menuitem id = "sred_system.menu_work_activities_overdure"  name = "Overdue"
+                  action="sred_system.action_claims_tasks" parent = "sred_system.menu_work_activities" sequence = "50" />                  
+
+		<menuitem id = "sred_system.menu_work_activities_all"  name = "all"
+                  action="sred_system.action_claims_tasks" parent = "sred_system.menu_work_activities" sequence = "200" />                  
+	</data>
+
+	
+
+	<!-- ACCOUNTS -->
+	<data>
+	   <menuitem id = "sred_system.menu_accounts_relationships" name = "Relationships" parent = "sred_system.menu_accounts" sequence = "10" />
+	   
+	   <menuitem id = "sred_system.menu_accounts_sred_client" name = "SRED" parent = "sred_system.menu_accounts_relationships" 
+	   			action = "sred_system.action_sred_contracts" sequence = "10"/>
+
+	   <menuitem  id = "sred_system.menu_accounts_accountants" 	name = "Accountants" 	parent = "sred_system.menu_accounts_relationships" 
+	   			action = "sred_system.action_sred_contracts" sequence = "20"/>
+
+	   <menuitem  id = "sred_system.menu_accounts_cra"         	name = "CRA" 			parent = "sred_system.menu_accounts_relationships" 
+	   			action = "sred_system.action_sred_contracts" sequence = "30" />
+	   
+	   <menuitem  id = "sred_system.menu_sred_contracts" 		name = "Contracts" 		parent = "sred_system.menu_accounts" 
+	   			action="sred_system.action_sred_contracts" sequence = "40" />
+	   				
+       <menuitem  id = "sred_system.menu_accounts_all_customers" name = "All" parent = "sred_system.menu_accounts" 
+	    		action="sred_system.action_sred_contracts" sequence = "200" />
+	
+	</data>
+    
+    
+    <!-- CONFIGURATION -->
     <data>
-        <menuitem id="sred_system.config_organization" name = "Set organization" parent = "sred_system.config_menu" sequence="1"/>
+    	    
+  	    <menuitem id = "sred_system.menu_configuration_sred" name = "SRED Processing" sequence ="10" parent = "sred_system.menu_configuration"/>
+  	    <menuitem id = "sred_system.menu_configuration_projects" name = "Work Projects" sequence ="20" parent = "sred_system.menu_configuration"/>
+  	    <menuitem id = "sred_system.menu_configuration_information" name = "Information" sequence ="30" parent = "sred_system.menu_configuration" />	  
+        
+        <menuitem id = "sred_system.menu_sred_manifests" name = "Manifests"
+        		  parent = "sred_system.menu_configuration_information"
+        		  action = "sred_system.action_sred_manifests"
+        		  sequence = "50" />
+        		  
+       	<menuitem name = "Types"
+       				id = "sred_system.menu_manifest_info_types"
+       				action = 'sred_system.action_manifest_info_types'
+       		 		parent = "sred_system.menu_configuration_information"
+       				sequence = '60' />
 
-        <menuitem id="sred_system.config_processing" name = "Set processing" parent = "sred_system.config_menu" sequence="2"
+
+        <menuitem id="sred_system.config_organization" name = "Organization" parent = "sred_system.menu_configuration_sred" sequence="1"/>
+
+        <menuitem id="sred_system.config_processing" name = "Processing Steps" parent = "sred_system.menu_configuration_sred" sequence="2"
                 action = "sred_system.action_sred_processing_status"/>
 
 
-        <menuitem id="sred_system.config_roles" name = "Set work roles" parent = "sred_system.config_menu" sequence="3"/>
+        <menuitem id="sred_system.config_roles" name = "Work Roles" parent = "sred_system.menu_configuration_sred" sequence="3"/>
 
-        <menuitem id="sred_system.config_default_tasks" name = "Set default tasks" parent = "sred_system.config_menu" sequence="4"
+        <menuitem id="sred_system.config_default_tasks" name = "Default Tasks" parent = "sred_system.menu_configuration_projects" sequence="4"
                     action = "sred_system.action_set_default_tasks"/>
 
         <menuitem id="sred_system.config_folders"
                 name = "folders"
-                parent = "sred_system.config_organization"
+                parent = "sred_system.menu_configuration_sred"
                 action = "sred_system.action_set_folders"
                 sequence = "1002" />
 
         <menuitem id="sred_system.config_project_types"
                 name = "claim types"
-                parent = "sred_system.config_organization"
+                parent = "sred_system.menu_configuration_projects"
                 action = "sred_system.action_set_project_types_window"
                 sequence = "1005" />
 
@@ -118,26 +189,26 @@
         <!-- CONFIGURATION :: SUB-MENU -->
         <menuitem id="sred_system.config_work_scope_areas"
                 name = "scope"
-                parent = "sred_system.config_roles"
+                parent = "sred_system.menu_configuration_sred"
                 action = "sred_system.action_set_work_scope_window"
                 sequence = "1040" />
 
         <menuitem id="sred_system.config_work_functions"
                 name = "functions"
-                parent = "sred_system.config_roles"
+                parent = "sred_system.menu_configuration_sred"
                 action = "sred_system.action_set_work_functions"
                 sequence = "1050" />
 
         <menuitem id="sred_system.config_work_responsibilities"
                 name = "responsibility"
-                parent = "sred_system.config_roles"
+                parent = "sred_system.menu_configuration_sred"
                 action = "sred_system.action_set_work_types"
                 sequence = "1060" />
 
 
         <menuitem id="sred_system.config_tax_years"
                 name = "tax years"
-                parent = "sred_system.config_organization"
+                parent = "sred_system.menu_configuration_sred"
                 action = "sred_system.action_set_tax_years_window"
                 sequence = "1080" />
 

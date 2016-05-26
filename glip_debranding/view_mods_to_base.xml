@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+
+<div t-name="AppSwitcher" class="o_application_switcher">
+    <div class="o_apps">
+        <t t-foreach="widget.menu_data" t-as="primary_menu">
+          <t t-set="action_id" t-value="primary_menu.action ? primary_menu.action.split(',')[1] : ''"/>
+          <a
+            t-att-class="'o_app' + ((primary_menu.href)? '' : ' o_action_app')"
+            t-att-data-menu="primary_menu.id"
+            t-att-data-action-model="primary_menu.action ? primary_menu.action.split(',')[0] : ''"
+            t-att-data-action-id="action_id"
+            t-att-href="primary_menu.href ? primary_menu.href : ('#menu_id='+primary_menu.id+'&amp;action_id='+action_id)">
+            <img class="o_app_icon"
+                 t-att-src="(primary_menu.web_icon_data)? ('data:image/png;base64,' + primary_menu.web_icon_data) : '/web/static/src/img/default_icon_app.png'"/>
+            <!--
+            	<div class="o_caption"><t t-esc="primary_menu.name"/></div> 
+             -->
+            <div class="oe_black"><t t-esc="primary_menu.name"/></div>
+          </a>
+        </t>
+    </div>
+    <div class="o_application_switcher_footer">
+        
+        <!-- Nothing for now  
+        <img src="/web/static/src/img/glip_logo.png" alt="Greenlight Innovation Partners"/>
+        -->
+    
+    </div>
+</div>
+
+
+
+<div t-name="WebClient.database_expiration_panel">
+    <div class="database_expiration_panel" id="announcement_bar_table">
+    	<!-- Removed all traces of the expiration -->
+  	</div>
+</div>
+
+
+<t t-name="UserMenu">
+    <li class="o_user_menu">
+        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">
+            <img class="img-circle oe_topbar_avatar" t-att-src="_s + '/web/static/src/img/user_menu_avatar.png'"/>
+            <span class="oe_topbar_name"/> <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+            <!--
+            	<li><a href="#" data-menu="documentation">Documentation</a></li>  
+            -->
+            <!-- 
+            <li><a href="#" data-menu="support">Support</a></li>
+            -->
+            <li><a href="#" data-menu="about">About</a></li>
+            <!--
+            <li class="divider"/> 
+             -->
+            <li><a href="#" data-menu="settings">Preferences</a></li>
+            <li><a href="#" data-menu="logout">Log out</a></li>
+        </ul>
+    </li>
+</t>
+
+
+
+<div t-name="UserMenu.about" class="oe_about">
+    <div class="container-fluid">
+        <div class="row">
+            <a class="oe_activate_debug_mode oe_right label label-primary" href="?debug" >Activate the developer mode</a>
+        </div>
+        <div class="row">
+            <div class="col-sm-offset-2 col-md-offset-2 col-sm-8 col-md-8 user-details">
+                <div class="user-image">
+                    <img src="/web/static/src/img/glip_logo.png" alt="Greenlight System" title="Greenlight Business System" class="img-circle"/>
+                </div>
+                <div class="user-info-block">
+                    <div class="user-heading">
+                        <h3>
+                            Version <t t-esc="db_info.server_version"/>
+                            (Enterprise Edition)
+                        </h3>
+                        <t t-if="db_info.expiration_date">
+                            <h5>Database expiration: <t t-esc="new moment(db_info.expiration_date).format('LL')"/></h5>
+                        </t>
+                    </div>
+                    <div class="user-body">
+                        <div class="tab-content">
+                            <div id="settings" class="tab-pane active">
+                            	<!-- 
+                                <h4>Copyright © 2004-2015 Odoo S.A.</h4>
+                                <p>Odoo is a trademark of <a target="_blank" href="https://www.odoo.com" style="text-decoration: underline;">Odoo S.A.</a></p>
+                                <p>Licenced under the terms of <a target="_blank" href="http://www.gnu.org/licenses/lgpl.html" style="text-decoration: underline;">GNU Lesser General Public License</a></p>
+                                <p>For more information visit <a target="_blank" href="https://www.odoo.com" style="text-decoration: underline;">Odoo.com</a></p>
+                                <p>
+                                  <a href="https://www.odoo.com/web/about/facebook"><i class="fa fa-facebook-square fa-3x social-fb"></i></a>
+                                  <a href="https://www.odoo.com/web/about/twitter"><i class="fa fa-twitter-square fa-3x social-tw"></i></a>
+                                  <a href="https://www.odoo.com/web/about/googleplus"><i class="fa fa-google-plus-square fa-3x social-gp"></i></a>
+                                  <a href="https://www.odoo.com/web/about/linkedin"><i class="fa fa-linkedin-square fa-3x social-lk"></i></a>
+                                </p>
+                                -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</templates> 
