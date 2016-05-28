@@ -74,26 +74,22 @@
 		<!-- FOLDERS -->
 		<menuitem id = "sred_system.menu_folders" name = "Folders" parent = "sred_system.menu_sred_processing" sequence = "10" />
  
- 		<menuitem id = "sred_system.menu_folders_current" name = "Current Work" parent = "sred_system.menu_folders" 
-		     	action = "sred_system.action_project_folder" sequence = "10" />
+ 		<menuitem id = "sred_system.menu_claim_current" name = "Current Work" parent = "sred_system.menu_folders" 
+		     	action = "sred_system.action_project_folder" sequence = "10" /> 
 
-		<menuitem id = "sred_system.menu_folders_this_month" name = "This Month" parent = "sred_system.menu_folders" 
-		     	action = "sred_system.action_project_folder" sequence = "20" />
+		<menuitem id = "sred_system.menu_claims_this_month" name = "This Month" parent = "sred_system.menu_folders" 
+		     	action = "sred_system.action_claims_this_month" sequence = "20" />
 		     	
 		<!-- CLAIMS -->
 		<menuitem id = "sred_system.menu_claims" name = "Claims Processing Status" parent = "sred_system.menu_sred_processing" sequence = "20"/>
 		<menuitem id = "sred_system.menu_claims_processsing" name = "Processing Status" 
-				action = "sred_system.action_claims" parent = "sred_system.menu_claims" sequence = "10" />
+				action = "sred_system.action_claims_processing_status" parent = "sred_system.menu_claims" sequence = "10" />
+				
 		<menuitem id = "sred_system.menu_claims_cra" name = "Canada Revenue Agency Status" parent = "sred_system.menu_claims"
-				action = "sred_system.action_claims" sequence = "20" />
-	
+				action = "sred_system.action_claims_cra" sequence = "20" /> 
+		
     </data>
 
-	<!-- WORK PROJECTS -->
-	<data>
-	
-	
-	</data>
 
 	
 	<!-- WORK ACTIVITIES -->

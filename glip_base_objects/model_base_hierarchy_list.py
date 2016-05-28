@@ -5,8 +5,8 @@ import time
 
 
 class my_glip_base_heirarchy_list(models.Model):
-    _name      = "glip.base.common"
-    _inherit   = "glip.base.hierarchy_list"
+    _name    = "glip.base.hierarchy_list"
+    _inherit = "glip.base.common"
     _seperator = "/"
 
     parent_id  = fields.Integer(default=False)

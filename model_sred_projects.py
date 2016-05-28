@@ -2,6 +2,7 @@ from openerp import models, fields, api
 from random import randint
 import time
 import logging
+import datetime
 from openerp.tools.translate import _
 
 
@@ -31,6 +32,7 @@ class my_estimations(models.Model):
       'e_date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
       'person': lambda s, cr, uid, c: uid
     }
+
 
 
 
@@ -128,7 +130,7 @@ class my_sred_emails(models.Model):
 # MY_SRED_PROJECTS
 #
 class my_sred_projects(models.Model):
-    _inherit = ['sred_system.base_sred_object','mail.thread', 'ir.needaction_mixin']
+    _inherit = ['sred_system.base_sred_object','mail.thread', 'ir.needaction_mixin', 'glip.base.common']
     _name           = 'sred_system.claim_project'
     _description    = 'sred claim project'
     _file_prefix    = 'CP'
@@ -245,8 +247,12 @@ class my_sred_projects(models.Model):
     all_emails = fields.One2many(related='task_ids.message_ids')
 
     emails = fields.One2many('sred_system.emails', 'claim_project')
-
-
+    
+    due_folder = fields.Boolean(compute='_calc_folder_due')
+            
+                        
+   
+    
 
     @api.model
     def make_alias(self):
@@ -454,28 +460,14 @@ class my_sred_projects(models.Model):
 
 
     
-    def manifest_button_pressed(self, cr, uid, id, context):
-        rec = self.browse(cr, uid, id, context=context)
-        this_domain = [('res_model','=',self._name),('res_id','=',rec.id)]
-        response = {
-            'name': _('Manifest'),
-            'domain': this_domain,
-            'res_model': 'sred_system.manifest',
-            'type': 'ir.actions.act_window',
-            'view_id': False,
-            'view_mode': 'form',
-            'view_type': 'form',
-            'help': _('''<p class="oe_view_nocontent_create">
-                        Each claim may have a single manifest to add role specific documents into.</p><p>
-                        </p>'''),
-            }
-        return response
         
         
     @api.multi                                   
     def open_tasks(self):
-        this_id         = self.ids
-        this_record     = self.env['sred_system.claim_project'].browse(this_id)
+        this_record = self.get_current_record()
+        
+#        this_id         = self.ids
+#        this_record     = self.env['sred_system.claim_project'].browse(this_id)
         context         = {}
         response        = {}
         domain          = []

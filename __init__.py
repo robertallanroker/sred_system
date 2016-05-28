@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import models
 from glip_base_objects import model_base_sred
+from glip_base_objects import model_base_common
+from glip_base_objects import model_base_hierarchy_list
 from glip_improvements_crm import mods_to_crm_leads
 import model_targeting
 import model_sred_status

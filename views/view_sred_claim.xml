@@ -1,9 +1,9 @@
 <openerp>
 
     <!-- UI VIEWS -->
+    
+    
     <data>
-
-
 
         <record model="ir.ui.view"  id="sred_system.my_sred_form">
             <field name="name">SRED Work</field>
@@ -37,13 +37,7 @@
                                                 icon="fa-chain"
                                                 attrs="{'invisible':[('user_id','=',False)]}">
                                         </button>
-     									<button type="object"
-                                            name="manifest_button_pressed"
-                                            icon="fa-briefcase"
-                                            string = "Manifest"
-                                            class="oe_stat_button" >
-                                        </button>
-                                        
+     		                            
                                         <button  class = "oe_stat_button"
                                                  name = "attachment_tree_view"
                                                  type = "object"
@@ -121,27 +115,14 @@
                             <page string = "Roles">
                                 <field name="work_roles" string="Project Roles" widget="one2many" >
                                     <tree editable="true">
-                                        <button class="oe_stat_button" name="user_login_button" type="object" string="portal"/>
                                         <field name="work_scope" string="Scope"/>
                                         <field name="work_person" string="Assigned"/>
                                         <field name="work_types" placeholder="Roles" widget="many2many_tags" />
                                         <field name="work_functions" placeholder="Functions" widget="many2many_tags"/>
                                     </tree>
-                                </field>ß
-                            </page>
-                            <page string="Task List">
-                                <field name="task_ids" string="Task Items" widget="one2many" >
-                                    <tree editable="true" decoration-danger="date_deadline and (date_deadline&lt;current_date)">
-                                        <!--field name="sequence"/-->
-                                        <!--button class="oe_stat_button" name="user_login_button" type="object" string="login"/-->
-                                        <field name="sequence" string="#" />
-                                        <field name="completed" string="completed?" widget="checkbox" help="Check off when completed work"/>
-                                        <field name="assigned_to" string="assigned"/>
-                                        <field name="name" string="task item"/>
-                                        <field name="date_deadline" string="deadline"/>
-                                    </tree>
                                 </field>
                             </page>
+                            
                             <page string="Note Pad">
                                 <field name="notes" type="html"/>
                             </page>
@@ -223,11 +204,11 @@
             <field name="model">sred_system.claim_project</field>
             <field name="arch" type="xml">
                 <search string="sred claims">
-                    <field name="user_id"/>
+                    <field name="user_id" string = 'User'/>
                     <field name="folder"/>
                     <field name="folder_group"/>
                     <field name="claim_status"/>
-                    <field name="partner_id"/>
+                    <field name="partner_id" string = "Customer"/>
                     <field name="cra_processing_status"/>
                     <field name="glip_processing_status"/>
                     <field name="work_processing_status"/>
@@ -236,7 +217,7 @@
                     <filter string="New claim" name="my-new-claim" domain="[('claim_status.name','=','New')]" />
                     <filter string="Open claim" name="my-open-claim" domain="[('claim_status.name','=','Open')]" />
                     <filter string="Closed claim" name="my-closed-claim" domain="[('claim_status.name','=','Closed')]" />
-                    <group expand="0" string="Group By">
+                    <group expand="1" string="Group By">
                         <filter string="folder groups" name="my-folders-group" context="{'group_by':'folder_group'}" />
                         <filter string="folders" name="my-folders" context="{'group_by':'folder'}" />
                         <filter string="Claim type" name="claim_type" context="{'group_by':'partner_id'}"/>
@@ -244,8 +225,8 @@
                         <filter string="Company" name="my-company" context="{'group_by':'partner_id'}"/>
                         <seperator/>
                         <filter string="Work" name="work" context="{'group_by':'work_processing_status'}"/>
-                        <filter string="CRA" name="cra" context="{'group_by':'cra_processing_status'}"/>
-                        <filter string="Processing" name="processing" context="{'group_by':'glip_processing_status'}"/>
+                        <filter string="CRA" name="my-cra-group" context="{'group_by':'cra_processing_status'}"/>
+                        <filter string="Processing" name="my-processing-group" context="{'group_by':'glip_processing_status'}"/>
                         <seperator/>
                         <filter string="assigned person" name="assigned-to-me-group" context="{'group_by':'user_id'}"/>
                     </group>
@@ -260,14 +241,43 @@
             <field name="res_model">sred_system.claim_project</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="sred_system.project_folder_search"/>
-            <field name="context">{'search_default_my-open-claim':1,
+        	<field name="context">{'search_default_my-open-claim':1,
             						'search_default_my-folders-group':1, 'search_default_my-new-claim':1,
                                     'search_default_my-folders':1,
                                     'search_default_assigned-to-me':1}'
                                     'search_default_active-claim':1)</field>
         </record>
 
+		<record model="ir.actions.act_window" id="sred_system.action_claims_this_month">
+            <field name="name">folders search</field>
+            <field name="res_model">sred_system.claim_project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="sred_system.project_folder_search"/>
+        	<field name="context">{'search_default_my-open-claim':1,
+            						'search_default_my-folders-group':1, 'search_default_my-new-claim':1,
+                                    'search_default_my-folders':1,
+                                    'search_default_assigned-to-me':1}'
+                                    'search_default_active-claim':1)</field>
+        </record>
+	
+		<record model="ir.actions.act_window" id="sred_system.action_claims_processing_status">
+            <field name="name">folders search</field>
+            <field name="res_model">sred_system.claim_project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="sred_system.project_folder_search"/>
+        	<field name="context">{'search_default_active-claim':1,
+                                   'search_default_my-processing-group':1}</field>
+        </record>
 
+
+        <record model="ir.actions.act_window" id="sred_system.action_claims_cra">
+            <field name="name">CRA Processing</field>
+            <field name="res_model">sred_system.claim_project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="sred_system.project_folder_search"/>
+        	<field name="context">{'search_default_active-claim':1,
+                                   'search_default_my-cra-group':1}</field>
+        </record>
 
 
     </data>
@@ -366,7 +376,7 @@
         <record model="ir.actions.act_window" id="sred_system.action_claims_tasks">
             <field name="name">Task Assignments</field>
             <field name="res_model">project.task</field>
-            <field name="view_mode">kanban,tree,calendar,form</field>
+            <field name="view_mode">kanban,tree,calendar,form,gantt</field>
             <field name="search_view_id" ref="sred_system.search_tasks"/>
             <field name="domain">[('res_model','=','sred_system.claim_project')]</field>
             <field name="context">{	'default_res_model':'sred_system.claim_project',
