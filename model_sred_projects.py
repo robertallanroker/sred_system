@@ -247,8 +247,7 @@ class my_sred_projects(models.Model):
     all_emails = fields.One2many(related='task_ids.message_ids')
 
     emails = fields.One2many('sred_system.emails', 'claim_project')
-    
-    due_folder = fields.Boolean(compute='_calc_folder_due')
+
             
                         
    

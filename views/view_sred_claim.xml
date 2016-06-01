@@ -64,7 +64,7 @@
                         <group>
 
                            <group attrs = "{'invisible':[('partner_id','=',False)]}">
-                               <field name = "cra_year_end" string="CRA Year End" attrs="{'required': [('partner_id','!=',False)]}"/>
+                               <field name = "cra_year_end" string="CRA Year End" attrs="{'required': [('partner_id','!=',False)]}" />
                                <field name = "cra_bin" string="CRA BIN" attrs="{'required': [('partner_id','!=',False)]}"/>
                                <field name = "contracted_service" string = "Contract Label" />
                                <field name = "contract_no" string = "Contract#" attrs="{'readonly': True, 'invisible': [('contracted_service','=',False)]}" />
@@ -218,17 +218,18 @@
                     <filter string="Open claim" name="my-open-claim" domain="[('claim_status.name','=','Open')]" />
                     <filter string="Closed claim" name="my-closed-claim" domain="[('claim_status.name','=','Closed')]" />
                     <group expand="1" string="Group By">
-                        <filter string="folder groups" name="my-folders-group" context="{'group_by':'folder_group'}" />
-                        <filter string="folders" name="my-folders" context="{'group_by':'folder'}" />
-                        <filter string="Claim type" name="claim_type" context="{'group_by':'partner_id'}"/>
+                        <filter string="Assigned Person" name="assigned-to-me-group" context="{'group_by':'user_id'}"/>
                         <seperator/>
-                        <filter string="Company" name="my-company" context="{'group_by':'partner_id'}"/>
+                        <filter string="Folder Groups" name="my-folders-group" context="{'group_by':'folder_group'}" />
+                        <filter string="Folders" name="my-folders" context="{'group_by':'folder'}" />
+                        <seperator/>
+                        <filter string="Customers" name="my-folder-customers" context="{'group_by':'partner_id'}" />
+                        <seperator/>
+                        <filter string="Claim type" name="claim_type" context="{'group_by':'partner_id'}"/>
                         <seperator/>
                         <filter string="Work" name="work" context="{'group_by':'work_processing_status'}"/>
                         <filter string="CRA" name="my-cra-group" context="{'group_by':'cra_processing_status'}"/>
                         <filter string="Processing" name="my-processing-group" context="{'group_by':'glip_processing_status'}"/>
-                        <seperator/>
-                        <filter string="assigned person" name="assigned-to-me-group" context="{'group_by':'user_id'}"/>
                     </group>
 
                 </search>
@@ -236,29 +237,80 @@
         </record>
 
 
+
+ 		<!--	ACTION: SRED_SYSTEM.ACTION_PROJECT_FOLDER 
+				From the user menu 'Current Work', launches the view, showing only
+				claims of the currently assigned user, have status new or active, and
+				grouped by their respective working folders-->
         <record model="ir.actions.act_window" id="sred_system.action_project_folder">
-            <field name="name">folders search</field>
+            <field name="name">Current Work Claims</field>
             <field name="res_model">sred_system.claim_project</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="sred_system.project_folder_search"/>
         	<field name="context">{'search_default_my-open-claim':1,
-            						'search_default_my-folders-group':1, 'search_default_my-new-claim':1,
-                                    'search_default_my-folders':1,
-                                    'search_default_assigned-to-me':1}'
-                                    'search_default_active-claim':1)</field>
+            					   'search_default_my-folders-group':1, 
+            					   'search_default_my-new-claim':1,
+                                   'search_default_my-folders':1,
+                                   'search_default_assigned-to-me':1,
+                                   'search_default_active-claim':1}</field>
         </record>
 
-		<record model="ir.actions.act_window" id="sred_system.action_claims_this_month">
-            <field name="name">folders search</field>
+
+
+ 		<!-- 	ACTION: SRED_SYSTEM.ACTION_CLAIMS_CLOSED 
+				From the user menu, 'Closed Claims', launches the view, showing only
+				previous claims that have the status 'Closed'. It does not matter who the claim
+				is currently assigned to. -->
+		<record model="ir.actions.act_window" id="sred_system.action_claims_closed">
+            <field name="name">Closed Claims</field>
             <field name="res_model">sred_system.claim_project</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="sred_system.project_folder_search"/>
-        	<field name="context">{'search_default_my-open-claim':1,
-            						'search_default_my-folders-group':1, 'search_default_my-new-claim':1,
-                                    'search_default_my-folders':1,
-                                    'search_default_assigned-to-me':1}'
-                                    'search_default_active-claim':1)</field>
+        	<field name="context">{'search_default_my-closed-claim':1}</field>
         </record>
+        
+        
+        
+        <!--	ACTION: SRED_SYSTEM.ACTION_CLAIMS_ALL
+        		From the user menu 'All CLaims', launches a view, showing all the claims, regardless of 
+        		status, or assigned people -->
+        <record model="ir.actions.act_window" id="sred_system.action_claims_all">
+            <field name="name">Closed Claims</field>
+            <field name="res_model">sred_system.claim_project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="sred_system.project_folder_search"/>
+        	<field name="context">{'search_default_my-folders-group':1}</field>
+        </record>
+        
+        
+        
+        <!--	ACTION: SRED_SYSTEM.ACTION_CLAIMS_CUSTOMERS
+        		From the user menu 'Customers', launches a view, showing all the claims, worked on but
+        		grouped by each of our customers. Assignment of person, a time-line limit, or any 
+        		claim status, is not relevant here -->
+        <record model="ir.actions.act_window" id="sred_system.action_claims_customers">
+            <field name="name">Customer Claims</field>
+            <field name="res_model">sred_system.claim_project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="sred_system.project_folder_search"/>
+        	<field name="context">{'search_default_my-folder-customers':1}</field>
+        </record>
+	
+        
+        <!--	ACTION: SRED_SYSTEM.ACTION_CLAIMS_PROJECT_MANAGER
+        		From the user menu 'Project Manager', launches a view, showing all the claims, worked on but
+        		grouped by each of our assigned project managers. -->
+        <record model="ir.actions.act_window" id="sred_system.action_claims_project_manager">
+            <field name="name">Customer Claims</field>
+            <field name="res_model">sred_system.claim_project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="sred_system.project_folder_search"/>
+        	<field name="context">{'search_default_assigned-to-me-group':1,
+        						   'search_default_my-folders-group':1,
+        						   'search_default_my-folder':1}</field>
+        </record>
+	
+        
 	
 		<record model="ir.actions.act_window" id="sred_system.action_claims_processing_status">
             <field name="name">folders search</field>
@@ -268,6 +320,7 @@
         	<field name="context">{'search_default_active-claim':1,
                                    'search_default_my-processing-group':1}</field>
         </record>
+
 
 
         <record model="ir.actions.act_window" id="sred_system.action_claims_cra">
